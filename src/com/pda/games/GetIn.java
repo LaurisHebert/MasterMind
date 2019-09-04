@@ -20,7 +20,7 @@ public class GetIn {
 
 
     private static int[] humanArray(int size, int minRange, int maxRange){
-        // à faire fonctionner 
+        // à faire fonctionner
         int[] humanNumber= new int[size];
         String tests = sc.nextLine();
         String[] test = tests.split(" ");
