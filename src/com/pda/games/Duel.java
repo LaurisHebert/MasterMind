@@ -1,5 +1,6 @@
 package com.pda.games;
 
+<<<<<<< HEAD
 public class Duel extends MasterMind{
 
     Duel(int maxTurn, int[] defenseNumber) {
@@ -24,4 +25,8 @@ public class Duel extends MasterMind{
     public boolean hasLost() {
         return false;
     }
+=======
+public class Duel {
+
+>>>>>>> a4fe4e50d77c137be44fe3f725656c9929ec6faa
 }

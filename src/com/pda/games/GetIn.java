@@ -1,6 +1,5 @@
 package com.pda.games;
 
-import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
