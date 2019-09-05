@@ -6,7 +6,6 @@ import java.util.Scanner;
 import static com.pda.games.GetIn.getRandomArray;
 
 public class Challenger extends MasterMind {
-    private Scanner sc = new Scanner(System.in);
     private int[] attackNumber= new int[size];
     private String[] clue = new String[size];
 
@@ -34,11 +33,12 @@ public class Challenger extends MasterMind {
 
     @Override
     public void round() {
-        System.out.println(Arrays.toString(defenseNumber));
-        System.out.println("Round"+ (round + 1) +"/"+maxRound);
+        System.out.println("Round "+ (round + 1) +"/"+maxRound);
         System.out.println("choose four digits between " + minRange + " and " + maxRange + " (included) separated by a space");
         attackNumber = GetIn.getHumanArray(size, minRange, maxRange);
         verifyEnter(attackNumber);
+        clue();
+        round++;
     }
 
     @Override

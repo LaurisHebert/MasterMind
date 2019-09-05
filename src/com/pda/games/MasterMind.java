@@ -11,17 +11,24 @@ public abstract class MasterMind {
 
     public final int[] defenseNumber;
     // public car utiliser dans Main
+    public final int[] defenseNumber2;
 
     int maxRound;
     int round = 0;
     // package-private car utilisé dans Round avec maxRound
 
     boolean correspondence = false;
+    boolean correspondence2 = false;
     // package-private car utilisé pour définire les win et lose
-
     MasterMind(int maxRound, int[] defenseNumber){
         this.maxRound = maxRound;
-        this.defenseNumber=defenseNumber;
+        this.defenseNumber = defenseNumber;
+        this.defenseNumber2 = null;
+    }
+    MasterMind(int maxRound, int[] defenseNumber, int[] defenseNumber2){
+        this.maxRound = maxRound;
+        this.defenseNumber = defenseNumber;
+        this.defenseNumber2 = defenseNumber2;
     }
 
     public abstract void round();
@@ -29,13 +36,16 @@ public abstract class MasterMind {
     void verifyEnter(int[] attackNumber){
         if (canPlayAgain()){
             correspondence = Arrays.equals(defenseNumber, attackNumber);
-            clue();
         }
-        round++;
+    }
+    void verifyEnter2(int[] attackNumber){
+        if (canPlayAgain()){
+            correspondence2 = Arrays.equals(defenseNumber2, attackNumber);
+        }
     }
 
     public boolean canPlayAgain(){
-        return !correspondence && round < maxRound;
+        return !correspondence && !correspondence2 && round < maxRound;
     }
 
     abstract void clue();

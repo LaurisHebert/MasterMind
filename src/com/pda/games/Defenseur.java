@@ -41,7 +41,7 @@ public class Defenseur extends MasterMind {
 
     @Override
     public void round() {
-        System.out.println("Round"+ (round + 1) +"/"+maxRound);
+        System.out.println("Round "+ (round + 1) +"/"+maxRound);
         for (int i = 0; i < size ; i++) {
             if(round == 0){
                 attackNumber = GetIn.getRandomArray(size, minRange, maxRange);
@@ -51,7 +51,6 @@ public class Defenseur extends MasterMind {
                 switch (clue[i]) {
                     case "+":
                         minimum[i] = attackNumber[i];
-                        //attackNumber[i] = minimum[i] + new Random().nextInt(maximum[i] - minimum[i]);
                         attackNumber[i] =((maximum[i] - minimum[i])/2)+minimum[i];
                         break;
                     case "-":
@@ -68,29 +67,38 @@ public class Defenseur extends MasterMind {
         System.out.println(Arrays.toString(attackNumber));
         verifyEnter(attackNumber);
         System.out.println("Say more, less, or equal with these symbols (+ - =)");
+        clue();
+        round++;
     }
 
     @Override
     void clue() {
-        boolean[] test = new boolean[size];
-        for (int i = 0; i < size; i++) {
-            clue[i] = sc.next();
-            while (!test[i] && (!clue[i].equals("+") && !clue[i].equals("-") && !clue[i].equals("="))) {
-                clue[i] = sc.next();
-                if (clue[i].equals("=") && attackNumber[i] == defenseNumber[i]) {
-                    test[i]= true;
-                }
-                if (clue[i].equals("+") && attackNumber[i] < defenseNumber[i]) {
-                    test[i]= true;
-                }
-                if (clue[i].equals("-") && attackNumber[i] > defenseNumber[i]) {
-                    test[i]= true;
-                }
-                else {
-                System.out.println("your clues " + i + " are false");
-                test[i]= false;
+        String clues = sc.nextLine();
+        clue = clues.split(" ");
+        try{
+            for (int i = 0; i < size; i++) {
+                if (!verify(clue[i], i)){
+                    System.out.println("A cake is a lie");
+                    clue();
                 }
             }
+        }catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("Need more input");
+            clue();
+        }
+    }
+
+    private boolean verify(String clue, int i){
+        switch (clue){
+            case "+":
+                return attackNumber[i] < defenseNumber[i];
+            case "=":
+                return attackNumber[i] == defenseNumber[i];
+            case "-":
+                return attackNumber[i] > defenseNumber[i];
+            default:
+                System.out.println("invalid clue : \"" + clue + "\"");
+                return false;
         }
     }
 }
