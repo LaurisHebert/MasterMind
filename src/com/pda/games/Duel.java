@@ -88,7 +88,7 @@ public class Duel extends MasterMind{
     @Override
     public void round() {
         botDefenseNumber();
-        System.out.println(Arrays.toString(botDefenseNumber));
+        System.out.println(Arrays.toString(defenseNumber));
         humanTurn();
         botTurn();
         round++;

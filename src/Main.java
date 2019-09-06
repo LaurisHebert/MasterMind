@@ -20,14 +20,14 @@ public class Main {
             while (mode.canPlayAgain()) {
                 mode.round();
             }
-            if (mode.hasWon() && mode.hasLost()){
+            if (mode.hasLost() && !mode.hasWon()) {
+                System.out.println("\nYou lose \nThe answer was" + Arrays.toString(mode.defenseNumber));
+            }
+            if (mode.hasWon() && !mode.hasLost()){
                 System.out.println("Ex aequo");
             }
-            else if (mode.hasWon()) {
-                System.out.println("We have a winner !");
-            }
-            else if (mode.hasLost()) {
-                System.out.println("\nYou lose \nThe answer was" + Arrays.toString(mode.defenseNumber));
+            if (mode.hasWon() && mode.hasLost()) {
+                 System.out.println("We have a winner !");
             }
             if (!mode.canPlayAgain() && !mode.hasWon() && !mode.hasLost()){
                 System.out.println("Everyone lose" +

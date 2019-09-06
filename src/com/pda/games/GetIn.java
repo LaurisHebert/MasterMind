@@ -21,27 +21,31 @@ public class GetIn {
 
 
     private static int[] humanArray(int size, int minRange, int maxRange) {
-        int[] humanNumber = new int[size];
+        int[] humanNumbers = new int[size];
+        String numbers = sc.nextLine();
+        String[] number = numbers.split(" ");
         for (int i = 0; i < size; i++) {
-            humanNumber[i] = tryCatch();
-            while (humanNumber[i] < minRange || humanNumber[i] > maxRange) {
-                System.out.println(humanNumber[i] + " are not between" + minRange + "/" + maxRange);
-                humanNumber[i] = tryCatch();
+            try {
+                humanNumbers[i] = Integer.parseInt(number[i]);
+            }catch (ArrayIndexOutOfBoundsException e){
+                System.out.println("Need more digits");
+                humanArray(size, minRange, maxRange);
+            }catch (NumberFormatException e) {
+                System.out.println("One of your \"digits\" is not a digit");
+                humanArray(size, minRange, maxRange);
             }
-        }return humanNumber;
+            if (!verify(humanNumbers[i], i, minRange, maxRange, size)) {
+                System.out.println("One of your digits are not between" + minRange + "/" + maxRange);
+                humanArray(size, minRange, maxRange);
+            }
+        } return humanNumbers;
     }
 
     public static int[] getHumanArray(int size, int minRange, int maxRange) {
         return humanArray(size, minRange, maxRange);
     }
 
-    private static int tryCatch() {
-        try {
-            return sc.nextInt();
-        } catch (InputMismatchException e) {
-            System.out.println("One of them is not a digit");
-            sc.next();
-            return tryCatch();
-        }
+    static private boolean verify(int humanNumber, int i,int minRange, int maxRange, int size){
+        return minRange > humanNumber || humanNumber < maxRange;
     }
 }
