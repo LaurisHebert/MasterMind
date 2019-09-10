@@ -1,97 +1,68 @@
 package com.pda.games;
 
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class Defenseur extends MasterMind {
-
-    private static Scanner staticScan = new Scanner(System.in);
-    private Scanner sc = new Scanner(System.in);
 
     // voir si il y à plus présentable
     private int[] minimum = {0, 0, 0, 0};
     private int[] maximum = {9, 9, 9, 9};
 
-    private int[] attackNumber = new int[getSize()];
-    private int[] previousNumber= new int[getSize()];
-    private String[] clue = new String[getSize()];
+    private int[] botAttack = new int[getSize()];
+    private int[] previousAttack = new int[getSize()];
+    private String[] humanClue = new String[getSize()];
 
-    public Defenseur() { super(GetIn.maxRound(), humanDefense(), null); }
+    public Defenseur() { super(HumanEnter.maxRound(), humanDefense(), null); }
 
     private static int[] humanDefense() {
         System.out.println("Defense :");
-        return GetIn.getHumanArray(getSize(), getMinRange(), getMaxRange());
+        return HumanEnter.getArray(getSize(), getMinRange(), getMaxRange());
     }
+    @Override
+    public boolean humanWin() { return botLose(); }
+    @Override
+    public boolean humanLose() { return botWin(); }
+    @Override
+    protected void humanClue() { humanClue = HumanEnter.getClue(getSize(),botAttack, getHumanDefense()); }
 
     @Override
     public boolean botWin() { return isBotAttackCorrespondence() && getRound() <= getMaxRound(); }
     @Override
     public boolean botLose() { return  !isBotAttackCorrespondence() && !botCanPlayAgain(); }
     @Override
-    public boolean humanWin() { return botLose(); }
-    @Override
-    public boolean humanLose() { return botWin(); }
+    protected void botClue(){}
+
     @Override
     public void round() {
         System.out.println("Round "+ (getRound() + 1) +"/"+getMaxRound());
         for (int i = 0; i < getSize() ; i++) {
             if(getRound() == 0){
-                attackNumber = GetIn.getRandomArray(getSize(), getMinRange(), getMaxRange());
+                botAttack = BotEnter.getArray(getSize(), getMinRange(), getMaxRange());
             }
             else{
-                previousNumber[i]=attackNumber[i];
-                switch (clue[i]) {
+                previousAttack[i]= botAttack[i];
+                switch (humanClue[i]) {
                     case "+":
-                        minimum[i] = attackNumber[i];
-                        attackNumber[i] =((maximum[i] - minimum[i])/2)+minimum[i];
+                        minimum[i] = botAttack[i];
+                        botAttack[i] =((maximum[i] - minimum[i])/2)+minimum[i];
                         break;
                     case "-":
-                        maximum[i] = attackNumber[i];
+                        maximum[i] = botAttack[i];
                         //attackNumber[i] = minimum[i] + new Random().nextInt(maximum[i] - minimum[i]);
-                        attackNumber[i] = ((maximum[i] - minimum[i])/2)+minimum[i];
+                        botAttack[i] = ((maximum[i] - minimum[i])/2)+minimum[i];
                         break;
                     case "=":
-                        attackNumber[i] = previousNumber[i];
+                        botAttack[i] = previousAttack[i];
                         break;
                 }
             }
         }
-        System.out.println(Arrays.toString(attackNumber));
-        botVerifyEnter(attackNumber);
+        System.out.println(Arrays.toString(botAttack));
+        botVerifyEnter(botAttack);
         if (!isBotAttackCorrespondence()) {
             System.out.println("Clue :");
-            clue();
+            humanClue();
         }
     }
 
-    @Override
-    protected void clue() {
-        String clues = sc.nextLine();
-        clue = clues.split(" ");
-        try{
-            for (int i = 0; i < getSize(); i++) {
-                if (!verify(clue[i], i)){
-                    System.out.println("A cake is a lie");
-                    clue();
-                }
-            }
-        }catch (ArrayIndexOutOfBoundsException e){
-            System.out.println("Need more input");
-            clue();
-        }
-    }
-
-    private boolean verify(String clue, int i){
-        switch (clue){
-            case "+":
-                return attackNumber[i] < getHumanDefense()[i];
-            case "=":
-                return attackNumber[i] == getHumanDefense()[i];
-            case "-":
-                return attackNumber[i] > getHumanDefense()[i];
-            default:
-                System.out.println("invalid clue : \"" + clue + "\"");
-                return false;
-        }
-    }
 }

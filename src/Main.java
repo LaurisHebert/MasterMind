@@ -5,13 +5,14 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
+
     private static String player;
     private static MasterMind mode;
     private static int gameMode = 0;
     // soucis entrée chiffre, trop ou pas cause des bugs voir des crash
 
     public static void main(String[] args) {
-        player = GetIn.pseudo();
+        player = HumanEnter.pseudo();
         System.out.println("Rules :\n" +
                 "-For each \"defense\" or \"attack\" you need to enter " + MasterMind.getSize() + " digits.\n" +
                 "-For each \"clue\" you need to enter if your defense number is higther \"+\", lower \"-\" or equal \"=\"");
@@ -106,4 +107,5 @@ public class Main {
                 break;
         }
     }
+    
 }

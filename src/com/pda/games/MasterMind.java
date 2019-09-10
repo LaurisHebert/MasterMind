@@ -39,14 +39,6 @@ public abstract class MasterMind {
         this.botDefense = botDefenseNumber;
     }
 
-    public boolean humanCanPlayAgain(){ return !humanAttackCorrespondence && round < maxRound; }
-    public boolean botCanPlayAgain() { return !botAttackCorrespondence && round < maxRound; }
-
-    public abstract boolean humanWin();
-    public abstract boolean humanLose();
-    public abstract boolean botWin();
-    public abstract boolean botLose();
-
     public abstract void round();
 
     protected void botVerifyEnter(int[] botAttack){
@@ -55,6 +47,12 @@ public abstract class MasterMind {
             round++;
         }
     }
+    public boolean botCanPlayAgain() {
+        return !botAttackCorrespondence && round < maxRound;
+    }
+    public abstract boolean botWin();
+    public abstract boolean botLose();
+    protected abstract void botClue();
 
     protected void humanVerifyEnter(int[] humanAttack){
         if (humanCanPlayAgain()){
@@ -62,8 +60,12 @@ public abstract class MasterMind {
             round++;
         }
     }
-
-    protected abstract void clue();
+    public boolean humanCanPlayAgain() {
+        return !humanAttackCorrespondence && round < maxRound;
+    }
+    public abstract boolean humanWin();
+    public abstract boolean humanLose();
+    protected abstract void humanClue();
 
 }
 

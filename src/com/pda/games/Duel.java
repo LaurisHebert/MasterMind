@@ -1,54 +1,57 @@
 package com.pda.games;
 
 import java.util.Arrays;
-import java.util.Scanner;
-
-import static com.pda.games.GetIn.getRandomArray;
 
 public class Duel extends MasterMind{
-    private Scanner sc = new Scanner(System.in);
 
     private int[] humanAttack = new int[getSize()];
     private String[] humanClue = new String[getSize()];
 
     private int[] botAttack = new int[getSize()];
-    private String[] botClue = new String[getSize()];
     private int [] previousBotAttack = new int[getSize()];
 
     private int[] minimum = {0, 0, 0, 0};
     private int[] maximum = {9, 9, 9, 9};
 
-    public Duel() { super(GetIn.maxRound(), humanDefenseNumber(), getRandomArray(getSize(), getMinRange(), getMaxRange())); }
+    public Duel() { super(HumanEnter.maxRound(), humanDefenseNumber(), BotEnter.getArray(getSize(), getMinRange(), getMaxRange())); }
 
     private static int[] humanDefenseNumber(){
         System.out.println("Defense :");
-        return GetIn.getHumanArray(getSize(), getMinRange(), getMaxRange());
+        return HumanEnter.getArray(getSize(), getMinRange(), getMaxRange());
     }
 
     @Override
     public boolean humanWin() { return isHumanAttackCorrespondence() && getRound() <= getMaxRound(); }
-    @Override
-    public boolean botWin() { return isBotAttackCorrespondence() && getRound() <= getMaxRound(); }
+
     @Override
     public boolean humanLose() { return isBotAttackCorrespondence() || (!isHumanAttackCorrespondence() && getRound() == getMaxRound()); }
+
     @Override
-    public boolean botLose() { return isHumanAttackCorrespondence() || (isBotAttackCorrespondence() && getRound() == getMaxRound()); }
+    protected void humanClue(){ humanClue = HumanEnter.getClue(getSize(),botAttack, getHumanDefense()); }
 
     private void humanTurn(){
-        System.out.println(Arrays.toString(getBotDefense()));
         System.out.println("Round " + (getRound() + 1) + "/" + getMaxRound() +
                 "\nHuman Turn\n" +
                 "Attack");
-        humanAttack = GetIn.getHumanArray(getSize(), getMinRange(), getMaxRange());
+        humanAttack = HumanEnter.getArray(getSize(), getMinRange(), getMaxRange());
         humanVerifyEnter(humanAttack);
-        clue();
+        botClue();
     }
+
+    @Override
+    public boolean botWin() { return isBotAttackCorrespondence() && getRound() <= getMaxRound(); }
+
+    @Override
+    public boolean botLose() { return isHumanAttackCorrespondence() || (isBotAttackCorrespondence() && getRound() == getMaxRound()); }
+
+    @Override
+    protected void botClue() { System.out.println(Arrays.toString(BotEnter.getClue(getSize(), humanAttack, getBotDefense()))); }
 
     private void botTurn(){
         System.out.println("Bot turn");
         for (int i = 0; i < getSize() ; i++) {
             if(getRound() == 0){
-                botAttack = GetIn.getRandomArray(getSize(), getMinRange(), getMaxRange());
+                botAttack = BotEnter.getArray(getSize(), getMinRange(), getMaxRange());
             }
             else{
                 previousBotAttack[i]= botAttack[i];
@@ -80,46 +83,6 @@ public class Duel extends MasterMind{
         humanTurn();
         setRound(getRound()-1);
         botTurn();
-    }
-
-    @Override
-    protected void clue() {
-        for (int i = 0; i < getSize(); i++) {
-            if (humanAttack[i] == getBotDefense()[i]) {
-                botClue[i] = "=";
-            }
-            if (humanAttack[i] > getBotDefense()[i]) {
-                botClue[i] = "-";
-            }
-            if (humanAttack[i] < getBotDefense()[i]) {
-                botClue[i] = "+";
-            }
-        }
-        System.out.println(Arrays.toString(botClue));
-    }
-    private void humanClue(){
-        String clues = sc.nextLine();
-        humanClue = clues.split(" ");
-        for (int i = 0; i < getSize(); i++) {
-            if (!verify(humanClue[i], i)){
-                System.out.println("A cake is a lie");
-                humanClue();
-            }
-        }
-    }
-
-    private boolean verify(String clue, int i){
-        switch (clue){
-            case "+":
-                return botAttack[i] < getHumanDefense()[i];
-            case "=":
-                return botAttack[i] == getHumanDefense()[i];
-            case "-":
-                return botAttack[i] > getHumanDefense()[i];
-            default:
-                System.out.println("invalid clue : \"" + clue + "\"");
-                return false;
-        }
     }
 
 }
