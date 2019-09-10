@@ -8,43 +8,35 @@ public class Defenseur extends MasterMind {
     private static Scanner staticScan = new Scanner(System.in);
     private Scanner sc = new Scanner(System.in);
 
+    // voir si il y à plus présentable
+    private int[] minimum = {0, 0, 0, 0};
+    private int[] maximum = {9, 9, 9, 9};
 
-    private int[] minimum = {-1, -1, -1, -1};
-    private int[] maximum = {10, 10, 10, 10};
+    private int[] attackNumber = new int[getSize()];
+    private int[] previousNumber= new int[getSize()];
+    private String[] clue = new String[getSize()];
 
-    private int[] attackNumber = new int[size];
-    private int[] previousNumber= new int[size];
-    private String[] clue = new String[size];
+    public Defenseur() { super(GetIn.maxRound(), humanDefense(), null); }
 
-    public Defenseur() { super(maxRound(), defenseNumber()); }
-
-    @Override
-    public boolean hasWon() { return !canPlayAgain() && !hasLost(); }
-
-    @Override
-    public boolean hasLost() { return correspondence && round <= maxRound; }
-
-    private static int maxRound() {
-        System.out.println("Choose the maximum number of rounds");
-        try {
-            return staticScan.nextInt();
-        }catch (java.util.InputMismatchException e){
-            staticScan.next();
-        }return maxRound();
+    private static int[] humanDefense() {
+        System.out.println("Defense :");
+        return GetIn.getHumanArray(getSize(), getMinRange(), getMaxRange());
     }
 
-    private static int[] defenseNumber() {
-        System.out.println("choose four digits between " + minRange + " and " + maxRange + " (included) separated by a space");
-        return GetIn.getHumanArray(size, minRange, maxRange);
-
-    }
-
+    @Override
+    public boolean botWin() { return isBotAttackCorrespondence() && getRound() <= getMaxRound(); }
+    @Override
+    public boolean botLose() { return  !isBotAttackCorrespondence() && !botCanPlayAgain(); }
+    @Override
+    public boolean humanWin() { return botLose(); }
+    @Override
+    public boolean humanLose() { return botWin(); }
     @Override
     public void round() {
-        System.out.println("Round "+ (round + 1) +"/"+maxRound);
-        for (int i = 0; i < size ; i++) {
-            if(round == 0){
-                attackNumber = GetIn.getRandomArray(size, minRange, maxRange);
+        System.out.println("Round "+ (getRound() + 1) +"/"+getMaxRound());
+        for (int i = 0; i < getSize() ; i++) {
+            if(getRound() == 0){
+                attackNumber = GetIn.getRandomArray(getSize(), getMinRange(), getMaxRange());
             }
             else{
                 previousNumber[i]=attackNumber[i];
@@ -56,7 +48,7 @@ public class Defenseur extends MasterMind {
                     case "-":
                         maximum[i] = attackNumber[i];
                         //attackNumber[i] = minimum[i] + new Random().nextInt(maximum[i] - minimum[i]);
-                        attackNumber[i] =((maximum[i] - minimum[i])/2)+minimum[i];
+                        attackNumber[i] = ((maximum[i] - minimum[i])/2)+minimum[i];
                         break;
                     case "=":
                         attackNumber[i] = previousNumber[i];
@@ -65,18 +57,19 @@ public class Defenseur extends MasterMind {
             }
         }
         System.out.println(Arrays.toString(attackNumber));
-        verifyEnter(attackNumber);
-        System.out.println("Say more, less, or equal with these symbols (+ - =)");
-        clue();
-        round++;
+        botVerifyEnter(attackNumber);
+        if (!isBotAttackCorrespondence()) {
+            System.out.println("Clue :");
+            clue();
+        }
     }
 
     @Override
-    void clue() {
+    protected void clue() {
         String clues = sc.nextLine();
         clue = clues.split(" ");
         try{
-            for (int i = 0; i < size; i++) {
+            for (int i = 0; i < getSize(); i++) {
                 if (!verify(clue[i], i)){
                     System.out.println("A cake is a lie");
                     clue();
@@ -91,11 +84,11 @@ public class Defenseur extends MasterMind {
     private boolean verify(String clue, int i){
         switch (clue){
             case "+":
-                return attackNumber[i] < defenseNumber[i];
+                return attackNumber[i] < getHumanDefense()[i];
             case "=":
-                return attackNumber[i] == defenseNumber[i];
+                return attackNumber[i] == getHumanDefense()[i];
             case "-":
-                return attackNumber[i] > defenseNumber[i];
+                return attackNumber[i] > getHumanDefense()[i];
             default:
                 System.out.println("invalid clue : \"" + clue + "\"");
                 return false;

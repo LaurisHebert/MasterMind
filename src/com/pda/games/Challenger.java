@@ -1,56 +1,48 @@
 package com.pda.games;
 
 import java.util.Arrays;
-import java.util.Scanner;
 
 import static com.pda.games.GetIn.getRandomArray;
 
 public class Challenger extends MasterMind {
-    private int[] attackNumber= new int[size];
-    private String[] clue = new String[size];
+    private int[] humanAttack = new int[getSize()];
+    private String[] clue = new String[getSize()];
 
+    public Challenger() { super(GetIn.maxRound(), null, getRandomArray(getSize(), getMinRange(), getMaxRange())); }
 
-    public Challenger() { super(maxRound(), defenseNumber()); }
-
-    private static int[] defenseNumber() { return getRandomArray(size, minRange, maxRange); }
 
     @Override
-    public boolean hasWon() { return correspondence && round <= maxRound; }
-
+    public boolean humanWin() { return isHumanAttackCorrespondence() && getRound() <= getMaxRound(); }
     @Override
-    public boolean hasLost() { return !canPlayAgain() && !hasWon(); }
-
-    private static int maxRound() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Choose the maximum number of rounds");
-        try {
-            return sc.nextInt();
-        }catch (java.util.InputMismatchException e){
-            sc.next();
-        }return maxRound();
-    }
-
+    public boolean humanLose() { return !isHumanAttackCorrespondence() && !humanCanPlayAgain(); }
+    @Override
+    public boolean botWin(){ return humanLose(); }
+    @Override
+    public boolean botLose(){ return humanWin(); }
 
     @Override
     public void round() {
-        System.out.println("Round "+ (round + 1) +"/"+maxRound);
-        System.out.println("choose four digits between " + minRange + " and " + maxRange + " (included) separated by a space");
-        attackNumber = GetIn.getHumanArray(size, minRange, maxRange);
-        verifyEnter(attackNumber);
-        clue();
-        round++;
+        System.out.println(Arrays.toString(getBotDefense()));
+        System.out.println("Round " + (getRound() + 1) + "/" + getMaxRound());
+        System.out.println("Attack :");
+        humanAttack = GetIn.getHumanArray(getSize(), getMinRange(), getMaxRange());
+        humanVerifyEnter(humanAttack);
+        if (!isHumanAttackCorrespondence()) {
+            clue();
+        }
     }
 
+
     @Override
-    void clue() {
-        for (int i = 0; i < size; i++) {
-            if (attackNumber[i] == defenseNumber[i]) {
+    protected void clue() {
+        for (int i = 0; i < getSize(); i++) {
+            if (humanAttack[i] == getBotDefense()[i]) {
                 clue[i] = "=";
             }
-            if (attackNumber[i] > defenseNumber[i]) {
+            if (humanAttack[i] > getBotDefense()[i]) {
                 clue[i] = "-";
             }
-            if (attackNumber[i] < defenseNumber[i]) {
+            if (humanAttack[i] < getBotDefense()[i]) {
                 clue[i] = "+";
             }
         }

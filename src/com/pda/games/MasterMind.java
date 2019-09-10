@@ -4,54 +4,66 @@ import java.util.Arrays;
 
 public abstract class MasterMind {
 
-    final static int size = 4;
-    final static int minRange = 0;
-    final static int maxRange = 9;
-    // static car utiliser pour définire d'autres methodes statics
+    private final static int size = 4;
+    public static int getSize() { return size; }
 
-    public final int[] defenseNumber;
-    // public car utiliser dans Main
-    public final int[] defenseNumber2;
+    private final static int minRange = 0;
+    protected static int getMinRange() { return minRange; }
 
-    int maxRound;
-    int round = 0;
-    // package-private car utilisé dans Round avec maxRound
+    private final static int maxRange = 9;
+    protected static int getMaxRange() { return maxRange; }
 
-    boolean correspondence = false;
-    boolean correspondence2 = false;
-    // package-private car utilisé pour définire les win et lose
-    MasterMind(int maxRound, int[] defenseNumber){
+    private final int[] humanDefense;
+    public int[] getHumanDefense() { return humanDefense; }
+
+    private final int[] botDefense;
+    public int[] getBotDefense() { return botDefense; }
+
+    private int maxRound;
+    protected int getMaxRound() { return maxRound; }
+
+    private int round = 0;
+    protected int getRound() { return round; }
+    protected void setRound(int round) { this.round = round; }
+
+    private boolean botAttackCorrespondence = false;
+    protected boolean isBotAttackCorrespondence() { return botAttackCorrespondence; }
+
+    private boolean humanAttackCorrespondence = false;
+    protected boolean isHumanAttackCorrespondence() { return humanAttackCorrespondence; }
+
+
+    protected MasterMind(int maxRound, int[] humanDefense, int[] botDefenseNumber){
         this.maxRound = maxRound;
-        this.defenseNumber = defenseNumber;
-        this.defenseNumber2 = null;
+        this.humanDefense = humanDefense;
+        this.botDefense = botDefenseNumber;
     }
-    MasterMind(int maxRound, int[] defenseNumber, int[] defenseNumber2){
-        this.maxRound = maxRound;
-        this.defenseNumber = defenseNumber;
-        this.defenseNumber2 = defenseNumber2;
-    }
+
+    public boolean humanCanPlayAgain(){ return !humanAttackCorrespondence && round < maxRound; }
+    public boolean botCanPlayAgain() { return !botAttackCorrespondence && round < maxRound; }
+
+    public abstract boolean humanWin();
+    public abstract boolean humanLose();
+    public abstract boolean botWin();
+    public abstract boolean botLose();
 
     public abstract void round();
 
-    void verifyEnter(int[] attackNumber){
-        if (canPlayAgain()){
-            correspondence = Arrays.equals(defenseNumber, attackNumber);
-        }
-    }
-    void verifyEnter2(int[] attackNumber){
-        if (canPlayAgain()){
-            correspondence2 = Arrays.equals(defenseNumber2, attackNumber);
+    protected void botVerifyEnter(int[] botAttack){
+        if (botCanPlayAgain()){
+            botAttackCorrespondence = Arrays.equals(humanDefense, botAttack);
+            round++;
         }
     }
 
-    public boolean canPlayAgain(){
-        return !correspondence && !correspondence2 && round < maxRound;
+    protected void humanVerifyEnter(int[] humanAttack){
+        if (humanCanPlayAgain()){
+            humanAttackCorrespondence = Arrays.equals(botDefense, humanAttack);
+            round++;
+        }
     }
 
-    abstract void clue();
+    protected abstract void clue();
 
-    abstract public boolean hasWon();
-
-    abstract public boolean hasLost();
 }
 

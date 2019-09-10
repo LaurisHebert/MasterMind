@@ -1,11 +1,9 @@
 package com.pda.games;
 
-import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
 public class GetIn {
-    static private Scanner sc = new Scanner(System.in);
 
     private static int[] randomArray(int size, int minRange, int maxRange) {
         int[] genNumber = new int[size];
@@ -21,6 +19,8 @@ public class GetIn {
 
 
     private static int[] humanArray(int size, int minRange, int maxRange) {
+        Scanner sc = new Scanner(System.in);
+
         int[] humanNumbers = new int[size];
         String numbers = sc.nextLine();
         String[] number = numbers.split(" ");
@@ -45,7 +45,24 @@ public class GetIn {
         return humanArray(size, minRange, maxRange);
     }
 
-    static private boolean verify(int humanNumber, int i,int minRange, int maxRange, int size){
-        return minRange > humanNumber || humanNumber < maxRange;
+    private static boolean verify(int humanNumber, int i,int minRange, int maxRange, int size){
+        return minRange >= humanNumber || humanNumber <= maxRange;
+    }
+
+    public static String pseudo(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter your pseudo" +
+                "\nPseudo:");
+        return sc.next();
+    }
+
+    protected static int maxRound() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Choose the maximum number of rounds");
+        try {
+            return sc.nextInt();
+        }catch (java.util.InputMismatchException e){
+            sc.next();
+        }return maxRound();
     }
 }
