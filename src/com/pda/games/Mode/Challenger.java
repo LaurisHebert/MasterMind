@@ -1,13 +1,20 @@
-package com.pda.games;
+package com.pda.games.Mode;
+
+import com.pda.games.Enters.BotEnter;
+import com.pda.games.Enters.HumanEnter;
+import com.pda.games.MasterMind;
 
 import java.util.Arrays;
 
 public class Challenger extends MasterMind {
 
+    private final HumanEnter human;
     private int[] humanAttack = new int[getSize()];
-    private String[] clue = new String[getSize()];
 
-    public Challenger() { super(HumanEnter.maxRound(), null, BotEnter.getArray(getSize(), getMinRange(), getMaxRange())); }
+    public Challenger(HumanEnter human) {
+        super(human.maxRound(), null, BotEnter.getArray(getSize(), getMinRange(), getMaxRange()));
+        this.human = human;
+    }
 
     @Override
     public boolean humanWin() { return isHumanAttackCorrespondence() && getRound() <= getMaxRound(); }
@@ -27,7 +34,7 @@ public class Challenger extends MasterMind {
     public void round() {
         System.out.println("Round " + (getRound() + 1) + "/" + getMaxRound());
         System.out.println("Attack :");
-        humanAttack = HumanEnter.getArray(getSize(), getMinRange(), getMaxRange());
+        humanAttack = human.getArray(getSize(), getMinRange(), getMaxRange());
         humanVerifyEnter(humanAttack);
         if (!isHumanAttackCorrespondence()) {
             botClue();

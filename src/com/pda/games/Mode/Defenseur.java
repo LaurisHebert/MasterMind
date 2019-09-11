@@ -1,4 +1,8 @@
-package com.pda.games;
+package com.pda.games.Mode;
+
+import com.pda.games.Enters.BotEnter;
+import com.pda.games.Enters.HumanEnter;
+import com.pda.games.MasterMind;
 
 import java.util.Arrays;
 

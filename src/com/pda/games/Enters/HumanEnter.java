@@ -1,11 +1,16 @@
-package com.pda.games;
+package com.pda.games.Enters;
 
 import java.util.Scanner;
 
 public class HumanEnter {
 
-    protected static int maxRound() {
-        Scanner sc = new Scanner(System.in);
+    private final Scanner sc;
+
+    public HumanEnter(Scanner sc){
+        this.sc = sc;
+    }
+
+    public int maxRound() {
         System.out.println("Choose the maximum number of rounds");
         try {
             return sc.nextInt();
@@ -13,46 +18,50 @@ public class HumanEnter {
             sc.next();
         }return maxRound();
     }
-    private static int[] array(int size, int minRange, int maxRange) {
-        Scanner sc = new Scanner(System.in);
-
+    private int[] array(int size, int minRange, int maxRange) {
         int[] humanNumbers = new int[size];
-        String numbers = sc.nextLine();
-        String[] number = numbers.split(" ");
+
+        String humanLine = sc.nextLine();
+        String[] splitLine = humanLine.split(" ");
+        if ( splitLine.length != size){
+            System.out.println("You need to enter " + size + " digits.");
+            return array(size, minRange, maxRange);
+        }
+        boolean hasError = false;
         for (int i = 0; i < size; i++) {
             try {
-                humanNumbers[i] = Integer.parseInt(number[i]);
-            }catch (ArrayIndexOutOfBoundsException e){
-                System.out.println("Need more digits");
-                array(size, minRange, maxRange);
-            }catch (NumberFormatException e) {
-                System.out.println("One of your \"digits\" is not a digit");
-                array(size, minRange, maxRange);
+                humanNumbers[i] = Integer.parseInt(splitLine[i]);
             }
-            if (!verify(humanNumbers[i], i, minRange, maxRange, size)) {
-                System.out.println("One of your digits are not between" + minRange + "/" + maxRange);
-                array(size, minRange, maxRange);
+            catch (NumberFormatException e) {
+                System.out.println((i + 1) + " enter [" + splitLine[i] + "] is not a digit");
+                hasError = true;
             }
-        } return humanNumbers;
+            if (!verify(humanNumbers[i], i, minRange, maxRange)) {
+                System.out.println((i + 1) + " enter [" + humanNumbers[i] + "] is not between" + minRange + "/" + maxRange);
+                hasError = true;
+            }
+        }
+        if ( hasError){
+            return array(size, minRange, maxRange);
+        }
+        return humanNumbers;
     }
 
-    private static boolean verify(int humanNumber, int i,int minRange, int maxRange, int size){
+    private static boolean verify(int humanNumber, int i,int minRange, int maxRange){
         return minRange >= humanNumber || humanNumber <= maxRange;
     }
 
-    public static int[] getArray(int size, int minRange, int maxRange) {
+    public int[] getArray(int size, int minRange, int maxRange) {
         return array(size, minRange, maxRange);
     }
 
-    public static String pseudo(){
-        Scanner sc = new Scanner(System.in);
+    public String pseudo(){
         System.out.println("Enter your pseudo" +
                 "\nPseudo:");
         return sc.next();
     }
 
-    protected static String[] Clue(int size, int[] botAttack, int[] humanDefense){
-        Scanner sc = new Scanner(System.in);
+    private String[] Clue(int size, int[] botAttack, int[] humanDefense){
         String clues = sc.nextLine();
         String[] clue = clues.split(" ");
         for (int i = 0; i < size; i++) {
@@ -77,7 +86,7 @@ public class HumanEnter {
         }
     }
 
-    public static String[] getClue(int size, int[] botAttack, int[] humanDefense){
+    public String[] getClue(int size, int[] botAttack, int[] humanDefense){
         return Clue(size, botAttack, humanDefense);
     }
 

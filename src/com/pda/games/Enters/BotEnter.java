@@ -1,4 +1,4 @@
-package com.pda.games;
+package com.pda.games.Enters;
 
 import java.util.Random;
 
@@ -31,7 +31,7 @@ public class BotEnter {
         }return clue;
     }
 
-    protected static String[] getClue(int size, int[] humanAttack, int[] botDefense){
+    public static String[] getClue(int size, int[] humanAttack, int[] botDefense){
         return clue( size, humanAttack, botDefense);
     }
 
