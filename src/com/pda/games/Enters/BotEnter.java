@@ -28,11 +28,12 @@ public class BotEnter {
             if (humanAttack[i] < botDefense[i]) {
                 clue[i] = "+";
             }
-        }return clue;
+        }
+        return clue;
     }
 
-    public static String[] getClue(int size, int[] humanAttack, int[] botDefense){
-        return clue( size, humanAttack, botDefense);
+    public static String[] getClue(int size, int[] humanAttack, int[] botDefense) {
+        return clue(size, humanAttack, botDefense);
     }
 
 }

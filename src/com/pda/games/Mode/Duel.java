@@ -12,61 +12,77 @@ public class Duel extends MasterMind {
     private String[] humanClue = new String[getSize()];
 
     private int[] botAttack = new int[getSize()];
-    private int [] previousBotAttack = new int[getSize()];
+    private int[] previousBotAttack = new int[getSize()];
 
     private int[] minimum = {0, 0, 0, 0};
     private int[] maximum = {9, 9, 9, 9};
 
-    public Duel() { super(HumanEnter.maxRound(), humanDefenseNumber(), BotEnter.getArray(getSize(), getMinRange(), getMaxRange())); }
+    private final HumanEnter humanEnter;
 
-    private static int[] humanDefenseNumber(){
+    public Duel(HumanEnter humanEnter) {
+        super(humanEnter.maximumRound(), humanDefenseNumber(humanEnter), BotEnter.getArray(getSize(), getMinimumNumber(), getMaximumNumber()));
+        this.humanEnter = humanEnter;
+    }
+
+    private static int[] humanDefenseNumber(HumanEnter humanEnter) {
         System.out.println("Defense :");
-        return HumanEnter.getArray(getSize(), getMinRange(), getMaxRange());
+        return humanEnter.getArray(getSize(), getMinimumNumber(), getMaximumNumber());
     }
 
     @Override
-    public boolean humanWin() { return isHumanAttackCorrespondence() && getRound() <= getMaxRound(); }
+    public boolean humanWin() {
+        return isPlayerOneCorrespondence() && getRoundCount() <= getMaximumRound();
+    }
 
     @Override
-    public boolean humanLose() { return isBotAttackCorrespondence() || (!isHumanAttackCorrespondence() && getRound() == getMaxRound()); }
+    public boolean humanLose() {
+        return isPlayerTwoCorrespondence() || (!isPlayerOneCorrespondence() && getRoundCount() == getMaximumRound());
+    }
 
     @Override
-    protected void humanClue(){ humanClue = HumanEnter.getClue(getSize(),botAttack, getHumanDefense()); }
+    protected void playerOneClue() {
+        humanClue = humanEnter.getClue(getSize(), botAttack, getPlayerOneDefense());
+    }
 
-    private void humanTurn(){
-        System.out.println("Round " + (getRound() + 1) + "/" + getMaxRound() +
+    private void humanTurn() {
+        System.out.println("Round " + (getRoundCount() + 1) + "/" + getMaximumRound() +
                 "\nHuman Turn\n" +
                 "Attack");
-        humanAttack = HumanEnter.getArray(getSize(), getMinRange(), getMaxRange());
-        humanVerifyEnter(humanAttack);
-        botClue();
+        humanAttack = humanEnter.getArray(getSize(), getMinimumNumber(), getMaximumNumber());
+        verifyAttackPlayerOne(humanAttack);
+        playerTwoClue();
     }
 
     @Override
-    public boolean botWin() { return isBotAttackCorrespondence() && getRound() <= getMaxRound(); }
+    public boolean botWin() {
+        return isPlayerTwoCorrespondence() && getRoundCount() <= getMaximumRound();
+    }
 
     @Override
-    public boolean botLose() { return isHumanAttackCorrespondence() || (isBotAttackCorrespondence() && getRound() == getMaxRound()); }
+    public boolean botLose() {
+        return isPlayerOneCorrespondence() || (isPlayerTwoCorrespondence() && getRoundCount() == getMaximumRound());
+    }
 
     @Override
-    protected void botClue() { System.out.println(Arrays.toString(BotEnter.getClue(getSize(), humanAttack, getBotDefense()))); }
+    protected void playerTwoClue() {
+        System.out.println(Arrays.toString(BotEnter.getClue(getSize(), humanAttack, getPlayerTwoDefense())));
+    }
 
-    private void botTurn(){
+    private void botTurn() {
         System.out.println("Bot turn");
-        for (int i = 0; i < getSize() ; i++) {
-            if(getRound() == 0){
-                botAttack = BotEnter.getArray(getSize(), getMinRange(), getMaxRange());
-            }
-            else{
-                previousBotAttack[i]= botAttack[i];
+        for (int i = 0; i < getSize(); i++) {
+            if (getRoundCount() == 0) {
+                botAttack = BotEnter.getArray(getSize(), getMinimumNumber(), getMaximumNumber());
+            } else {
+                previousBotAttack[i] = botAttack[i];
                 switch (humanClue[i]) {
                     case "+":
                         minimum[i] = botAttack[i];
-                        botAttack[i] =((maximum[i] - minimum[i])/2)+minimum[i];
+                        botAttack[i] = ((maximum[i] - minimum[i]) / 2) + minimum[i];
                         break;
                     case "-":
                         maximum[i] = botAttack[i];
-                        botAttack[i] =((maximum[i] - minimum[i])/2)+minimum[i];
+                        botAttack[i] = ((maximum[i] - minimum[i]) / 2) + minimum[i];
                         break;
                     case "=":
                         botAttack[i] = previousBotAttack[i];
@@ -75,17 +91,19 @@ public class Duel extends MasterMind {
             }
         }
         System.out.println(Arrays.toString(botAttack));
-        botVerifyEnter(botAttack);
-        if (!isBotAttackCorrespondence()){
+        verifyAttackPlayerTwo(botAttack);
+        if (!isPlayerTwoCorrespondence()) {
             System.out.println("Clue :");
-            humanClue();
+            playerOneClue();
         }
+        System.out.println("===========================\n");
+
     }
 
     @Override
     public void round() {
         humanTurn();
-        setRound(getRound()-1);
+        setRoundCount(getRoundCount() - 1);
         botTurn();
     }
 

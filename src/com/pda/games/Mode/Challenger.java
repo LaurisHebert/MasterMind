@@ -8,37 +8,53 @@ import java.util.Arrays;
 
 public class Challenger extends MasterMind {
 
-    private final HumanEnter human;
-    private int[] humanAttack = new int[getSize()];
+    private final HumanEnter humanEnter;
+    private int[] playerOneAttack = new int[getSize()];
 
-    public Challenger(HumanEnter human) {
-        super(human.maxRound(), null, BotEnter.getArray(getSize(), getMinRange(), getMaxRange()));
-        this.human = human;
+    public Challenger(HumanEnter humanEnter) {
+        super(humanEnter.maximumRound(), null, BotEnter.getArray(getSize(), getMinimumNumber(), getMaximumNumber()));
+        this.humanEnter = humanEnter;
     }
 
     @Override
-    public boolean humanWin() { return isHumanAttackCorrespondence() && getRound() <= getMaxRound(); }
-    @Override
-    public boolean humanLose() { return !isHumanAttackCorrespondence() && !humanCanPlayAgain(); }
-    @Override
-    protected void humanClue() {}
+    public boolean humanWin() {
+        return isPlayerOneCorrespondence() && getRoundCount() <= getMaximumRound();
+    }
 
     @Override
-    public boolean botWin(){ return humanLose(); }
+    public boolean humanLose() {
+        return !isPlayerOneCorrespondence() && !playerOneCanPlayAgain();
+    }
+
     @Override
-    public boolean botLose(){ return humanWin(); }
+    protected void playerOneClue() {
+    }
+
     @Override
-    protected void botClue() { System.out.println(Arrays.toString(BotEnter.getClue(getSize(), humanAttack, getBotDefense()))); }
+    public boolean botWin() {
+        return humanLose();
+    }
+
+    @Override
+    public boolean botLose() {
+        return humanWin();
+    }
+
+    @Override
+    protected void playerTwoClue() {
+        System.out.println(Arrays.toString(BotEnter.getClue(getSize(), playerOneAttack, getPlayerTwoDefense())));
+    }
 
     @Override
     public void round() {
-        System.out.println("Round " + (getRound() + 1) + "/" + getMaxRound());
+        System.out.println("Round " + (getRoundCount() + 1) + "/" + getMaximumRound());
         System.out.println("Attack :");
-        humanAttack = human.getArray(getSize(), getMinRange(), getMaxRange());
-        humanVerifyEnter(humanAttack);
-        if (!isHumanAttackCorrespondence()) {
-            botClue();
+        playerOneAttack = humanEnter.getArray(getSize(), getMinimumNumber(), getMaximumNumber());
+        verifyAttackPlayerOne(playerOneAttack);
+        if (!isPlayerOneCorrespondence()) {
+            playerTwoClue();
         }
+        System.out.println("===========================\n");
     }
 
 }
