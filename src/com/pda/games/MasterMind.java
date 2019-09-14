@@ -4,9 +4,9 @@ import java.util.Arrays;
 
 public abstract class MasterMind {
 
-    private final static int size = 4;
-    private final static int minimumNumber = 0;
-    private final static int MaximumNumber = 9;
+    public final static int size = 4;
+    public final static int minimumNumber = 0;
+    public final static int maximumNumber = 9;
     private final int[] playerOneDefense;
     private final int[] playerTwoDefense;
     private int maximumRound;
@@ -18,18 +18,6 @@ public abstract class MasterMind {
         this.maximumRound = maximumRound;
         this.playerOneDefense = playerOneDefense;
         this.playerTwoDefense = playerTwoDefense;
-    }
-
-    public static int getSize() {
-        return size;
-    }
-
-    protected static int getMinimumNumber() {
-        return minimumNumber;
-    }
-
-    protected static int getMaximumNumber() {
-        return MaximumNumber;
     }
 
     public int[] getPlayerOneDefense() {

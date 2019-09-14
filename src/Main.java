@@ -9,13 +9,11 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static String player;
     private static HumanEnter humanEnter = new HumanEnter(new Scanner(System.in));
 
     public static void main(String[] args) {
-        player = humanEnter.pseudo();
         System.out.println("Rules :\n" +
-                "-For each \"defense\" or \"attack\" you need to enter " + MasterMind.getSize() + " digits.\n" +
+                "-For each \"defense\" or \"attack\" you need to enter " + MasterMind.size + " digits.\n" +
                 "-For each \"clue\" you need to enter if your defense number is higther \"+\", lower \"-\" or equal \"=\"");
         party();
     }
@@ -51,10 +49,10 @@ public class Main {
             System.out.println("Ex aequo.");
         }
         else if (game.humanWin() && game.botLose()) {
-            System.out.println("[" + player + "] win.");
+            System.out.println("["  + "] win.");
         }
         else if (game.botWin() && game.humanLose()) {
-            System.out.println("[" + player + "] lose.");
+            System.out.println("["  + "] lose.");
             if (game.getPlayerTwoDefense() != null){
                 System.out.println("The answer was" + Arrays.toString(game.getPlayerTwoDefense()) + ".");
             }

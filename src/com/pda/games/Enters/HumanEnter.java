@@ -76,7 +76,7 @@ public class HumanEnter {
         return array(size, minRange, maxRange);
     }
 
-    private String[] Clue(int size, int[] botAttack, int[] humanDefense) {
+    private String[] clue(int size, int[] botAttack, int[] humanDefense) {
         String clues = sc.nextLine();
         String[] clue = clues.split(" ");
         boolean hasError = false;
@@ -86,13 +86,13 @@ public class HumanEnter {
             }
         }
         if (hasError){
-            Clue(size, botAttack, humanDefense);
+            clue(size, botAttack, humanDefense);
         }
         return clue;
     }
 
     public String[] getClue(int size, int[] botAttack, int[] humanDefense) {
-        return Clue(size, botAttack, humanDefense);
+        return clue(size, botAttack, humanDefense);
     }
 
     public int gameMode() {

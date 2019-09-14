@@ -9,10 +9,10 @@ import java.util.Arrays;
 public class Challenger extends MasterMind {
 
     private final HumanEnter humanEnter;
-    private int[] playerOneAttack = new int[getSize()];
+    private int[] playerOneAttack = new int[MasterMind.size];
 
     public Challenger(HumanEnter humanEnter) {
-        super(humanEnter.maximumRound(), null, BotEnter.getArray(getSize(), getMinimumNumber(), getMaximumNumber()));
+        super(humanEnter.maximumRound(), null, BotEnter.getArray(MasterMind.size, MasterMind.minimumNumber, MasterMind.maximumNumber));
         this.humanEnter = humanEnter;
     }
 
@@ -42,14 +42,14 @@ public class Challenger extends MasterMind {
 
     @Override
     protected void playerTwoClue() {
-        System.out.println(Arrays.toString(BotEnter.getClue(getSize(), playerOneAttack, getPlayerTwoDefense())));
+        System.out.println(Arrays.toString(BotEnter.getClue(MasterMind.size, playerOneAttack, getPlayerTwoDefense())));
     }
 
     @Override
     public void round() {
         System.out.println("Round " + (getRoundCount() + 1) + "/" + getMaximumRound());
         System.out.println("Attack :");
-        playerOneAttack = humanEnter.getArray(getSize(), getMinimumNumber(), getMaximumNumber());
+        playerOneAttack = humanEnter.getArray(MasterMind.size, MasterMind.minimumNumber, MasterMind.maximumNumber);
         verifyAttackPlayerOne(playerOneAttack);
         if (!isPlayerOneCorrespondence()) {
             playerTwoClue();
