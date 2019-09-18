@@ -1,27 +1,21 @@
 package com.pda.games.MasterMind.Comportment;
 
-public interface PlayerComportment {
-    static String[] verifyClue(int sizeOfLineToFind, int[] lineToFind, int[] guess) {
-        String[] clue = new String[sizeOfLineToFind];
-        for (int i = 0; i < sizeOfLineToFind; i++) {
-            if (lineToFind[i] == guess[i]) {
-                clue[i] = "=";
-            }
-            if (lineToFind[i] < guess[i]) {
-                clue[i] = "-";
-            }
-            if (lineToFind[i] > guess[i]) {
-                clue[i] = "+";
-            }
-        }
-        return clue;
-    }
+public abstract class PlayerComportment {
 
-    String playerName();
+    public static final int sizeOfLineToFind = 4;
+    public static final int maximumValue = 9;
+    public static final int minimalValue = 0;
+    public int[] lineToFind = new int[sizeOfLineToFind];
+    public String[] otherPlayerClue = null;
 
-    int[] lineToFind(int sizeOfTheArray, int minimalValue, int maximumValue);
 
-    int[] guess(int sizeOfTheArray, int minimalValue, int maximumValue, int roundCount, String[] clue);
+    public abstract String playerName();
 
-    String[] clue(int sizeOfTheArray, int[] lineToFind, int[] guess);
+    public abstract int[] lineToFind();
+
+    public abstract int[] guess();
+
+    public abstract String[] clue(int[] guess, int[] lineToFind);
+
+    public abstract boolean verifyClue(int[] guess, int[] lineToFind , String[] clue);
 }
