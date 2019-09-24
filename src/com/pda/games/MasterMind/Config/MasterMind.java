@@ -5,6 +5,7 @@ import com.pda.games.MasterMind.Comportment.PlayerComportment;
 public abstract class MasterMind {
 
     public static final int maximumOfRounds = 6;
+
     private int roundCount = 1;
     protected PlayerComportment playerOne;
     protected PlayerComportment playerTwo;
@@ -15,7 +16,10 @@ public abstract class MasterMind {
     }
 
     protected int getRoundCount() {
-        return roundCount++;
+        return roundCount;
+    }
+    protected void setRoundCount(int roundCount) {
+        this.roundCount = roundCount;
     }
 
 }

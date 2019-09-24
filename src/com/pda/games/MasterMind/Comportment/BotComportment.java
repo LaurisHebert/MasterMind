@@ -7,31 +7,33 @@ public class BotComportment extends PlayerComportment {
 
     private int[] lowestRange = {0, 0, 0, 0};
     private int[] highestRange = {9, 9, 9, 9};
-    private int[] previousGuess;
+    private int[] previousGuess = guess;
 
     @Override
     public String playerName() {
         int id = new Random().nextInt();
-        return "BipBoop:" + id;
+        if (id < 0)
+            id = id * -1;
+        String name = "BipBoop" + id;
+        System.out.println(name);
+        return name;
     }
 
     @Override
-    public int[] lineToFind() {
+    public void lineToFind() {
         for (int i = 0; i < PlayerComportment.sizeOfLineToFind; i++) {
-            lineToFind[i] = minimalValue + new Random().nextInt(maximumValue + 1 - minimalValue);
+            lineToFind[i] = PlayerComportment.minimalValue + new Random().nextInt(PlayerComportment.maximumValue + 1 - PlayerComportment.minimalValue);
         }
-        return lineToFind;
+        System.out.println("Secret number initialized");
     }
 
     @Override
     public int[] guess() {
-        int[] guess = new int[sizeOfLineToFind];
         if (otherPlayerClue == null) {
-            guess = lineToFind();
-            previousGuess = guess;
-        } else {
-            for (int i = 0; i < sizeOfLineToFind; i++) {
-                previousGuess[i] = guess[i];
+            for (int i = 0; i < PlayerComportment.sizeOfLineToFind; i++) {
+                guess[i] = PlayerComportment.minimalValue + new Random().nextInt(PlayerComportment.maximumValue + 1 - PlayerComportment.minimalValue);
+            }        } else {
+            for (int i = 0; i < PlayerComportment.sizeOfLineToFind; i++) {
                 switch (otherPlayerClue[i]) {
                     case "+":
                         lowestRange[i] = guess[i];
@@ -51,7 +53,7 @@ public class BotComportment extends PlayerComportment {
     }
 
     @Override
-    public String[] clue(int[] guess, int[] lineToFind) {
+    public String[] clue(int[] lineToFind, int[] guess) {
         String[] clue = new String[sizeOfLineToFind];
         for (int i = 0; i < sizeOfLineToFind; i++) {
             if (lineToFind[i] == guess[i]) {
@@ -67,7 +69,10 @@ public class BotComportment extends PlayerComportment {
     }
 
     @Override
-    public boolean verifyClue(int[] guess, int[] lineToFind , String[] clue) {
-        return Arrays.equals(clue(guess, lineToFind), clue);
+    public boolean verifyClue(int[] lineToFind, int[] guess, String[] clue) {
+        boolean verification = Arrays.equals(this.clue(lineToFind, guess), clue);
+        if (!verification)
+            System.out.println("Noop");
+        return verification;
     }
 }

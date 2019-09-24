@@ -1,4 +1,4 @@
-package com.pda.games.MasterMind;
+package com.pda.games.MasterMind.Config;
 
 public enum GameMode {
     CHALLENGER,
