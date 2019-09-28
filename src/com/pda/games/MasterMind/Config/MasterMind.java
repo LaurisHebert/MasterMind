@@ -10,7 +10,7 @@ public abstract class MasterMind {
     protected PlayerComportment playerOne;
     protected PlayerComportment playerTwo;
 
-    protected MasterMind(PlayerComportment playerOne,PlayerComportment playerTwo){
+    protected MasterMind(PlayerComportment playerTwo,PlayerComportment playerOne){
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
     }

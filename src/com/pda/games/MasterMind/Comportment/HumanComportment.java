@@ -7,8 +7,7 @@ public class HumanComportment extends PlayerComportment {
 
     private static Scanner sc = new Scanner(System.in);
 
-    @Override
-    public String playerName() {
+    public static String playerName() {
         return sc.nextLine();
     }
 
@@ -78,7 +77,6 @@ public class HumanComportment extends PlayerComportment {
                 System.out.println("Only digits");
             } catch (Exception e) {
                 error = true;
-                System.out.println(e);
                 System.out.println("Error please try again");
             }
         } while (error);

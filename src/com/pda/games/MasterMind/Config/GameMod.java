@@ -1,6 +1,6 @@
 package com.pda.games.MasterMind.Config;
 
-public enum GameMode {
+public enum GameMod {
     CHALLENGER,
     DEFENDER,
     DUEL;

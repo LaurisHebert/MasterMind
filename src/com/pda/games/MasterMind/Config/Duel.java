@@ -10,40 +10,30 @@ public class Duel extends Partie implements GameStructure {
     private boolean correspondencePlayerOne;
     private boolean correspondencePlayerTwo;
 
-    public Duel(PlayerComportment playerOne, PlayerComportment playerTwo) {
-        super(playerOne, playerTwo);
+    public Duel(PlayerComportment playerOne, PlayerComportment playerTwo, String playerOneName, String playerTwoName) {
+        super(playerOne, playerTwo, playerOneName, playerTwoName);
     }
 
 
     @Override
     public void initialization() {
-        System.out.println("Player one pseudo :");
-        playerOneName = playerOne.playerName();
-        System.out.println("\nPlayer two pseudo :");
-        playerTwoName = playerTwo.playerName();
-        System.out.println("\nInitialization secret numbers...");
-        playerOne.lineToFind();
+        System.out.println("\nInitialization of secret digits of " + playerOneName + ":");
         playerTwo.lineToFind();
+        System.out.println("\nInitialization of secret digits of " + playerTwoName + ":");
+        playerOne.lineToFind();
         System.out.println("\nLet's the game begin !\n");
     }
 
     private void playerOneTurn() {
         System.out.println("Round " + getRoundCount() + "/" + MasterMind.maximumOfRounds +
                 "\n---------");
+        if (getRoundCount() > 1) {
+            System.out.println("Memo :" +
+                    "\n" + "ancien guess" +
+                    "\n" + "ancien clue");
+            //TODO sortir l'ancien guess et l'ancien clue
+        }
         System.out.println(playerOneName + " guess :");
-        int[] guess = playerOne.guess();
-        System.out.println(Arrays.toString(guess));
-        String[] clue;
-        do {
-            clue = playerTwo.clue(playerTwo.lineToFind, guess);
-        } while (!playerOne.verifyClue(playerTwo.lineToFind, playerOne.guess, clue));
-        playerOne.otherPlayerClue = clue;
-        System.out.println(Arrays.toString(clue) + "\n");
-        correspondencePlayerOne();
-    }
-
-    private void playerTwoTurn() {
-        System.out.println(playerTwoName + " guess :");
         int[] guess = playerTwo.guess();
         System.out.println(Arrays.toString(guess));
         String[] clue;
@@ -52,15 +42,36 @@ public class Duel extends Partie implements GameStructure {
         } while (!playerTwo.verifyClue(playerOne.lineToFind, playerTwo.guess, clue));
         playerTwo.otherPlayerClue = clue;
         System.out.println(Arrays.toString(clue) + "\n");
+        correspondencePlayerOne();
+
+    }
+
+    private void playerTwoTurn() {
+        System.out.println(playerTwoName + " guess :");
+        if (getRoundCount() > 1) {
+            System.out.println("Memo :" +
+                    "\n" + "ancien guess" +
+                    "\n" + "ancien clue");
+            //TODO sortir l'ancien guess et l'ancien clue
+        }
+        int[] guess = playerOne.guess();
+        System.out.println(Arrays.toString(guess));
+        String[] clue;
+        do {
+            clue = playerTwo.clue(playerTwo.lineToFind, guess);
+        } while (!playerOne.verifyClue(playerTwo.lineToFind, playerOne.guess, clue));
+        playerOne.otherPlayerClue = clue;
+        System.out.println(Arrays.toString(clue) + "\n");
         correspondencePlayerTwo();
     }
 
+
     private void correspondencePlayerOne() {
-        correspondencePlayerOne = Arrays.equals(playerTwo.lineToFind, playerOne.guess);
+        correspondencePlayerOne = Arrays.equals(playerOne.lineToFind, playerTwo.guess);
     }
 
     private void correspondencePlayerTwo() {
-        correspondencePlayerTwo = Arrays.equals(playerOne.lineToFind, playerTwo.guess);
+        correspondencePlayerTwo = Arrays.equals(playerTwo.lineToFind, playerOne.guess);
         setRoundCount(getRoundCount() + 1);
     }
 

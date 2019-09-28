@@ -9,8 +9,7 @@ public class BotComportment extends PlayerComportment {
     private int[] highestRange = {9, 9, 9, 9};
     private int[] previousGuess = guess;
 
-    @Override
-    public String playerName() {
+    public static String playerName() {
         int id = new Random().nextInt();
         if (id < 0)
             id = id * -1;
@@ -32,7 +31,8 @@ public class BotComportment extends PlayerComportment {
         if (otherPlayerClue == null) {
             for (int i = 0; i < PlayerComportment.sizeOfLineToFind; i++) {
                 guess[i] = PlayerComportment.minimalValue + new Random().nextInt(PlayerComportment.maximumValue + 1 - PlayerComportment.minimalValue);
-            }        } else {
+            }
+        } else {
             for (int i = 0; i < PlayerComportment.sizeOfLineToFind; i++) {
                 switch (otherPlayerClue[i]) {
                     case "+":
@@ -65,7 +65,8 @@ public class BotComportment extends PlayerComportment {
             if (lineToFind[i] > guess[i]) {
                 clue[i] = "+";
             }
-        }return clue;
+        }
+        return clue;
     }
 
     @Override
