@@ -31,8 +31,7 @@ public class BotComportment extends PlayerComportment {
         if (otherPlayerClue == null) {
             for (int i = 0; i < PlayerComportment.sizeOfLineToFind; i++) {
                 guess[i] = PlayerComportment.minimalValue + new Random().nextInt(PlayerComportment.maximumValue + 1 - PlayerComportment.minimalValue);
-            }
-        } else {
+            }        } else {
             for (int i = 0; i < PlayerComportment.sizeOfLineToFind; i++) {
                 switch (otherPlayerClue[i]) {
                     case "+":
@@ -65,8 +64,7 @@ public class BotComportment extends PlayerComportment {
             if (lineToFind[i] > guess[i]) {
                 clue[i] = "+";
             }
-        }
-        return clue;
+        }return clue;
     }
 
     @Override
@@ -74,6 +72,6 @@ public class BotComportment extends PlayerComportment {
         boolean verification = Arrays.equals(this.clue(lineToFind, guess), clue);
         if (!verification)
             System.out.println("Noop");
-        return verification;
+        return !verification;
     }
 }

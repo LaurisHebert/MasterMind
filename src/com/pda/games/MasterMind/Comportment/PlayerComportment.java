@@ -9,11 +9,12 @@ public abstract class PlayerComportment {
     public int[] lineToFind = new int[sizeOfLineToFind];
     public String[] otherPlayerClue = null;
 
+
     public abstract void lineToFind();
 
     public abstract int[] guess();
 
     public abstract String[] clue(int[] lineToFind, int[] guess);
 
-    public abstract boolean verifyClue(int[] guess, int[] lineToFind, String[] clue);
+    public abstract boolean verifyClue(int[] lineToFind, int[] guess, String[] clue);
 }

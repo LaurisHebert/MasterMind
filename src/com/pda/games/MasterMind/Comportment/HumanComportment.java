@@ -1,6 +1,5 @@
 package com.pda.games.MasterMind.Comportment;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class HumanComportment extends PlayerComportment {
@@ -86,7 +85,6 @@ public class HumanComportment extends PlayerComportment {
 
     @Override
     public String[] clue(int[] lineToFind, int[] guess) {
-        System.out.println("Memo* " + Arrays.toString(lineToFind));
         String[] clue = new String[PlayerComportment.sizeOfLineToFind];
         boolean error;
         do {

@@ -20,7 +20,7 @@ public class Partie extends MasterMind implements GameStructure {
 
     @Override
     public void initialization() {
-        System.out.println("\nInitialization of secret digits of " + playerOneName + ":");
+        System.out.println("\nInitialization of secret digits of " + playerTwoName + ":");
         playerTwo.lineToFind();
         System.out.println("\nLet's the game begin !\n");
     }
@@ -29,19 +29,17 @@ public class Partie extends MasterMind implements GameStructure {
     public void round() {
         System.out.println("Round " + getRoundCount() + "/" + MasterMind.maximumOfRounds +
                 "\n---------");
-        System.out.println(playerTwoName + " guess :");
         if (getRoundCount() > 1) {
-            System.out.println("Memo :" +
-                    "\n" + "ancien guess" +
-                    "\n" + " ancien clue");
-            //TODO sortir l'ancien guess et l'ancien clue
+            System.out.println("Precedent guess : " + Arrays.toString(playerOne.guess) +
+                    "\nPrecedent clue : " + Arrays.toString(playerOne.otherPlayerClue));
         }
+        System.out.println(playerOneName + " guess :");
         int[] guess = playerOne.guess();
         System.out.println(Arrays.toString(guess));
         String[] clue;
         do {
             clue = playerTwo.clue(playerTwo.lineToFind, guess);
-        } while (!playerOne.verifyClue(playerTwo.lineToFind, playerOne.guess, clue));
+        } while (playerOne.verifyClue(playerTwo.lineToFind, playerOne.guess, clue));
         playerOne.otherPlayerClue = clue;
         System.out.println(Arrays.toString(clue) + "\n");
         correspondence();
@@ -62,10 +60,10 @@ public class Partie extends MasterMind implements GameStructure {
     @Override
     public WhoWin whoWin() {
         if (correspondence && getRoundCount() <= MasterMind.maximumOfRounds) {
-            return WhoWin.PLAYER_TWO_WIN;
+            return WhoWin.PLAYER_ONE_WIN;
         }
         if (!correspondence && !canPlay()) {
-            return WhoWin.PLAYER_ONE_WIN;
+            return WhoWin.PLAYER_TWO_WIN;
         } else {
             return WhoWin.GAME_IN_PROGRESS;
         }

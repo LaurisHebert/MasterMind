@@ -130,9 +130,9 @@ public class Main {
         selectPlayerComportment();
         switch (gameMod) {
             case CHALLENGER:
-                return new Partie(playerTwo, playerOne, playerTwoName, playerOneName);
-            case DEFENDER:
                 return new Partie(playerOne, playerTwo, playerOneName, playerTwoName);
+            case DEFENDER:
+                return new Partie(playerTwo, playerOne, playerTwoName, playerOneName);
             case DUEL:
                 return new Duel(playerOne, playerTwo, playerOneName, playerTwoName);
             default:
