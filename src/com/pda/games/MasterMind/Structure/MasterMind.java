@@ -1,23 +1,21 @@
-package com.pda.games.MasterMind.Config;
-
-import com.pda.games.MasterMind.Comportment.PlayerComportment;
+package com.pda.games.MasterMind.Structure;
 
 public abstract class MasterMind {
 
     public static final int maximumOfRounds = 6;
-
+    protected Player playerOne;
+    protected Player playerTwo;
     private int roundCount = 1;
-    protected PlayerComportment playerOne;
-    protected PlayerComportment playerTwo;
 
-    protected MasterMind(PlayerComportment playerOne, PlayerComportment playerTwo){
+    protected MasterMind(Player playerOne, Player playerTwo) {
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
     }
 
-    protected int getRoundCount() {
+    public int getRoundCount() {
         return roundCount;
     }
+
     protected void setRoundCount(int roundCount) {
         this.roundCount = roundCount;
     }

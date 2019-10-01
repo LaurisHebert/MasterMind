@@ -1,72 +1,73 @@
-package com.pda.games.MasterMind.Config;
+package com.pda.games.MasterMind.GameMods;
 
-import com.pda.games.MasterMind.Comportment.PlayerComportment;
-import com.pda.games.MasterMind.GameMod.GameStructure;
-import com.pda.games.MasterMind.GameMod.Partie;
+import com.pda.games.MasterMind.Entry.Sout;
+import com.pda.games.MasterMind.Enums.WhoWin;
+import com.pda.games.MasterMind.Structure.Game;
+import com.pda.games.MasterMind.Structure.MasterMind;
+import com.pda.games.MasterMind.Structure.Player;
 
 import java.util.Arrays;
 
-public class Duel extends Partie implements GameStructure {
+public class Duel extends Partie implements Game {
     private boolean guessPlayerOneCorresponding;
     private boolean guessPlayerTwoCorresponding;
 
-    public Duel(PlayerComportment playerOne, PlayerComportment playerTwo, String playerOneName, String playerTwoName) {
+    public Duel(Player playerOne, Player playerTwo, String playerOneName, String playerTwoName) {
         super(playerOne, playerTwo, playerOneName, playerTwoName);
     }
 
 
     @Override
     public void initialization() {
-        System.out.println("\nInitialization of secret digits of " + playerOneName + ":");
+        Sout.initializationMessage(playerOneName);
         playerOne.lineToFind();
-        System.out.println("\nInitialization of secret digits of " + playerTwoName + ":");
+        Sout.initializationMessage(playerTwoName);
         playerTwo.lineToFind();
-        System.out.println("\nLet's the game begin !\n");
+        Sout.launchPhrase();
     }
 
     private void playerOneTurn() {
-        System.out.println("Round " + getRoundCount() + "/" + MasterMind.maximumOfRounds +
-                "\n---------");
+        Sout.actualRound(getRoundCount());
         if (getRoundCount() > 1) {
-            System.out.println("Precedent guess : " + Arrays.toString(playerOne.guess) +
-                    "\nPrecedent clue : " + Arrays.toString(playerOne.otherPlayerClue));
+            Sout.reminder(playerOne.guess, playerOne.otherPlayerClue);
         }
-        System.out.println(playerOneName + " guess :");
+        Sout.askGuess(playerOneName);
         int[] guess = playerOne.guess();
-        System.out.println(Arrays.toString(guess));
+        Sout.printArray(guess);
         String[] clue;
+        Sout.askClue(playerTwoName);
         do {
-            clue = playerTwo.clue(playerTwo.lineToFind, guess);
-        } while (playerOne.verifyClue(playerTwo.lineToFind, playerOne.guess, clue));
+            clue = playerTwo.clue(playerTwo.lineOfDigits, guess);
+        } while (playerOne.notVerifyClue(playerTwo.lineOfDigits, playerOne.guess, clue));
         playerOne.otherPlayerClue = clue;
-        System.out.println(Arrays.toString(clue) + "\n");
+        Sout.printArray(clue);
         correspondencePlayerOne();
     }
 
     private void playerTwoTurn() {
-        System.out.println(playerTwoName + " guess :");
+        Sout.askGuess(playerTwoName);
         if (getRoundCount() > 1) {
-            System.out.println("Precedent guess : " + Arrays.toString(playerTwo.guess) +
-                    "\nPrecedent clue : " + Arrays.toString(playerTwo.otherPlayerClue));
+            Sout.reminder(playerTwo.guess, playerTwo.otherPlayerClue);
         }
         int[] guess = playerTwo.guess();
-        System.out.println(Arrays.toString(guess));
+        Sout.printArray(guess);
         String[] clue;
+        Sout.askClue(playerOneName);
         do {
-            clue = playerOne.clue(playerOne.lineToFind, guess);
-        } while (playerTwo.verifyClue(playerOne.lineToFind, playerTwo.guess, clue));
+            clue = playerOne.clue(playerOne.lineOfDigits, guess);
+        } while (playerTwo.notVerifyClue(playerOne.lineOfDigits, playerTwo.guess, clue));
         playerTwo.otherPlayerClue = clue;
-        System.out.println(Arrays.toString(clue) + "\n");
+        Sout.printArray(clue);
         correspondencePlayerTwo();
     }
 
 
     private void correspondencePlayerOne() {
-        guessPlayerOneCorresponding = Arrays.equals(playerTwo.lineToFind, playerOne.guess);
+        guessPlayerOneCorresponding = Arrays.equals(playerTwo.lineOfDigits, playerOne.guess);
     }
 
     private void correspondencePlayerTwo() {
-        guessPlayerTwoCorresponding = Arrays.equals(playerOne.lineToFind, playerTwo.guess);
+        guessPlayerTwoCorresponding = Arrays.equals(playerOne.lineOfDigits, playerTwo.guess);
         setRoundCount(getRoundCount() + 1);
     }
 
@@ -86,8 +87,10 @@ public class Duel extends Partie implements GameStructure {
         if (getRoundCount() <= MasterMind.maximumOfRounds && (guessPlayerOneCorresponding && guessPlayerTwoCorresponding)) {
             return WhoWin.EX_ÆQUO_WIN;
         } else if (!canPlay() && (!guessPlayerOneCorresponding && !guessPlayerTwoCorresponding)) {
+
             return WhoWin.EX_ÆQUO_LOSE;
         } else if (getRoundCount() <= MasterMind.maximumOfRounds && (guessPlayerOneCorresponding && !guessPlayerTwoCorresponding)) {
+
             return WhoWin.PLAYER_ONE_WIN;
         } else if (getRoundCount() <= MasterMind.maximumOfRounds && (!guessPlayerOneCorresponding && guessPlayerTwoCorresponding)) {
             return WhoWin.PLAYER_TWO_WIN;

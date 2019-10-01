@@ -1,38 +1,40 @@
 package com.pda.games.MasterMind.Comportment;
 
+import com.pda.games.MasterMind.Structure.Player;
+
 import java.util.Arrays;
 import java.util.Random;
 
-public class BotComportment extends PlayerComportment {
+public class BotComportment extends Player {
 
     private int[] lowestRange = {0, 0, 0, 0};
-    private int[] highestRange = {9, 9, 9, 9};
+    private int[] highestRange = {10, 10, 10, 10};
     private int[] previousGuess = guess;
 
     public static String playerName() {
         int id = new Random().nextInt();
         if (id < 0)
             id = id * -1;
-        String name = "BipBoop" + id;
+        String name = "BipBoop" + id%10000;
         System.out.println(name);
         return name;
     }
 
     @Override
-    public void lineToFind() {
-        for (int i = 0; i < PlayerComportment.sizeOfLineToFind; i++) {
-            lineToFind[i] = PlayerComportment.minimalValue + new Random().nextInt(PlayerComportment.maximumValue + 1 - PlayerComportment.minimalValue);
-        }
-        System.out.println("Secret number initialized");
+    public int[] lineToFind() {
+        for (int i = 0; i < Player.sizeOfLineToFind; i++) {
+            lineOfDigits[i] = Player.minimalValue + new Random().nextInt(Player.maximumValue + 1 - Player.minimalValue);
+        }return lineOfDigits;
     }
 
     @Override
     public int[] guess() {
         if (otherPlayerClue == null) {
-            for (int i = 0; i < PlayerComportment.sizeOfLineToFind; i++) {
-                guess[i] = PlayerComportment.minimalValue + new Random().nextInt(PlayerComportment.maximumValue + 1 - PlayerComportment.minimalValue);
-            }        } else {
-            for (int i = 0; i < PlayerComportment.sizeOfLineToFind; i++) {
+            for (int i = 0; i < Player.sizeOfLineToFind; i++) {
+                guess[i] = Player.minimalValue + new Random().nextInt(Player.maximumValue + 1 - Player.minimalValue);
+            }
+        } else {
+            for (int i = 0; i < Player.sizeOfLineToFind; i++) {
                 switch (otherPlayerClue[i]) {
                     case "+":
                         lowestRange[i] = guess[i];
@@ -64,11 +66,12 @@ public class BotComportment extends PlayerComportment {
             if (lineToFind[i] > guess[i]) {
                 clue[i] = "+";
             }
-        }return clue;
+        }
+        return clue;
     }
 
     @Override
-    public boolean verifyClue(int[] lineToFind, int[] guess, String[] clue) {
+    public boolean notVerifyClue(int[] lineToFind, int[] guess, String[] clue) {
         boolean verification = Arrays.equals(this.clue(lineToFind, guess), clue);
         if (!verification)
             System.out.println("Noop");

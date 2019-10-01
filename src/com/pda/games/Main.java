@@ -2,28 +2,24 @@ package com.pda.games;
 
 import com.pda.games.MasterMind.Comportment.BotComportment;
 import com.pda.games.MasterMind.Comportment.HumanComportment;
-import com.pda.games.MasterMind.Comportment.PlayerComportment;
-import com.pda.games.MasterMind.Config.Duel;
-import com.pda.games.MasterMind.Config.GameMod;
-import com.pda.games.MasterMind.GameMod.Partie;
-
-import java.util.Scanner;
-
-
-// crée fichier configuration
-// mettre la java doc quand tous sera fini
+import com.pda.games.MasterMind.Entry.Sc;
+import com.pda.games.MasterMind.Entry.Sout;
+import com.pda.games.MasterMind.Enums.GameMod;
+import com.pda.games.MasterMind.Enums.WhoWin;
+import com.pda.games.MasterMind.GameMods.Duel;
+import com.pda.games.MasterMind.GameMods.Partie;
+import com.pda.games.MasterMind.Structure.Player;
 
 public class Main {
-    // crée joueur dans initialiastion et dans retry dans le cas d'un retry, l'enlever de selectNumberOfHumanAndName()
+
     private static int numberOfHuman;
-    private static PlayerComportment playerOne;
+    private static Player playerOne;
     private static String playerOneName;
-    private static PlayerComportment playerTwo;
+    private static Player playerTwo;
     private static String playerTwoName;
 
     public static void main(String[] args) {
-        System.out.println("Welcome in mastermind !" +
-                "\n-----------------------");
+        Sout.gameIntroduce();
         numberOfHuman();
         playerNames();
         initialisation();
@@ -33,12 +29,13 @@ public class Main {
      * Used for know how many human we have
      */
     private static void numberOfHuman() {
-        System.out.println("\nHow many player human we have ?");
+        Sout.askingHowManyPlayer();
         boolean firstLoop = true;
         do {
-            if (!firstLoop)
-                System.out.println("You can choose only between 0, 1 or 2");
-            numberOfHuman = readInt();
+            if (!firstLoop) {
+                Sout.onlyBetween(0, 2);
+            }
+            numberOfHuman = Sc.nextPositiveInt();
             firstLoop = false;
         } while (numberOfHuman < 0 || numberOfHuman > 2);
     }
@@ -49,22 +46,22 @@ public class Main {
     private static void playerNames() {
         switch (numberOfHuman) {
             case 0:
-                System.out.println("Player one pseudo :");
+                Sout.pseudoEntry(1);
                 playerOneName = BotComportment.playerName();
-                System.out.println("\nPlayer two pseudo :");
+                Sout.pseudoEntry(2);
                 playerTwoName = BotComportment.playerName();
                 break;
             case 1:
-                System.out.println("Player one pseudo :");
-                playerOneName = HumanComportment.playerName();
-                System.out.println("\nPlayer two pseudo :");
+                Sout.pseudoEntry(1);
+                playerOneName = Sc.nextLine();
+                Sout.pseudoEntry(2);
                 playerTwoName = BotComportment.playerName();
                 break;
             case 2:
-                System.out.println("Player one pseudo :");
-                playerOneName = HumanComportment.playerName();
-                System.out.println("\nPlayer two pseudo :");
-                playerTwoName = HumanComportment.playerName();
+                Sout.pseudoEntry(1);
+                playerOneName = Sc.nextLine();
+                Sout.pseudoEntry(2);
+                playerTwoName = Sc.nextLine();
                 break;
         }
     }
@@ -75,14 +72,14 @@ public class Main {
     private static void initialisation() {
         GameMod gameMode = choosingMod();
         Partie game = selectGameMod(gameMode);
-        executeGame(game);
+        executeGame(game, gameMode);
         boolean loop = true;
         while (loop) {
             Boolean again = tryAgain();
             if (again == null) {
                 initialisation();
             } else if (again) {
-                executeGame(selectGameMod(gameMode));
+                executeGame(selectGameMod(gameMode), gameMode);
                 loop = true;
             } else {
                 System.out.println("CYA");
@@ -95,18 +92,15 @@ public class Main {
      * @return the selected game mod
      */
     private static GameMod choosingMod() {
-        System.out.println("\nPlease select your game mod:" +
-                "\n1- Challenger ( player one try to guess the player two hidden number ) " +
-                "\n2- Defender ( player two try to guess the player one hidden number )" +
-                "\n3- Duel ( both players try to find the opponent's hidden number )");
+        Sout.rules();
         boolean error;
         int entry;
         do {
             error = false;
-            entry = readInt();
+            entry = Sc.nextPositiveInt();
             if (entry < 1 || entry > 3) {
                 error = true;
-                System.out.println("only 1 2 or 3 are accepted");
+                Sout.onlyBetween(1, 3);
             }
         } while (error);
         switch (entry) {
@@ -123,6 +117,7 @@ public class Main {
 
     /**
      * use the gameMod for generate the object with corresponding parameter
+     *
      * @param gameMod the selected game mod
      * @return the object used to generate the game
      */
@@ -165,20 +160,24 @@ public class Main {
 
     /**
      * execute the course of the game
+     *
      * @param game used to know which game to launch
      */
-    private static void executeGame(Partie game) {
+    private static void executeGame(Partie game, GameMod gameMod) {
         game.initialization();
         do {
             game.round();
         } while (game.canPlay());
         switch (game.whoWin()) {
+
             case PLAYER_ONE_WIN:
                 System.out.println(game.playerOneName + " Win !");
-                break;
+                if (playerOne.lineOfDigits != null)
+                    break;
             case PLAYER_TWO_WIN:
                 System.out.println(game.playerTwoName + " Win! ");
-                break;
+                if (playerTwo.lineOfDigits != null)
+                    break;
             case EX_ÆQUO_WIN:
                 System.out.println("EveryOne Win !");
                 break;
@@ -186,17 +185,31 @@ public class Main {
                 System.out.println("No winner :/");
                 break;
         }
+        switch (gameMod) {
+
+            case CHALLENGER:
+                if (game.whoWin() == WhoWin.PLAYER_TWO_WIN)
+                    Sout.lineToFind(playerTwoName, playerTwo.lineOfDigits);
+                break;
+            case DEFENDER:
+                if (game.whoWin() == WhoWin.PLAYER_TWO_WIN)
+                    Sout.lineToFind(playerOneName, playerOne.lineOfDigits);
+                break;
+            case DUEL:
+                if (game.whoWin() == WhoWin.PLAYER_ONE_WIN)
+                    Sout.lineToFind(playerOneName, playerOne.lineOfDigits);
+                if (game.whoWin() == WhoWin.PLAYER_TWO_WIN)
+                    Sout.lineToFind(playerTwoName, playerTwo.lineOfDigits);
+                if (game.whoWin() == WhoWin.EX_ÆQUO_LOSE)
+                    Sout.lineToFind(playerOneName, playerOne.lineOfDigits, playerTwoName, playerTwo.lineOfDigits);
+                break;
+        }
     }
 
     private static Boolean tryAgain() {
-        // peut-être enlever les Scanner d'ici ?
-        Scanner sc = new Scanner(System.in);
-        System.out.println("---------------------------" +
-                "\nIf you want retry \"R\"" +
-                "\nIf you want return menu \"H\"" +
-                "\nIf you want quite \"Q\"");
+        Sout.again();
         while (true) {
-            String tryAgain = sc.nextLine();
+            String tryAgain = Sc.nextLine();
             switch (tryAgain.toLowerCase()) {
                 case "r":
                     return true;
@@ -211,24 +224,4 @@ public class Main {
         }
     }
 
-    private static int readInt() {
-        Scanner sc = new Scanner(System.in);
-        boolean error;
-        int i = -1;
-        do {
-            error = false;
-            try {
-                i = sc.nextInt();
-                if (i < 0) {
-                    System.out.println(i + "is to low");
-                    error = true;
-                }
-            } catch (Exception e) {
-                System.out.println("input error");
-                error = true;
-                sc.next();
-            }
-        } while (error);
-        return i;
-    }
 }

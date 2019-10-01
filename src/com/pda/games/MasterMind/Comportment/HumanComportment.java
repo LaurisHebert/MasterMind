@@ -1,36 +1,28 @@
 package com.pda.games.MasterMind.Comportment;
 
-import java.util.Scanner;
+import com.pda.games.MasterMind.Entry.Sc;
+import com.pda.games.MasterMind.Entry.Sout;
+import com.pda.games.MasterMind.Structure.Player;
 
-public class HumanComportment extends PlayerComportment {
+public class HumanComportment extends Player {
 
-    private static Scanner sc = new Scanner(System.in);
-
-    public static String playerName() {
-        return sc.nextLine();
-    }
 
     @Override
-    public void lineToFind() {
+    public int[] lineToFind() {
         boolean error;
         do {
             error = false;
             try {
-                String humanEntry = sc.nextLine();
+                String humanEntry = Sc.nextLine();
                 String[] arrayEntry = humanEntry.split(" ");
-                if (arrayEntry.length != PlayerComportment.sizeOfLineToFind) {
-                    System.out.println(PlayerComportment.sizeOfLineToFind + " digits are needed");
+                if (arrayEntry.length != Player.sizeOfLineToFind) {
+                    Sout.notEnough(Player.sizeOfLineToFind);
                     error = true;
                 } else {
-                    for (int i = 0; i < PlayerComportment.sizeOfLineToFind; i++) {
-                        lineToFind[i] = Integer.parseInt(arrayEntry[i]);
-                        if (lineToFind[i] < PlayerComportment.minimalValue || lineToFind[i] > PlayerComportment.maximumValue) {
-                            if (i == 0)
-                                System.out.println("Your " + (i + 1) + "st digit \"" + lineToFind[i] + "\" is not between " + PlayerComportment.minimalValue + " and " + PlayerComportment.maximumValue);
-                            else if (i == 1)
-                                System.out.println("Your " + (i + 1) + "nd digit \"" + lineToFind[i] + "\" is not between " + PlayerComportment.minimalValue + " and " + PlayerComportment.maximumValue);
-                            else
-                                System.out.println("Your " + (i + 1) + "rd digit \"" + lineToFind[i] + "\" is not between " + PlayerComportment.minimalValue + " and " + PlayerComportment.maximumValue);
+                    for (int i = 0; i < Player.sizeOfLineToFind; i++) {
+                        lineOfDigits[i] = Integer.parseInt(arrayEntry[i]);
+                        if (lineOfDigits[i] < Player.minimalValue || lineOfDigits[i] > Player.maximumValue) {
+                            Sout.wrongEntry(i, lineOfDigits[i]);
                             error = true;
                         }
                     }
@@ -40,63 +32,32 @@ public class HumanComportment extends PlayerComportment {
                 System.out.println("Only digits");
             } catch (Exception e) {
                 error = true;
-                System.out.println(e);
                 System.out.println("Error please try again");
             }
         } while (error);
+        return lineOfDigits;
     }
 
     @Override
     public int[] guess() {
-        boolean error;
-        do {
-            error = false;
-            try {
-                String humanEntry = sc.nextLine();
-                String[] arrayEntry = humanEntry.split(" ");
-                if (arrayEntry.length != PlayerComportment.sizeOfLineToFind) {
-                    System.out.println(PlayerComportment.sizeOfLineToFind + " digits are needed");
-                    error = true;
-                } else {
-                    for (int i = 0; i < PlayerComportment.sizeOfLineToFind; i++) {
-                        guess[i] = Integer.parseInt(arrayEntry[i]);
-                        if (guess[i] < PlayerComportment.minimalValue || guess[i] > PlayerComportment.maximumValue) {
-                            if (i == 0)
-                                System.out.println("Your " + (i + 1) + "st digit \"" + guess[i] + "\" is not between " + PlayerComportment.minimalValue + " and " + PlayerComportment.maximumValue);
-                            else if (i == 1)
-                                System.out.println("Your " + (i + 1) + "nd digit \"" + guess[i] + "\" is not between " + PlayerComportment.minimalValue + " and " + PlayerComportment.maximumValue);
-                            else
-                                System.out.println("Your " + (i + 1) + "rd digit \"" + guess[i] + "\" is not between " + PlayerComportment.minimalValue + " and " + PlayerComportment.maximumValue);
-                            error = true;
-                        }
-                    }
-                }
-            } catch (NumberFormatException r) {
-                error = true;
-                System.out.println("Only digits");
-            } catch (Exception e) {
-                error = true;
-                System.out.println("Error please try again");
-            }
-        } while (error);
-        return guess;
+        return lineToFind();
     }
 
 
     @Override
     public String[] clue(int[] lineToFind, int[] guess) {
-        String[] clue = new String[PlayerComportment.sizeOfLineToFind];
+        String[] clue = new String[Player.sizeOfLineToFind];
         boolean error;
         do {
             error = false;
             try {
-                String humanEntry = sc.nextLine();
+                String humanEntry = Sc.nextLine();
                 String[] arrayEntry = humanEntry.split(" ");
-                if (arrayEntry.length != PlayerComportment.sizeOfLineToFind) {
-                    System.out.println(PlayerComportment.sizeOfLineToFind + " characters are needed");
+                if (arrayEntry.length != Player.sizeOfLineToFind) {
+                    Sout.notEnough(Player.sizeOfLineToFind);
                     error = true;
                 } else {
-                    for (int i = 0; i < PlayerComportment.sizeOfLineToFind; i++) {
+                    for (int i = 0; i < Player.sizeOfLineToFind; i++) {
                         if (!arrayEntry[i].equals("=") && !arrayEntry[i].equals("+") && !arrayEntry[i].equals("-")) {
                             System.out.println("Only \"+\" \"-\" or \"=\" are accepted");
                             error = true;
@@ -113,7 +74,7 @@ public class HumanComportment extends PlayerComportment {
     }
 
     @Override
-    public boolean verifyClue(int[] guess, int[] lineToFind, String[] clue) {
-        return true;
+    public boolean notVerifyClue(int[] guess, int[] lineToFind, String[] clue) {
+        return false;
     }
 }
