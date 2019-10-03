@@ -9,6 +9,7 @@ public class HumanComportment extends Player {
 
     @Override
     public int[] lineToFind() {
+        int[] lineOfDigits = new int[sizeOfLineToFind];
         boolean error;
         do {
             error = false;
@@ -22,17 +23,17 @@ public class HumanComportment extends Player {
                     for (int i = 0; i < Player.sizeOfLineToFind; i++) {
                         lineOfDigits[i] = Integer.parseInt(arrayEntry[i]);
                         if (lineOfDigits[i] < Player.minimalValue || lineOfDigits[i] > Player.maximumValue) {
-                            Sout.wrongEntry(i, lineOfDigits[i]);
+                            Sout.wrongEntry(i);
                             error = true;
                         }
                     }
                 }
             } catch (NumberFormatException r) {
                 error = true;
-                System.out.println("Only digits");
+                Sout.onlyDigits();
             } catch (Exception e) {
                 error = true;
-                System.out.println("Error please try again");
+                Sout.error();
             }
         } while (error);
         return lineOfDigits;
@@ -40,7 +41,7 @@ public class HumanComportment extends Player {
 
     @Override
     public int[] guess() {
-        return lineToFind();
+        return guess = lineToFind();
     }
 
 
@@ -59,14 +60,14 @@ public class HumanComportment extends Player {
                 } else {
                     for (int i = 0; i < Player.sizeOfLineToFind; i++) {
                         if (!arrayEntry[i].equals("=") && !arrayEntry[i].equals("+") && !arrayEntry[i].equals("-")) {
-                            System.out.println("Only \"+\" \"-\" or \"=\" are accepted");
+                            Sout.onlySymbol();
                             error = true;
                         } else
                             clue[i] = arrayEntry[i];
                     }
                 }
             } catch (Exception e) {
-                System.out.println("error please retry");
+                Sout.error();
                 error = true;
             }
         } while (error);

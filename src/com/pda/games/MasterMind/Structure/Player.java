@@ -6,8 +6,8 @@ public abstract class Player {
     public static final int maximumValue = 9;
     public static final int minimalValue = 0;
     public int[] guess = new int[sizeOfLineToFind];
-    public int[] lineOfDigits = new int[sizeOfLineToFind];
-    public String[] otherPlayerClue = null;
+    public int[] lineToFind = new int[sizeOfLineToFind];
+    public String[] adversaryClue = null;
 
     public abstract int[] lineToFind();
 

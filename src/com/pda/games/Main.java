@@ -20,6 +20,7 @@ public class Main {
 
     public static void main(String[] args) {
         Sout.gameIntroduce();
+        Sout.rules(Player.sizeOfLineToFind);
         numberOfHuman();
         playerNames();
         initialisation();
@@ -92,7 +93,7 @@ public class Main {
      * @return the selected game mod
      */
     private static GameMod choosingMod() {
-        Sout.rules();
+        Sout.explainGameMod();
         boolean error;
         int entry;
         do {
@@ -172,11 +173,11 @@ public class Main {
 
             case PLAYER_ONE_WIN:
                 System.out.println(game.playerOneName + " Win !");
-                if (playerOne.lineOfDigits != null)
+                if (playerOne.lineToFind != null)
                     break;
             case PLAYER_TWO_WIN:
                 System.out.println(game.playerTwoName + " Win! ");
-                if (playerTwo.lineOfDigits != null)
+                if (playerTwo.lineToFind != null)
                     break;
             case EX_ÆQUO_WIN:
                 System.out.println("EveryOne Win !");
@@ -189,25 +190,25 @@ public class Main {
 
             case CHALLENGER:
                 if (game.whoWin() == WhoWin.PLAYER_TWO_WIN)
-                    Sout.lineToFind(playerTwoName, playerTwo.lineOfDigits);
+                    Sout.lineToFind(playerTwoName, playerTwo.lineToFind);
                 break;
             case DEFENDER:
                 if (game.whoWin() == WhoWin.PLAYER_TWO_WIN)
-                    Sout.lineToFind(playerOneName, playerOne.lineOfDigits);
+                    Sout.lineToFind(playerOneName, playerOne.lineToFind);
                 break;
             case DUEL:
                 if (game.whoWin() == WhoWin.PLAYER_ONE_WIN)
-                    Sout.lineToFind(playerOneName, playerOne.lineOfDigits);
+                    Sout.lineToFind(playerOneName, playerOne.lineToFind);
                 if (game.whoWin() == WhoWin.PLAYER_TWO_WIN)
-                    Sout.lineToFind(playerTwoName, playerTwo.lineOfDigits);
+                    Sout.lineToFind(playerTwoName, playerTwo.lineToFind);
                 if (game.whoWin() == WhoWin.EX_ÆQUO_LOSE)
-                    Sout.lineToFind(playerOneName, playerOne.lineOfDigits, playerTwoName, playerTwo.lineOfDigits);
+                    Sout.lineToFind(playerOneName, playerOne.lineToFind, playerTwoName, playerTwo.lineToFind);
                 break;
         }
     }
 
     private static Boolean tryAgain() {
-        Sout.again();
+        Sout.tryAgainMenu();
         while (true) {
             String tryAgain = Sc.nextLine();
             switch (tryAgain.toLowerCase()) {
@@ -218,7 +219,7 @@ public class Main {
                 case "q":
                     return false;
                 default:
-                    System.out.println("I'm sorry i don't understand");
+                    Sout.onlySymbol();
                     break;
             }
         }

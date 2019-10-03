@@ -23,7 +23,7 @@ public class Partie extends MasterMind implements Game {
     @Override
     public void initialization() {
         Sout.initializationMessage(playerTwoName);
-        playerTwo.lineOfDigits = playerTwo.lineToFind();
+        playerTwo.lineToFind = playerTwo.lineToFind();
         Sout.launchPhrase();
     }
 
@@ -31,24 +31,26 @@ public class Partie extends MasterMind implements Game {
     public void round() {
         Sout.actualRound(getRoundCount());
         if (getRoundCount() > 1) {
-            Sout.reminder(playerOne.guess, playerOne.otherPlayerClue);
+            Sout.memo(playerOne.guess, playerOne.adversaryClue);
         }
         Sout.askGuess(playerOneName);
-        int[] guess = playerOne.guess();
-        Sout.printArray(guess);
-        String[] clue;
+        playerOne.guess();
+        Sout.printArray(playerOne.guess);
         Sout.askClue(playerTwoName);
+        boolean firstTime = true;
         do {
-            clue = playerTwo.clue(playerTwo.lineOfDigits, guess);
-        } while (playerOne.notVerifyClue(playerTwo.lineOfDigits, guess, clue));
-        playerOne.otherPlayerClue = clue;
-        Sout.printArray(clue);
+            if (!firstTime)
+                Sout.memo(playerTwo.lineToFind);
+            playerOne.adversaryClue = playerTwo.clue(playerTwo.lineToFind, playerOne.guess);
+            firstTime = false;
+        } while (playerOne.notVerifyClue(playerTwo.lineToFind, playerOne.guess, playerOne.adversaryClue));
+        Sout.printArray(playerOne.adversaryClue);
         correspondence();
     }
 
     private void correspondence() {
         if (canPlay()) {
-            correspondence = Arrays.equals(playerTwo.lineOfDigits, playerOne.guess);
+            correspondence = Arrays.equals(playerTwo.lineToFind, playerOne.guess);
             setRoundCount(getRoundCount() + 1);
         }
     }

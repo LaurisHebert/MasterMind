@@ -20,54 +20,57 @@ public class Duel extends Partie implements Game {
     @Override
     public void initialization() {
         Sout.initializationMessage(playerOneName);
-        playerOne.lineToFind();
+        playerOne.lineToFind = playerOne.lineToFind();
         Sout.initializationMessage(playerTwoName);
-        playerTwo.lineToFind();
+        playerTwo.lineToFind = playerTwo.lineToFind();
         Sout.launchPhrase();
     }
 
     private void playerOneTurn() {
         Sout.actualRound(getRoundCount());
         if (getRoundCount() > 1) {
-            Sout.reminder(playerOne.guess, playerOne.otherPlayerClue);
+            Sout.memo(playerOne.guess, playerOne.adversaryClue);
         }
         Sout.askGuess(playerOneName);
-        int[] guess = playerOne.guess();
-        Sout.printArray(guess);
-        String[] clue;
+        Sout.printArray(playerOne.guess());
         Sout.askClue(playerTwoName);
+        boolean firstTime = true;
         do {
-            clue = playerTwo.clue(playerTwo.lineOfDigits, guess);
-        } while (playerOne.notVerifyClue(playerTwo.lineOfDigits, playerOne.guess, clue));
-        playerOne.otherPlayerClue = clue;
-        Sout.printArray(clue);
+            if (!firstTime)
+                Sout.memo(playerTwo.lineToFind);
+            playerOne.adversaryClue = playerTwo.clue(playerTwo.lineToFind, playerOne.guess);
+            firstTime = false;
+        } while (playerOne.notVerifyClue(playerTwo.lineToFind, playerOne.guess, playerOne.adversaryClue));
+        Sout.printArray(playerOne.adversaryClue);
         correspondencePlayerOne();
     }
 
     private void playerTwoTurn() {
         Sout.askGuess(playerTwoName);
         if (getRoundCount() > 1) {
-            Sout.reminder(playerTwo.guess, playerTwo.otherPlayerClue);
+            Sout.memo(playerTwo.guess, playerTwo.adversaryClue);
         }
-        int[] guess = playerTwo.guess();
-        Sout.printArray(guess);
-        String[] clue;
+        playerTwo.guess();
+        Sout.printArray(playerTwo.guess);
         Sout.askClue(playerOneName);
+        boolean firstTime = true;
         do {
-            clue = playerOne.clue(playerOne.lineOfDigits, guess);
-        } while (playerTwo.notVerifyClue(playerOne.lineOfDigits, playerTwo.guess, clue));
-        playerTwo.otherPlayerClue = clue;
-        Sout.printArray(clue);
+            if (!firstTime)
+                Sout.memo(playerOne.lineToFind);
+            playerTwo.adversaryClue = playerOne.clue(playerOne.lineToFind, playerTwo.guess);
+            firstTime = false;
+        } while (playerTwo.notVerifyClue(playerOne.lineToFind, playerTwo.guess, playerTwo.adversaryClue));
+        Sout.printArray(playerTwo.adversaryClue);
         correspondencePlayerTwo();
     }
 
 
     private void correspondencePlayerOne() {
-        guessPlayerOneCorresponding = Arrays.equals(playerTwo.lineOfDigits, playerOne.guess);
+        guessPlayerOneCorresponding = Arrays.equals(playerTwo.lineToFind, playerOne.guess);
     }
 
     private void correspondencePlayerTwo() {
-        guessPlayerTwoCorresponding = Arrays.equals(playerOne.lineOfDigits, playerTwo.guess);
+        guessPlayerTwoCorresponding = Arrays.equals(playerOne.lineToFind, playerTwo.guess);
         setRoundCount(getRoundCount() + 1);
     }
 

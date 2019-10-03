@@ -5,9 +5,11 @@ import java.util.Scanner;
 public class Sc {
 
     private static final Scanner sc = new Scanner(System.in);
-    private Sc() { }
 
-    public static String nextLine(){
+    private Sc() {
+    }
+
+    public static String nextLine() {
         return sc.nextLine();
     }
 
@@ -19,15 +21,15 @@ public class Sc {
             try {
                 i = sc.nextInt();
                 if (i < 0) {
-                    System.out.println(i + "is to low");
+                    Sout.wrongEntry(i);
                     error = true;
                 }
             } catch (Exception e) {
-                System.out.println("input error");
+                Sout.error();
                 error = true;
             }
         } while (error);
-        sc.nextLine(); // read the next line for clean next
+        sc.nextLine(); // use to clean scanner and read the nex line
         return i;
     }
 
