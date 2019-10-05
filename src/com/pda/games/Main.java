@@ -7,8 +7,9 @@ import com.pda.games.MasterMind.Entry.Sout;
 import com.pda.games.MasterMind.Enums.GameMod;
 import com.pda.games.MasterMind.Enums.WhoWin;
 import com.pda.games.MasterMind.GameMods.Duel;
-import com.pda.games.MasterMind.GameMods.Partie;
-import com.pda.games.MasterMind.Structure.Player;
+import com.pda.games.MasterMind.GameMods.Party;
+import com.pda.games.MasterMind.Model.MasterMind;
+import com.pda.games.MasterMind.Model.Player;
 
 public class Main {
 
@@ -54,15 +55,15 @@ public class Main {
                 break;
             case 1:
                 Sout.pseudoEntry(1);
-                playerOneName = Sc.nextLine();
+                playerOneName = HumanComportment.playerName();
                 Sout.pseudoEntry(2);
                 playerTwoName = BotComportment.playerName();
                 break;
             case 2:
                 Sout.pseudoEntry(1);
-                playerOneName = Sc.nextLine();
+                playerOneName = HumanComportment.playerName();
                 Sout.pseudoEntry(2);
-                playerTwoName = Sc.nextLine();
+                playerTwoName = HumanComportment.playerName();
                 break;
         }
     }
@@ -72,7 +73,7 @@ public class Main {
      */
     private static void initialisation() {
         GameMod gameMode = choosingMod();
-        Partie game = selectGameMod(gameMode);
+        MasterMind game = selectGameMod(gameMode);
         executeGame(game, gameMode);
         boolean loop = true;
         while (loop) {
@@ -122,13 +123,13 @@ public class Main {
      * @param gameMod the selected game mod
      * @return the object used to generate the game
      */
-    private static Partie selectGameMod(GameMod gameMod) {
+    private static MasterMind selectGameMod(GameMod gameMod) {
         selectPlayerComportment();
         switch (gameMod) {
             case CHALLENGER:
-                return new Partie(playerOne, playerTwo, playerOneName, playerTwoName);
+                return new Party(playerOne, playerTwo, playerOneName, playerTwoName);
             case DEFENDER:
-                return new Partie(playerTwo, playerOne, playerTwoName, playerOneName);
+                return new Party(playerTwo, playerOne, playerTwoName, playerOneName);
             case DUEL:
                 return new Duel(playerOne, playerTwo, playerOneName, playerTwoName);
             default:
@@ -164,25 +165,29 @@ public class Main {
      *
      * @param game used to know which game to launch
      */
-    private static void executeGame(Partie game, GameMod gameMod) {
+    private static void executeGame(MasterMind game, GameMod gameMod) {
         game.initialization();
+        Sout.launchPhrase();
+
         do {
+            Sout.actualRound(game.getRoundCount());
             game.round();
         } while (game.canPlay());
+
         switch (game.whoWin()) {
 
             case PLAYER_ONE_WIN:
-                System.out.println(game.playerOneName + " Win !");
-                if (playerOne.lineToFind != null)
+                System.out.println(game.getPlayerOneName() + " Win !");
+                if (playerOne.getLineToFind() != null)
                     break;
             case PLAYER_TWO_WIN:
-                System.out.println(game.playerTwoName + " Win! ");
-                if (playerTwo.lineToFind != null)
+                System.out.println(game.getPlayerTwoName() + " Win! ");
+                if (playerTwo.getLineToFind() != null)
                     break;
-            case EX_ÆQUO_WIN:
+            case EX_AEQUO_WIN:
                 System.out.println("EveryOne Win !");
                 break;
-            case EX_ÆQUO_LOSE:
+            case EX_AEQUO_LOSE:
                 System.out.println("No winner :/");
                 break;
         }
@@ -190,19 +195,19 @@ public class Main {
 
             case CHALLENGER:
                 if (game.whoWin() == WhoWin.PLAYER_TWO_WIN)
-                    Sout.lineToFind(playerTwoName, playerTwo.lineToFind);
+                    Sout.lineToFind(playerTwoName, playerTwo.getLineToFind());
                 break;
             case DEFENDER:
                 if (game.whoWin() == WhoWin.PLAYER_TWO_WIN)
-                    Sout.lineToFind(playerOneName, playerOne.lineToFind);
+                    Sout.lineToFind(playerOneName, playerOne.getLineToFind());
                 break;
             case DUEL:
                 if (game.whoWin() == WhoWin.PLAYER_ONE_WIN)
-                    Sout.lineToFind(playerOneName, playerOne.lineToFind);
+                    Sout.lineToFind(playerOneName, playerOne.getLineToFind());
                 if (game.whoWin() == WhoWin.PLAYER_TWO_WIN)
-                    Sout.lineToFind(playerTwoName, playerTwo.lineToFind);
-                if (game.whoWin() == WhoWin.EX_ÆQUO_LOSE)
-                    Sout.lineToFind(playerOneName, playerOne.lineToFind, playerTwoName, playerTwo.lineToFind);
+                    Sout.lineToFind(playerTwoName, playerTwo.getLineToFind());
+                if (game.whoWin() == WhoWin.EX_AEQUO_LOSE)
+                    Sout.lineToFind(playerOneName, playerOne.getLineToFind(), playerTwoName, playerTwo.getLineToFind());
                 break;
         }
     }

@@ -1,104 +1,70 @@
 package com.pda.games.MasterMind.GameMods;
 
-import com.pda.games.MasterMind.Entry.Sout;
 import com.pda.games.MasterMind.Enums.WhoWin;
-import com.pda.games.MasterMind.Structure.Game;
-import com.pda.games.MasterMind.Structure.MasterMind;
-import com.pda.games.MasterMind.Structure.Player;
+import com.pda.games.MasterMind.Model.MasterMind;
+import com.pda.games.MasterMind.Model.Player;
 
-import java.util.Arrays;
+public class Duel extends MasterMind {
 
-public class Duel extends Partie implements Game {
-    private boolean guessPlayerOneCorresponding;
-    private boolean guessPlayerTwoCorresponding;
+    private final Party gameOne;
+    private final Party gameTwo;
+    private String playerOneName;
+    private String playerTwoName;
 
     public Duel(Player playerOne, Player playerTwo, String playerOneName, String playerTwoName) {
         super(playerOne, playerTwo, playerOneName, playerTwoName);
+        this.gameOne = new Party(playerOne, playerTwo, playerOneName, playerTwoName);
+        this.gameTwo = new Party(playerTwo, playerOne, playerTwoName, playerOneName);
+        this.playerOneName = playerOneName;
+        this.playerTwoName = playerTwoName;
     }
 
 
     @Override
     public void initialization() {
-        Sout.initializationMessage(playerOneName);
-        playerOne.lineToFind = playerOne.lineToFind();
-        Sout.initializationMessage(playerTwoName);
-        playerTwo.lineToFind = playerTwo.lineToFind();
-        Sout.launchPhrase();
-    }
-
-    private void playerOneTurn() {
-        Sout.actualRound(getRoundCount());
-        if (getRoundCount() > 1) {
-            Sout.memo(playerOne.guess, playerOne.adversaryClue);
-        }
-        Sout.askGuess(playerOneName);
-        Sout.printArray(playerOne.guess());
-        Sout.askClue(playerTwoName);
-        boolean firstTime = true;
-        do {
-            if (!firstTime)
-                Sout.memo(playerTwo.lineToFind);
-            playerOne.adversaryClue = playerTwo.clue(playerTwo.lineToFind, playerOne.guess);
-            firstTime = false;
-        } while (playerOne.notVerifyClue(playerTwo.lineToFind, playerOne.guess, playerOne.adversaryClue));
-        Sout.printArray(playerOne.adversaryClue);
-        correspondencePlayerOne();
-    }
-
-    private void playerTwoTurn() {
-        Sout.askGuess(playerTwoName);
-        if (getRoundCount() > 1) {
-            Sout.memo(playerTwo.guess, playerTwo.adversaryClue);
-        }
-        playerTwo.guess();
-        Sout.printArray(playerTwo.guess);
-        Sout.askClue(playerOneName);
-        boolean firstTime = true;
-        do {
-            if (!firstTime)
-                Sout.memo(playerOne.lineToFind);
-            playerTwo.adversaryClue = playerOne.clue(playerOne.lineToFind, playerTwo.guess);
-            firstTime = false;
-        } while (playerTwo.notVerifyClue(playerOne.lineToFind, playerTwo.guess, playerTwo.adversaryClue));
-        Sout.printArray(playerTwo.adversaryClue);
-        correspondencePlayerTwo();
-    }
-
-
-    private void correspondencePlayerOne() {
-        guessPlayerOneCorresponding = Arrays.equals(playerTwo.lineToFind, playerOne.guess);
-    }
-
-    private void correspondencePlayerTwo() {
-        guessPlayerTwoCorresponding = Arrays.equals(playerOne.lineToFind, playerTwo.guess);
-        setRoundCount(getRoundCount() + 1);
+        gameOne.initialization();
+        gameTwo.initialization();
     }
 
     @Override
     public void round() {
-        playerOneTurn();
-        playerTwoTurn();
+        gameOne.round();
+        gameTwo.round();
     }
 
     @Override
     public boolean canPlay() {
-        return (!guessPlayerOneCorresponding && !guessPlayerTwoCorresponding) && getRoundCount() <= MasterMind.maximumOfRounds;
+        return (gameOne.canPlay() && gameTwo.canPlay());
     }
 
     @Override
     public WhoWin whoWin() {
-        if (getRoundCount() <= MasterMind.maximumOfRounds && (guessPlayerOneCorresponding && guessPlayerTwoCorresponding)) {
-            return WhoWin.EX_ÆQUO_WIN;
-        } else if (!canPlay() && (!guessPlayerOneCorresponding && !guessPlayerTwoCorresponding)) {
+        if (getRoundCount() <= getMaximumOfRounds() && (gameOne.isCorresponding() && gameTwo.isCorresponding())) {
+            return WhoWin.EX_AEQUO_WIN;
+        } else if (!canPlay() && (!gameOne.isCorresponding() && !gameTwo.isCorresponding())) {
 
-            return WhoWin.EX_ÆQUO_LOSE;
-        } else if (getRoundCount() <= MasterMind.maximumOfRounds && (guessPlayerOneCorresponding && !guessPlayerTwoCorresponding)) {
+            return WhoWin.EX_AEQUO_LOSE;
+        } else if (getRoundCount() <= getMaximumOfRounds() && (gameOne.isCorresponding() && !gameTwo.isCorresponding())) {
 
             return WhoWin.PLAYER_ONE_WIN;
-        } else if (getRoundCount() <= MasterMind.maximumOfRounds && (!guessPlayerOneCorresponding && guessPlayerTwoCorresponding)) {
+        } else if (getRoundCount() <= getMaximumOfRounds() && (!gameOne.isCorresponding() && gameTwo.isCorresponding())) {
             return WhoWin.PLAYER_TWO_WIN;
         } else return WhoWin.GAME_IN_PROGRESS;
     }
 
+    @Override
+    public String getPlayerOneName() {
+        return playerOneName;
+    }
+
+    @Override
+    public String getPlayerTwoName() {
+        return playerTwoName;
+    }
+
+    @Override
+    public int getRoundCount() {
+        return gameTwo.getRoundCount();
+    }
 
 }

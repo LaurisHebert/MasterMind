@@ -1,10 +1,15 @@
 package com.pda.games.MasterMind.Entry;
 
-import com.pda.games.MasterMind.Structure.MasterMind;
+import com.pda.games.MasterMind.GameMods.Party;
+import com.pda.games.MasterMind.Model.Player;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 
 public class Sout {
+
+    protected static final Logger logger = LogManager.getLogger();
 
     private Sout() {
     }
@@ -48,7 +53,7 @@ public class Sout {
     public static void rules(int size) {
         System.out.println("Rules :\n" +
                 "-------\n" +
-                "When secret digits are requested you need to enter \" + size + \" digits separated by the space" +
+                "When secret digits are requested you need to enter " + size + " digits separated by the space" +
                 "When a guess was requested you need to enter " + size + " digits separated by the space for trying to find the secret digits.\n" +
                 "when a clue was requested you need to enter a symbol for each digits  of your adversary guess separated by the space.\n" +
                 "\"+\" if the corresponding number in your secret line is bigger\n" +
@@ -57,12 +62,12 @@ public class Sout {
     }
 
     public static void launchPhrase() {
-        System.out.println("\nSecret number initialized\n" +
+        System.out.println("\nSecret numbers are initialized\n" +
                 "\nLet's the game begin !\n");
     }
 
     public static void actualRound(int roundCount) {
-        System.out.println("Round " + roundCount + "/" + MasterMind.maximumOfRounds +
+        System.out.println("Round " + roundCount + "/" + Party.getMaximumOfRounds() +
                 "\n---------");
     }
 

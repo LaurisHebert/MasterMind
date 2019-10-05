@@ -1,15 +1,15 @@
 package com.pda.games.MasterMind.Comportment;
 
 import com.pda.games.MasterMind.Entry.Sout;
-import com.pda.games.MasterMind.Structure.Player;
+import com.pda.games.MasterMind.Model.Player;
 
 import java.util.Arrays;
 import java.util.Random;
 
 public class BotComportment extends Player {
 
-    private int[] lowestRange = {0, 0, 0, 0};
-    private int[] highestRange = {10, 10, 10, 10};
+    private final int[] lowestRange = {0, 0, 0, 0};
+    private final int[] highestRange = {10, 10, 10, 10};
 
     public static String playerName() {
         int id = new Random().nextInt();
@@ -20,8 +20,7 @@ public class BotComportment extends Player {
         return "Bot" + id;
     }
 
-    @Override
-    public int[] lineToFind() {
+    private int[] readArrayInt() {
         int[] lineOfDigits = new int[sizeOfLineToFind];
         for (int i = 0; i < Player.sizeOfLineToFind; i++) {
             lineOfDigits[i] = Player.minimalValue + new Random().nextInt(Player.maximumValue + 1 - Player.minimalValue);
@@ -30,26 +29,30 @@ public class BotComportment extends Player {
     }
 
     @Override
-    public int[] guess() {
+    public void lineToFind() {
+        lineToFind = readArrayInt();
+    }
+
+    @Override
+    public void guess() {
         if (adversaryClue == null) {
-            guess = lineToFind();
+            getGuess = readArrayInt();
         } else {
             for (int i = 0; i < Player.sizeOfLineToFind; i++) {
                 switch (adversaryClue[i]) {
                     case "+":
-                        lowestRange[i] = guess[i];
-                        guess[i] = ((highestRange[i] - lowestRange[i]) / 2) + lowestRange[i];
+                        lowestRange[i] = getGuess[i];
+                        getGuess[i] = ((highestRange[i] - lowestRange[i]) / 2) + lowestRange[i];
                         break;
                     case "-":
-                        highestRange[i] = guess[i];
-                        guess[i] = ((highestRange[i] - lowestRange[i]) / 2) + lowestRange[i];
+                        highestRange[i] = getGuess[i];
+                        getGuess[i] = ((highestRange[i] - lowestRange[i]) / 2) + lowestRange[i];
                         break;
                     case "=":
                         break;
                 }
             }
         }
-        return guess;
     }
 
     @Override
@@ -58,11 +61,9 @@ public class BotComportment extends Player {
         for (int i = 0; i < sizeOfLineToFind; i++) {
             if (lineToFind[i] == guess[i]) {
                 clue[i] = "=";
-            }
-            else if (lineToFind[i] < guess[i]) {
+            } else if (lineToFind[i] < guess[i]) {
                 clue[i] = "-";
-            }
-            else{
+            } else {
                 clue[i] = "+";
             }
         }

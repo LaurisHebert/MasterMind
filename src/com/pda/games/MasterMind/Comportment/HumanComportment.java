@@ -2,13 +2,15 @@ package com.pda.games.MasterMind.Comportment;
 
 import com.pda.games.MasterMind.Entry.Sc;
 import com.pda.games.MasterMind.Entry.Sout;
-import com.pda.games.MasterMind.Structure.Player;
+import com.pda.games.MasterMind.Model.Player;
 
 public class HumanComportment extends Player {
 
+    public static String playerName() {
+        return Sc.nextLine();
+    }
 
-    @Override
-    public int[] lineToFind() {
+    private int[] readArrayInt() {
         int[] lineOfDigits = new int[sizeOfLineToFind];
         boolean error;
         do {
@@ -40,8 +42,13 @@ public class HumanComportment extends Player {
     }
 
     @Override
-    public int[] guess() {
-        return guess = lineToFind();
+    public void lineToFind() {
+        lineToFind = readArrayInt();
+    }
+
+    @Override
+    public void guess() {
+        getGuess = readArrayInt();
     }
 
 

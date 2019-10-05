@@ -1,13 +1,11 @@
-package com.pda.games.MasterMind.Structure;
+package com.pda.games.MasterMind.Model;
 
 import com.pda.games.MasterMind.Enums.WhoWin;
 
-public interface Game {
+public interface test {
     void initialization();
 
     void round();
-
-    boolean canPlay();
 
     WhoWin whoWin();
 }
