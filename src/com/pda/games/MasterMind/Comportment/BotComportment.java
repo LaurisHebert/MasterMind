@@ -1,6 +1,6 @@
 package com.pda.games.MasterMind.Comportment;
 
-import com.pda.games.MasterMind.Entry.Sout;
+import com.pda.games.MasterMind.Entry.Texts;
 import com.pda.games.MasterMind.Model.MasterMind;
 import com.pda.games.MasterMind.Model.Player;
 
@@ -21,7 +21,7 @@ public class BotComportment extends Player {
         if (id < 0)
             id = id * -1;
         id = id % 10000;
-        Sout.bot(id);
+        Texts.bot(id);
         return "Bot" + id;
     }
 
@@ -35,7 +35,7 @@ public class BotComportment extends Player {
 
     @Override
     public void lineToFind() {
-        Sout.initializationMessage(getPlayerName());
+        Texts.initializationMessage(getPlayerName());
         lineToFind = readArrayInt();
     }
 

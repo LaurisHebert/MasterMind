@@ -7,8 +7,7 @@ public class Sc {
 
     private static final Scanner sc = new Scanner(System.in);
 
-    private Sc() {
-    }
+    private Sc() {}
 
     public static String nextLine() {
         return sc.nextLine();
@@ -22,11 +21,11 @@ public class Sc {
             try {
                 i = sc.nextInt();
                 if (i < 0) {
-                    Sout.wrongEntry(i);
+                    Errors.wrongEntry(i);
                     error = true;
                 }
             } catch (Exception e) {
-                Sout.error();
+                Errors.error();
                 error = true;
             }
         } while (error);

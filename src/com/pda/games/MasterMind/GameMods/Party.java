@@ -1,6 +1,6 @@
 package com.pda.games.MasterMind.GameMods;
 
-import com.pda.games.MasterMind.Entry.Sout;
+import com.pda.games.MasterMind.Entry.Texts;
 import com.pda.games.MasterMind.Enums.WhoWin;
 import com.pda.games.MasterMind.Model.MasterMind;
 import com.pda.games.MasterMind.Model.Player;
@@ -20,25 +20,25 @@ public class Party extends MasterMind {
     @Override
     public void round() {
         if (getRoundCount() > 1) {
-            Sout.memo(playerOne.getGuess(), playerOne.getAdversaryClue());
+            Texts.memo(playerOne.getGuess(), playerOne.getAdversaryClue());
         }
-        Sout.askGuess(playerOne.getPlayerName());
+        Texts.askGuess(playerOne.getPlayerName());
         playerOne.guess();
-        Sout.printArray(playerOne.getGuess());
-        Sout.askClue(playerTwo.getPlayerName());
+        Texts.printArray(playerOne.getGuess());
+        Texts.askClue(playerTwo.getPlayerName());
         boolean firstTime = true;
         do {
             if (!firstTime)
-                Sout.memo(playerTwo.getLineToFind());
+                Texts.memo(playerTwo.getLineToFind());
             playerOne.setAdversaryClue(playerTwo.clue(playerTwo.getLineToFind(), playerOne.getGuess()));
             firstTime = false;
         } while (playerOne.notVerifyClue(playerTwo.getLineToFind(), playerOne.getGuess(), playerOne.getAdversaryClue()));
-        Sout.printArray(playerOne.getAdversaryClue());
+        Texts.printArray(playerOne.getAdversaryClue());
         correspondence(playerTwo.getLineToFind(), playerOne.getGuess());
     }
 
     public WhoWin whoWin() {
-        if (isCorresponding() && getRoundCount() <= MasterMind.getMaximumOfRounds()) {
+        if (isCorresponding()) {
             return WhoWin.PLAYER_ONE_WIN;
         }
         if (!isCorresponding() && !canPlay()) {

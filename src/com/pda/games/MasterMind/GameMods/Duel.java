@@ -35,13 +35,13 @@ public class Duel extends MasterMind {
 
     @Override
     public WhoWin whoWin() {
-        if (getRoundCount() <= getMaximumOfRounds() && (gameOne.isCorresponding() && gameTwo.isCorresponding())) {
+        if (gameOne.isCorresponding() && gameTwo.isCorresponding()) {
             return WhoWin.EX_AEQUO_WIN;
         } else if (!canPlay() && (!gameOne.isCorresponding() && !gameTwo.isCorresponding())) {
             return WhoWin.EX_AEQUO_LOSE;
-        } else if (getRoundCount() <= getMaximumOfRounds() && (gameOne.isCorresponding() && !gameTwo.isCorresponding())) {
+        } else if (gameOne.isCorresponding() && !gameTwo.isCorresponding()) {
             return WhoWin.PLAYER_ONE_WIN;
-        } else if (getRoundCount() <= getMaximumOfRounds() && (!gameOne.isCorresponding() && gameTwo.isCorresponding())) {
+        } else if (!gameOne.isCorresponding() && gameTwo.isCorresponding()) {
             return WhoWin.PLAYER_TWO_WIN;
         } else return WhoWin.GAME_IN_PROGRESS;
     }

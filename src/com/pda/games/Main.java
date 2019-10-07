@@ -2,8 +2,9 @@ package com.pda.games;
 
 import com.pda.games.MasterMind.Comportment.BotComportment;
 import com.pda.games.MasterMind.Comportment.HumanComportment;
+import com.pda.games.MasterMind.Entry.Errors;
 import com.pda.games.MasterMind.Entry.Sc;
-import com.pda.games.MasterMind.Entry.Sout;
+import com.pda.games.MasterMind.Entry.Texts;
 import com.pda.games.MasterMind.Enums.GameMod;
 import com.pda.games.MasterMind.Enums.WhoWin;
 import com.pda.games.MasterMind.GameMods.Duel;
@@ -20,8 +21,8 @@ public class Main {
     private static String playerTwoName;
 
     public static void main(String[] args) {
-        Sout.gameIntroduce();
-        Sout.rules(MasterMind.sizeOfLineToFind);
+        Texts.gameIntroduce();
+        Texts.rules(MasterMind.sizeOfLineToFind);
         numberOfHuman();
         playerNames();
         initialisation();
@@ -31,11 +32,11 @@ public class Main {
      * Used for know how many human we have
      */
     private static void numberOfHuman() {
-        Sout.askingHowManyPlayer();
+        Texts.askingHowManyPlayer();
         boolean firstLoop = true;
         do {
             if (!firstLoop) {
-                Sout.onlyBetween(0, 2);
+                Errors.onlyBetween(0, 2);
             }
             numberOfHuman = Sc.nextPositiveInt();
             firstLoop = false;
@@ -48,21 +49,21 @@ public class Main {
     private static void playerNames() {
         switch (numberOfHuman) {
             case 0:
-                Sout.pseudoEntry(1);
+                Texts.pseudoEntry(1);
                 playerOneName = BotComportment.playerName();
-                Sout.pseudoEntry(2);
+                Texts.pseudoEntry(2);
                 playerTwoName = BotComportment.playerName();
                 break;
             case 1:
-                Sout.pseudoEntry(1);
+                Texts.pseudoEntry(1);
                 playerOneName = HumanComportment.playerName();
-                Sout.pseudoEntry(2);
+                Texts.pseudoEntry(2);
                 playerTwoName = BotComportment.playerName();
                 break;
             case 2:
-                Sout.pseudoEntry(1);
+                Texts.pseudoEntry(1);
                 playerOneName = HumanComportment.playerName();
-                Sout.pseudoEntry(2);
+                Texts.pseudoEntry(2);
                 playerTwoName = HumanComportment.playerName();
                 break;
         }
@@ -94,7 +95,7 @@ public class Main {
      * @return the selected game mod
      */
     private static GameMod choosingMod() {
-        Sout.explainGameMod();
+        Texts.explainGameMod();
         boolean error;
         int entry;
         do {
@@ -102,7 +103,7 @@ public class Main {
             entry = Sc.nextPositiveInt();
             if (entry < 1 || entry > 3) {
                 error = true;
-                Sout.onlyBetween(1, 3);
+                Errors.onlyBetween(1, 3);
             }
         } while (error);
         switch (entry) {
@@ -167,23 +168,18 @@ public class Main {
      */
     private static void executeGame(MasterMind game, GameMod gameMod) {
         game.initialization();
-        Sout.launchPhrase();
-
+        Texts.launchPhrase();
         do {
-            Sout.actualRound(game.getRoundCount());
+            Texts.actualRound(game.getRoundCount());
             game.round();
         } while (game.canPlay());
-
         switch (game.whoWin()) {
-
             case PLAYER_ONE_WIN:
                 System.out.println(game.getPlayerOneName() + " Win !");
-                if (playerOne.getLineToFind() != null)
-                    break;
+                break;
             case PLAYER_TWO_WIN:
                 System.out.println(game.getPlayerTwoName() + " Win! ");
-                if (playerTwo.getLineToFind() != null)
-                    break;
+                break;
             case EX_AEQUO_WIN:
                 System.out.println("EveryOne Win !");
                 break;
@@ -192,28 +188,27 @@ public class Main {
                 break;
         }
         switch (gameMod) {
-
             case CHALLENGER:
                 if (game.whoWin() == WhoWin.PLAYER_TWO_WIN)
-                    Sout.lineToFind(playerTwoName, playerTwo.getLineToFind());
+                    Texts.lineToFind(playerTwoName, playerTwo.getLineToFind());
                 break;
             case DEFENDER:
                 if (game.whoWin() == WhoWin.PLAYER_TWO_WIN)
-                    Sout.lineToFind(playerOneName, playerOne.getLineToFind());
+                    Texts.lineToFind(playerOneName, playerOne.getLineToFind());
                 break;
             case DUEL:
                 if (game.whoWin() == WhoWin.PLAYER_ONE_WIN)
-                    Sout.lineToFind(playerOneName, playerOne.getLineToFind());
+                    Texts.lineToFind(playerOneName, playerOne.getLineToFind());
                 if (game.whoWin() == WhoWin.PLAYER_TWO_WIN)
-                    Sout.lineToFind(playerTwoName, playerTwo.getLineToFind());
+                    Texts.lineToFind(playerTwoName, playerTwo.getLineToFind());
                 if (game.whoWin() == WhoWin.EX_AEQUO_LOSE)
-                    Sout.lineToFind(playerOneName, playerOne.getLineToFind(), playerTwoName, playerTwo.getLineToFind());
+                    Texts.lineToFind(playerOneName, playerOne.getLineToFind(), playerTwoName, playerTwo.getLineToFind());
                 break;
         }
     }
 
     private static Boolean tryAgain() {
-        Sout.tryAgainMenu();
+        Texts.tryAgainMenu();
         while (true) {
             String tryAgain = Sc.nextLine();
             switch (tryAgain.toLowerCase()) {
@@ -224,7 +219,7 @@ public class Main {
                 case "q":
                     return false;
                 default:
-                    Sout.onlySymbol();
+                    Errors.onlySymbol();
                     break;
             }
         }

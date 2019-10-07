@@ -1,7 +1,8 @@
 package com.pda.games.MasterMind.Comportment;
 
+import com.pda.games.MasterMind.Entry.Errors;
 import com.pda.games.MasterMind.Entry.Sc;
-import com.pda.games.MasterMind.Entry.Sout;
+import com.pda.games.MasterMind.Entry.Texts;
 import com.pda.games.MasterMind.Model.MasterMind;
 import com.pda.games.MasterMind.Model.Player;
 
@@ -24,23 +25,23 @@ public class HumanComportment extends Player {
                 String humanEntry = Sc.nextLine();
                 String[] arrayEntry = humanEntry.split(" ");
                 if (arrayEntry.length != MasterMind.sizeOfLineToFind) {
-                    Sout.notEnough(MasterMind.sizeOfLineToFind);
+                    Errors.notEnough(MasterMind.sizeOfLineToFind);
                     error = true;
                 } else {
                     for (int i = 0; i < MasterMind.sizeOfLineToFind; i++) {
                         lineOfDigits[i] = Integer.parseInt(arrayEntry[i]);
                         if (lineOfDigits[i] < MasterMind.minimalValue || lineOfDigits[i] > MasterMind.maximumValue) {
-                            Sout.wrongEntry(i);
+                            Errors.wrongEntry(i);
                             error = true;
                         }
                     }
                 }
             } catch (NumberFormatException r) {
                 error = true;
-                Sout.onlyDigits();
+                Errors.onlyDigits();
             } catch (Exception e) {
                 error = true;
-                Sout.error();
+                Errors.error();
             }
         } while (error);
         return lineOfDigits;
@@ -48,7 +49,7 @@ public class HumanComportment extends Player {
 
     @Override
     public void lineToFind() {
-        Sout.initializationMessage(getPlayerName());
+        Texts.initializationMessage(getPlayerName());
         lineToFind = readArrayInt();
     }
 
@@ -67,19 +68,19 @@ public class HumanComportment extends Player {
                 String humanEntry = Sc.nextLine();
                 String[] arrayEntry = humanEntry.split(" ");
                 if (arrayEntry.length != MasterMind.sizeOfLineToFind) {
-                    Sout.notEnough(MasterMind.sizeOfLineToFind);
+                    Errors.notEnough(MasterMind.sizeOfLineToFind);
                     error = true;
                 } else {
                     for (int i = 0; i < MasterMind.sizeOfLineToFind; i++) {
                         if (!arrayEntry[i].equals("=") && !arrayEntry[i].equals("+") && !arrayEntry[i].equals("-")) {
-                            Sout.onlySymbol();
+                            Errors.onlySymbol();
                             error = true;
                         } else
                             clue[i] = arrayEntry[i];
                     }
                 }
             } catch (Exception e) {
-                Sout.error();
+                Errors.error();
                 error = true;
             }
         } while (error);

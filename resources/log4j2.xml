@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="info">
+<Configuration status="WARN">
     <Appenders>
-        <Console name="Errors" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level - %msg%n"/>
         </Console>
-        <Console name="Text" target="SYSTEM_OUT">
+        <Console name="text" target="SYSTEM_OUT">
             <PatternLayout pattern="%msg%n"/>
         </Console>
     </Appenders>
     <Loggers>
-        <Root name="com.pda.games.MasterMind.Entry">
-            <AppenderRef level="info" ref="Text"/>
+        <Logger name="com.pda.games.MasterMind.Entry.Texts" level="TRACE" additivity="false">
+            <AppenderRef ref="text"/>
+        </Logger>
+        <Root level="error">
+            <AppenderRef ref="Console"/>
         </Root>
     </Loggers>
 </Configuration>
