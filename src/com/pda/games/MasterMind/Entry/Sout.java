@@ -1,7 +1,6 @@
 package com.pda.games.MasterMind.Entry;
 
 import com.pda.games.MasterMind.GameMods.Party;
-import com.pda.games.MasterMind.Model.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -21,7 +21,7 @@ public class Main {
 
     public static void main(String[] args) {
         Sout.gameIntroduce();
-        Sout.rules(Player.sizeOfLineToFind);
+        Sout.rules(MasterMind.sizeOfLineToFind);
         numberOfHuman();
         playerNames();
         initialisation();
@@ -127,11 +127,11 @@ public class Main {
         selectPlayerComportment();
         switch (gameMod) {
             case CHALLENGER:
-                return new Party(playerOne, playerTwo, playerOneName, playerTwoName);
+                return new Party(playerOne, playerTwo);
             case DEFENDER:
-                return new Party(playerTwo, playerOne, playerTwoName, playerOneName);
+                return new Party(playerTwo, playerOne);
             case DUEL:
-                return new Duel(playerOne, playerTwo, playerOneName, playerTwoName);
+                return new Duel(playerOne, playerTwo);
             default:
                 throw new IllegalStateException("Unexpected value: ");
         }
@@ -143,16 +143,16 @@ public class Main {
     private static void selectPlayerComportment() {
         switch (numberOfHuman) {
             case 0:
-                playerOne = new BotComportment();
-                playerTwo = new BotComportment();
+                playerOne = new BotComportment(playerOneName);
+                playerTwo = new BotComportment(playerTwoName);
                 break;
             case 1:
-                playerOne = new HumanComportment();
-                playerTwo = new BotComportment();
+                playerOne = new HumanComportment(playerOneName);
+                playerTwo = new BotComportment(playerTwoName);
                 break;
             case 2:
-                playerOne = new HumanComportment();
-                playerTwo = new HumanComportment();
+                playerOne = new HumanComportment(playerOneName);
+                playerTwo = new HumanComportment(playerTwoName);
                 break;
             default:
                 System.out.println("Mastermind can only be played by two players, so the answer can only be between zero and two");

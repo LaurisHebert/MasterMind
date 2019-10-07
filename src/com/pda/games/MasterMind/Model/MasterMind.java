@@ -5,20 +5,19 @@ import com.pda.games.MasterMind.Enums.WhoWin;
 import java.util.Arrays;
 
 public abstract class MasterMind {
+
+    public static final int sizeOfLineToFind = 4;
+    public static final int maximumValue = 9;
+    public static final int minimalValue = 0;
     private static final int maximumOfRounds = 6;
     protected final Player playerOne;
     protected final Player playerTwo;
-    private final String playerOneName;
-    private final String playerTwoName;
     private int roundCount = 1;
     private boolean corresponding = false;
 
-    public MasterMind(Player playerOne, Player playerTwo, String playerOneName, String playerTwoName) {
+    public MasterMind(Player playerOne, Player playerTwo) {
         this.playerOne = playerOne;
-        this.playerOneName = playerOneName;
         this.playerTwo = playerTwo;
-        this.playerTwoName = playerTwoName;
-
     }
 
     public static int getMaximumOfRounds() {
@@ -26,11 +25,11 @@ public abstract class MasterMind {
     }
 
     public String getPlayerOneName() {
-        return playerOneName;
+        return playerOne.getPlayerName();
     }
 
     public String getPlayerTwoName() {
-        return playerTwoName;
+        return playerTwo.getPlayerName();
     }
 
     public int getRoundCount() {

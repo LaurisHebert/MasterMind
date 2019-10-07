@@ -7,13 +7,13 @@ import com.pda.games.MasterMind.Model.Player;
 
 public class Party extends MasterMind {
 
-    public Party(Player playerOne, Player playerTwo, String playerOneName, String playerTwoName) {
-        super(playerOne, playerTwo, playerOneName, playerTwoName);
+
+    public Party(Player playerOne, Player playerTwo) {
+        super(playerOne, playerTwo);
     }
 
     @Override
     public void initialization() {
-        Sout.initializationMessage(getPlayerTwoName());
         playerTwo.lineToFind();
     }
 
@@ -22,10 +22,10 @@ public class Party extends MasterMind {
         if (getRoundCount() > 1) {
             Sout.memo(playerOne.getGuess(), playerOne.getAdversaryClue());
         }
-        Sout.askGuess(getPlayerOneName());
+        Sout.askGuess(playerOne.getPlayerName());
         playerOne.guess();
         Sout.printArray(playerOne.getGuess());
-        Sout.askClue(getPlayerTwoName());
+        Sout.askClue(playerTwo.getPlayerName());
         boolean firstTime = true;
         do {
             if (!firstTime)

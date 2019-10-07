@@ -8,22 +8,18 @@ public class Duel extends MasterMind {
 
     private final Party gameOne;
     private final Party gameTwo;
-    private String playerOneName;
-    private String playerTwoName;
 
-    public Duel(Player playerOne, Player playerTwo, String playerOneName, String playerTwoName) {
-        super(playerOne, playerTwo, playerOneName, playerTwoName);
-        this.gameOne = new Party(playerOne, playerTwo, playerOneName, playerTwoName);
-        this.gameTwo = new Party(playerTwo, playerOne, playerTwoName, playerOneName);
-        this.playerOneName = playerOneName;
-        this.playerTwoName = playerTwoName;
+    public Duel(Player playerOne, Player playerTwo) {
+        super(playerOne, playerTwo);
+        this.gameOne = new Party(playerOne, playerTwo);
+        this.gameTwo = new Party(playerTwo, playerOne);
     }
 
 
     @Override
     public void initialization() {
-        gameOne.initialization();
         gameTwo.initialization();
+        gameOne.initialization();
     }
 
     @Override
@@ -42,24 +38,12 @@ public class Duel extends MasterMind {
         if (getRoundCount() <= getMaximumOfRounds() && (gameOne.isCorresponding() && gameTwo.isCorresponding())) {
             return WhoWin.EX_AEQUO_WIN;
         } else if (!canPlay() && (!gameOne.isCorresponding() && !gameTwo.isCorresponding())) {
-
             return WhoWin.EX_AEQUO_LOSE;
         } else if (getRoundCount() <= getMaximumOfRounds() && (gameOne.isCorresponding() && !gameTwo.isCorresponding())) {
-
             return WhoWin.PLAYER_ONE_WIN;
         } else if (getRoundCount() <= getMaximumOfRounds() && (!gameOne.isCorresponding() && gameTwo.isCorresponding())) {
             return WhoWin.PLAYER_TWO_WIN;
         } else return WhoWin.GAME_IN_PROGRESS;
-    }
-
-    @Override
-    public String getPlayerOneName() {
-        return playerOneName;
-    }
-
-    @Override
-    public String getPlayerTwoName() {
-        return playerTwoName;
     }
 
     @Override

@@ -2,13 +2,18 @@ package com.pda.games.MasterMind.Model;
 
 public abstract class Player {
 
-    public static final int sizeOfLineToFind = 4;
-    public static final int maximumValue = 9;
-    public static final int minimalValue = 0;
-    protected int[] getGuess = new int[sizeOfLineToFind];
-    protected int[] lineToFind = new int[sizeOfLineToFind];
-    protected String[] adversaryClue = null;
+    private final String playerName;
+    protected int[] guess = new int[MasterMind.sizeOfLineToFind];
+    protected int[] lineToFind = new int[MasterMind.sizeOfLineToFind];
+    protected String[] adversaryClue = new String[MasterMind.sizeOfLineToFind];
 
+    protected Player(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
 
     public abstract void lineToFind();
 
@@ -25,7 +30,7 @@ public abstract class Player {
     }
 
     public int[] getGuess() {
-        return getGuess;
+        return guess;
     }
 
     public abstract void guess();

@@ -2,29 +2,34 @@ package com.pda.games.MasterMind.Comportment;
 
 import com.pda.games.MasterMind.Entry.Sc;
 import com.pda.games.MasterMind.Entry.Sout;
+import com.pda.games.MasterMind.Model.MasterMind;
 import com.pda.games.MasterMind.Model.Player;
 
 public class HumanComportment extends Player {
+
+    public HumanComportment(String playerName) {
+        super(playerName);
+    }
 
     public static String playerName() {
         return Sc.nextLine();
     }
 
     private int[] readArrayInt() {
-        int[] lineOfDigits = new int[sizeOfLineToFind];
+        int[] lineOfDigits = new int[MasterMind.sizeOfLineToFind];
         boolean error;
         do {
             error = false;
             try {
                 String humanEntry = Sc.nextLine();
                 String[] arrayEntry = humanEntry.split(" ");
-                if (arrayEntry.length != Player.sizeOfLineToFind) {
-                    Sout.notEnough(Player.sizeOfLineToFind);
+                if (arrayEntry.length != MasterMind.sizeOfLineToFind) {
+                    Sout.notEnough(MasterMind.sizeOfLineToFind);
                     error = true;
                 } else {
-                    for (int i = 0; i < Player.sizeOfLineToFind; i++) {
+                    for (int i = 0; i < MasterMind.sizeOfLineToFind; i++) {
                         lineOfDigits[i] = Integer.parseInt(arrayEntry[i]);
-                        if (lineOfDigits[i] < Player.minimalValue || lineOfDigits[i] > Player.maximumValue) {
+                        if (lineOfDigits[i] < MasterMind.minimalValue || lineOfDigits[i] > MasterMind.maximumValue) {
                             Sout.wrongEntry(i);
                             error = true;
                         }
@@ -43,29 +48,29 @@ public class HumanComportment extends Player {
 
     @Override
     public void lineToFind() {
+        Sout.initializationMessage(getPlayerName());
         lineToFind = readArrayInt();
     }
 
     @Override
     public void guess() {
-        getGuess = readArrayInt();
+        guess = readArrayInt();
     }
-
 
     @Override
     public String[] clue(int[] lineToFind, int[] guess) {
-        String[] clue = new String[Player.sizeOfLineToFind];
+        String[] clue = new String[MasterMind.sizeOfLineToFind];
         boolean error;
         do {
             error = false;
             try {
                 String humanEntry = Sc.nextLine();
                 String[] arrayEntry = humanEntry.split(" ");
-                if (arrayEntry.length != Player.sizeOfLineToFind) {
-                    Sout.notEnough(Player.sizeOfLineToFind);
+                if (arrayEntry.length != MasterMind.sizeOfLineToFind) {
+                    Sout.notEnough(MasterMind.sizeOfLineToFind);
                     error = true;
                 } else {
-                    for (int i = 0; i < Player.sizeOfLineToFind; i++) {
+                    for (int i = 0; i < MasterMind.sizeOfLineToFind; i++) {
                         if (!arrayEntry[i].equals("=") && !arrayEntry[i].equals("+") && !arrayEntry[i].equals("-")) {
                             Sout.onlySymbol();
                             error = true;
