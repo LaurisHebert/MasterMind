@@ -46,7 +46,7 @@ public class Texts {
     }
 
     public static void initializationMessage(String playerName) {
-        System.out.println("\nInitialization of secret digits of " + playerName + ":");
+        logger.trace("\nInitialization of secret digits of " + playerName + ":");
     }
 
     public static void rules(int size) {
@@ -114,4 +114,17 @@ public class Texts {
                 "\nIf you want quite \"Q\"");
     }
 
+    public static void end() {
+        logger.trace("Cya");
+    }
+
+    public static void win(String playerName) {
+        logger.trace(playerName + " win !");
+    }
+
+    public static void Equally(String winOrLose) {
+        logger.trace("EveryOne " + winOrLose + " !");
+
+
+    }
 }

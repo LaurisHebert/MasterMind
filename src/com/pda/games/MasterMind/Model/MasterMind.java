@@ -3,13 +3,15 @@ package com.pda.games.MasterMind.Model;
 import com.pda.games.MasterMind.Enums.WhoWin;
 
 import java.util.Arrays;
+import java.util.ResourceBundle;
 
 public abstract class MasterMind {
-
-    public static final int sizeOfLineToFind = 4;
-    public static final int maximumValue = 9;
-    public static final int minimalValue = 0;
-    private static final int maximumOfRounds = 6;
+    private static final ResourceBundle bundle = ResourceBundle.getBundle("MasterMind.Proprieties.config");
+    public static final int sizeOfLineToFind = Integer.parseInt(bundle.getString("sizeOfLineToFind"));
+    public static final int maximumValue =  Integer.parseInt(bundle.getString("maximumValue"));
+    public static final int minimalValue =  Integer.parseInt(bundle.getString("minimalValue"));
+    private static final int maximumOfRounds =  Integer.parseInt(bundle.getString("maximumOfRounds"));
+    public static final boolean admin = bundle.containsKey("admin");
     protected final Player playerOne;
     protected final Player playerTwo;
     private int roundCount = 1;

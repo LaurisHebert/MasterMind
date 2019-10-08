@@ -85,7 +85,7 @@ public class Main {
                 executeGame(selectGameMod(gameMode), gameMode);
                 loop = true;
             } else {
-                System.out.println("CYA");
+                Texts.end();
                 loop = false;
             }
         }
@@ -156,7 +156,7 @@ public class Main {
                 playerTwo = new HumanComportment(playerTwoName);
                 break;
             default:
-                System.out.println("Mastermind can only be played by two players, so the answer can only be between zero and two");
+                Errors.playerMax();
                 break;
         }
     }
@@ -175,16 +175,16 @@ public class Main {
         } while (game.canPlay());
         switch (game.whoWin()) {
             case PLAYER_ONE_WIN:
-                System.out.println(game.getPlayerOneName() + " Win !");
+                Texts.win(game.getPlayerOneName());
                 break;
             case PLAYER_TWO_WIN:
-                System.out.println(game.getPlayerTwoName() + " Win! ");
+                Texts.win(game.getPlayerTwoName());
                 break;
             case EX_AEQUO_WIN:
-                System.out.println("EveryOne Win !");
+                Texts.Equally("win");
                 break;
             case EX_AEQUO_LOSE:
-                System.out.println("No winner :/");
+                Texts.Equally("lose");
                 break;
         }
         switch (gameMod) {

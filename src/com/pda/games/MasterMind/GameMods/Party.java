@@ -15,6 +15,9 @@ public class Party extends MasterMind {
     @Override
     public void initialization() {
         playerTwo.lineToFind();
+        if (MasterMind.admin){
+            Texts.printArray(playerTwo.getLineToFind());
+        }
     }
 
     @Override

@@ -9,11 +9,23 @@ import java.util.Random;
 
 public class BotComportment extends Player {
 
-    private final int[] lowestRange = {0, 0, 0, 0};
-    private final int[] highestRange = {10, 10, 10, 10};
+    private int[] lowestRange = setLowestRange();
+    private int[] highestRange = setHighestRange();
 
     public BotComportment(String playerName) {
         super(playerName);
+    }
+
+    private int[] setLowestRange() {
+        int[] bla = new int[MasterMind.sizeOfLineToFind];
+        Arrays.fill(bla, MasterMind.minimalValue);
+        return bla;
+    }
+
+    private int[] setHighestRange() {
+        int[] bla = new int[MasterMind.sizeOfLineToFind];
+        Arrays.fill(bla, MasterMind.maximumValue +1);
+        return bla;
     }
 
     public static String playerName() {
@@ -27,7 +39,7 @@ public class BotComportment extends Player {
 
     private int[] readArrayInt() {
         int[] lineOfDigits = new int[MasterMind.sizeOfLineToFind];
-        for (int i = 0; i < MasterMind.sizeOfLineToFind; i++) {
+        for (int i = 0; i < lineOfDigits.length; i++) {
             lineOfDigits[i] = MasterMind.minimalValue + new Random().nextInt(MasterMind.maximumValue + 1 - MasterMind.minimalValue);
         }
         return lineOfDigits;

@@ -5,7 +5,7 @@ public abstract class Player {
     private final String playerName;
     protected int[] guess = new int[MasterMind.sizeOfLineToFind];
     protected int[] lineToFind = new int[MasterMind.sizeOfLineToFind];
-    protected String[] adversaryClue = new String[MasterMind.sizeOfLineToFind];
+    protected String[] adversaryClue;
 
     protected Player(String playerName) {
         this.playerName = playerName;

@@ -45,4 +45,8 @@ public class Errors {
     public static void error() {
         logger.error("we encountered an error please retry");
     }
+
+    public static void playerMax() {
+        logger.error("Mastermind can only be played by two players, so the answer can only be between zero and two");
+    }
 }
