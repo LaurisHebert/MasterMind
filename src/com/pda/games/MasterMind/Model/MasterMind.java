@@ -2,16 +2,24 @@ package com.pda.games.MasterMind.Model;
 
 import com.pda.games.MasterMind.Enums.WhoWin;
 
+import java.io.IOException;
 import java.util.Arrays;
-import java.util.ResourceBundle;
+import java.util.Properties;
 
 public abstract class MasterMind {
-    private static final ResourceBundle bundle = ResourceBundle.getBundle("MasterMind.Proprieties.config");
-    public static final int sizeOfLineToFind = Integer.parseInt(bundle.getString("sizeOfLineToFind"));
-    public static final int maximumValue =  Integer.parseInt(bundle.getString("maximumValue"));
-    public static final int minimalValue =  Integer.parseInt(bundle.getString("minimalValue"));
-    private static final int maximumOfRounds =  Integer.parseInt(bundle.getString("maximumOfRounds"));
-    public static final boolean admin = bundle.containsKey("admin");
+    private static final Properties properties = new Properties();
+    static {
+        try {
+            properties.load(MasterMind.class.getClassLoader().getResourceAsStream("config.properties"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static final int sizeOfLineToFind = Integer.parseInt(properties.getProperty("sizeOfLineToFind"));
+    public static final int maximumValue =  Integer.parseInt(properties.getProperty("maximumValue"));
+    public static final int minimalValue =  Integer.parseInt(properties.getProperty("minimalValue"));
+    private static final int maximumOfRounds =  Integer.parseInt(properties.getProperty("maximumOfRounds"));
+    public static final boolean admin = properties.containsKey("admin");
     protected final Player playerOne;
     protected final Player playerTwo;
     private int roundCount = 1;
