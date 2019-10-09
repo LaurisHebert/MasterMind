@@ -3,19 +3,20 @@ package com.pda.games.mastermind.gamemods;
 import com.pda.games.mastermind.entry.Texts;
 import com.pda.games.mastermind.enums.WhoWin;
 import com.pda.games.mastermind.model.MasterMind;
+import com.pda.games.mastermind.model.MasterMindConfig;
 import com.pda.games.mastermind.model.Player;
 
 public class Party extends MasterMind {
 
 
-    public Party(Player playerOne, Player playerTwo) {
-        super(playerOne, playerTwo);
+    public Party(Player playerOne, Player playerTwo, MasterMindConfig config) {
+        super(playerOne, playerTwo, config);
     }
 
     @Override
     public void initialization() {
         playerTwo.lineToFind();
-        if (MasterMind.devMod) {
+        if (config.isDevMod()) {
             Texts.printArray(playerTwo.getLineToFind());
         }
     }

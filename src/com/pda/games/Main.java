@@ -1,7 +1,7 @@
 package com.pda.games;
 
-import com.pda.games.mastermind.comportment.BotComportment;
-import com.pda.games.mastermind.comportment.HumanComportment;
+import com.pda.games.mastermind.comportment.BotPlayer;
+import com.pda.games.mastermind.comportment.HumanPlayer;
 import com.pda.games.mastermind.entry.Errors;
 import com.pda.games.mastermind.entry.Sc;
 import com.pda.games.mastermind.entry.Texts;
@@ -10,10 +10,12 @@ import com.pda.games.mastermind.enums.WhoWin;
 import com.pda.games.mastermind.gamemods.Duel;
 import com.pda.games.mastermind.gamemods.Party;
 import com.pda.games.mastermind.model.MasterMind;
+import com.pda.games.mastermind.model.MasterMindConfig;
 import com.pda.games.mastermind.model.Player;
 
 public class Main {
 
+    private static final MasterMindConfig config = new MasterMindConfig();
     private static int numberOfHuman;
     private static Player playerOne;
     private static String playerOneName;
@@ -22,8 +24,8 @@ public class Main {
 
     public static void main(String[] args) {
         Texts.gameIntroduce();
-        Texts.rules(MasterMind.sizeOfLineToFind);
-        if (MasterMind.devMod) {
+        Texts.rules(config.getSizeOfLineToFind());
+        if (config.isDevMod()) {
             numberOfHuman();
         } else {
             numberOfHuman = 1;
@@ -54,21 +56,21 @@ public class Main {
         switch (numberOfHuman) {
             case 0:
                 Texts.pseudoEntry(1);
-                playerOneName = BotComportment.playerName();
+                playerOneName = BotPlayer.playerName();
                 Texts.pseudoEntry(2);
-                playerTwoName = BotComportment.playerName();
+                playerTwoName = BotPlayer.playerName();
                 break;
             case 1:
                 Texts.pseudoEntry(1);
-                playerOneName = HumanComportment.playerName();
+                playerOneName = HumanPlayer.playerName();
                 Texts.pseudoEntry(2);
-                playerTwoName = BotComportment.playerName();
+                playerTwoName = BotPlayer.playerName();
                 break;
             case 2:
                 Texts.pseudoEntry(1);
-                playerOneName = HumanComportment.playerName();
+                playerOneName = HumanPlayer.playerName();
                 Texts.pseudoEntry(2);
-                playerTwoName = HumanComportment.playerName();
+                playerTwoName = HumanPlayer.playerName();
                 break;
         }
     }
@@ -132,11 +134,11 @@ public class Main {
         selectPlayerComportment();
         switch (gameMod) {
             case CHALLENGER:
-                return new Party(playerOne, playerTwo);
+                return new Party(playerOne, playerTwo, config);
             case DEFENDER:
-                return new Party(playerTwo, playerOne);
+                return new Party(playerTwo, playerOne, config);
             case DUEL:
-                return new Duel(playerOne, playerTwo);
+                return new Duel(playerOne, playerTwo, config);
             default:
                 throw new IllegalStateException("Unexpected value: ");
         }
@@ -148,16 +150,16 @@ public class Main {
     private static void selectPlayerComportment() {
         switch (numberOfHuman) {
             case 0:
-                playerOne = new BotComportment(playerOneName);
-                playerTwo = new BotComportment(playerTwoName);
+                playerOne = new BotPlayer(config, playerOneName);
+                playerTwo = new BotPlayer(config, playerTwoName);
                 break;
             case 1:
-                playerOne = new HumanComportment(playerOneName);
-                playerTwo = new BotComportment(playerTwoName);
+                playerOne = new HumanPlayer(config, playerOneName);
+                playerTwo = new BotPlayer(config, playerTwoName);
                 break;
             case 2:
-                playerOne = new HumanComportment(playerOneName);
-                playerTwo = new HumanComportment(playerTwoName);
+                playerOne = new HumanPlayer(config, playerOneName);
+                playerTwo = new HumanPlayer(config, playerTwoName);
                 break;
             default:
                 Errors.playerMax();
@@ -174,7 +176,7 @@ public class Main {
         game.initialization();
         Texts.launchPhrase();
         do {
-            Texts.actualRound(game.getRoundCount());
+            Texts.actualRound(game.getRoundCount(), config.getMaximumOfRounds());
             game.round();
         } while (game.canPlay());
         switch (game.winner()) {

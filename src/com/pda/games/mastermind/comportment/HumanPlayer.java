@@ -3,13 +3,13 @@ package com.pda.games.mastermind.comportment;
 import com.pda.games.mastermind.entry.Errors;
 import com.pda.games.mastermind.entry.Sc;
 import com.pda.games.mastermind.entry.Texts;
-import com.pda.games.mastermind.model.MasterMind;
+import com.pda.games.mastermind.model.MasterMindConfig;
 import com.pda.games.mastermind.model.Player;
 
-public class HumanComportment extends Player {
+public class HumanPlayer extends Player {
 
-    public HumanComportment(String playerName) {
-        super(playerName);
+    public HumanPlayer(MasterMindConfig config, String playerName) {
+        super(config, playerName);
     }
 
     public static String playerName() {
@@ -18,23 +18,24 @@ public class HumanComportment extends Player {
 
     /**
      * used for ask at the human player to create an array with selected length and range of digits in configuration file
+     *
      * @return an array
      */
     private int[] readArrayInt() {
-        int[] lineOfDigits = new int[MasterMind.sizeOfLineToFind];
+        int[] lineOfDigits = new int[config.getSizeOfLineToFind()];
         boolean error;
         do {
             error = false;
             try {
                 String humanEntry = Sc.nextLine();
                 String[] arrayEntry = humanEntry.split(" ");
-                if (arrayEntry.length != MasterMind.sizeOfLineToFind) {
-                    Errors.notEnough(MasterMind.sizeOfLineToFind);
+                if (arrayEntry.length != config.getSizeOfLineToFind()) {
+                    Errors.notEnough(config.getSizeOfLineToFind());
                     error = true;
                 } else {
-                    for (int i = 0; i < MasterMind.sizeOfLineToFind; i++) {
+                    for (int i = 0; i < config.getSizeOfLineToFind(); i++) {
                         lineOfDigits[i] = Integer.parseInt(arrayEntry[i]);
-                        if (lineOfDigits[i] < MasterMind.minimalValue || lineOfDigits[i] > MasterMind.maximumValue) {
+                        if (lineOfDigits[i] < config.getMinimalValue() || lineOfDigits[i] > config.getMaximumValue()) {
                             Errors.wrongEntry(i);
                             error = true;
                         }
@@ -64,18 +65,18 @@ public class HumanComportment extends Player {
 
     @Override
     public String[] clue(int[] lineToFind, int[] guess) {
-        String[] clue = new String[MasterMind.sizeOfLineToFind];
+        String[] clue = new String[config.getSizeOfLineToFind()];
         boolean error;
         do {
             error = false;
             try {
                 String humanEntry = Sc.nextLine();
                 String[] arrayEntry = humanEntry.split(" ");
-                if (arrayEntry.length != MasterMind.sizeOfLineToFind) {
-                    Errors.notEnough(MasterMind.sizeOfLineToFind);
+                if (arrayEntry.length != config.getSizeOfLineToFind()) {
+                    Errors.notEnough(config.getSizeOfLineToFind());
                     error = true;
                 } else {
-                    for (int i = 0; i < MasterMind.sizeOfLineToFind; i++) {
+                    for (int i = 0; i < config.getSizeOfLineToFind(); i++) {
                         if (!arrayEntry[i].equals("=") && !arrayEntry[i].equals("+") && !arrayEntry[i].equals("-")) {
                             Errors.onlySymbol();
                             error = true;

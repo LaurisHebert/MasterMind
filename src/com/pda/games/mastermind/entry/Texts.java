@@ -1,6 +1,5 @@
 package com.pda.games.mastermind.entry;
 
-import com.pda.games.mastermind.gamemods.Party;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -65,8 +64,8 @@ public class Texts {
                 "\nLet's the game begin !\n");
     }
 
-    public static void actualRound(int roundCount) {
-        logger.trace("Round " + roundCount + "/" + Party.getMaximumOfRounds() +
+    public static void actualRound(int roundCount, int maxRounds) {
+        logger.trace("Round " + roundCount + "/" + maxRounds +
                 "\n---------");
     }
 
