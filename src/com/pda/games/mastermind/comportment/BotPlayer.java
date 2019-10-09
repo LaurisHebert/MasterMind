@@ -9,8 +9,8 @@ import java.util.Random;
 
 public class BotPlayer extends Player {
 
-    protected int[] lowestRange = setLowestRange();
-    protected int[] highestRange = setHighestRange();
+    protected int[] lowestRange = buildLowestRange();
+    protected int[] highestRange = buildHighestRange();
 
     public BotPlayer(MasterMindConfig config, String playerName) {
         super(config, playerName);
@@ -35,7 +35,7 @@ public class BotPlayer extends Player {
      *
      * @return an array with the size and the minimal value selected in config file
      */
-    private int[] setLowestRange() {
+    private int[] buildLowestRange() {
         int[] lowestRange = new int[config.getSizeOfLineToFind()];
         Arrays.fill(lowestRange, config.getMinimalValue());
         return lowestRange;
@@ -46,10 +46,10 @@ public class BotPlayer extends Player {
      *
      * @return an array with the size and the maximum value selected in configuration file
      */
-    private int[] setHighestRange() {
-        int[] bla = new int[config.getSizeOfLineToFind()];
-        Arrays.fill(bla, config.getMaximumValue() + 1);
-        return bla;
+    private int[] buildHighestRange() {
+        int[] highestRange = new int[config.getSizeOfLineToFind()];
+        Arrays.fill(highestRange, config.getMaximumValue() + 1);
+        return highestRange;
     }
 
     /**
@@ -57,7 +57,7 @@ public class BotPlayer extends Player {
      *
      * @return an array with length and randoms digits between two value selected in configuration file
      */
-    private int[] readArrayInt() {
+    private int[] buildArrayInt() {
         int[] lineOfDigits = new int[config.getSizeOfLineToFind()];
         for (int i = 0; i < lineOfDigits.length; i++) {
             lineOfDigits[i] = config.getMinimalValue() + new Random().nextInt(config.getMaximumValue() + 1 - config.getMinimalValue());
@@ -68,13 +68,13 @@ public class BotPlayer extends Player {
     @Override
     public void lineToFind() {
         Texts.initializationMessage(getPlayerName());
-        lineToFind = readArrayInt();
+        lineToFind = buildArrayInt();
     }
 
     @Override
     public void guess() {
         if (adversaryClue == null) {
-            guess = readArrayInt();
+            guess = buildArrayInt();
         } else {
             for (int i = 0; i < config.getSizeOfLineToFind(); i++) {
                 switch (adversaryClue[i]) {

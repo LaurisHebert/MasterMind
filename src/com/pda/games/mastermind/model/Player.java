@@ -4,9 +4,9 @@ public abstract class Player {
 
     protected final MasterMindConfig config;
     private final String playerName;
-    protected int[] guess;
-    protected int[] lineToFind;
-    protected String[] adversaryClue;
+    protected int[] guess; // line to guess the other player "lineToFind"
+    protected int[] lineToFind; // line that the other player has to find
+    protected String[] adversaryClue; //
 
     protected Player(MasterMindConfig config, String playerName) {
         this.config = config;
@@ -36,15 +36,21 @@ public abstract class Player {
     }
 
     /**
-     * used to initialize "lineToFind"
+     * update {@link Player#getLineToFind()}
      */
     public abstract void lineToFind();
 
     /**
-     * used to initialize "guess"
+     * Update the {@link Player#getGuess()}
      */
     public abstract void guess();
 
+    /**
+     *
+     * @param lineToFind used only bye the bot
+     * @param guess
+     * @return
+     */
     public abstract String[] clue(int[] lineToFind, int[] guess);
 
     public abstract boolean notVerifyClue(int[] lineToFind, int[] guess, String[] clue);
