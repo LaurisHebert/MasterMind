@@ -1,6 +1,6 @@
-package com.pda.games.MasterMind.Entry;
+package com.pda.games.mastermind.entry;
 
-import com.pda.games.MasterMind.GameMods.Party;
+import com.pda.games.mastermind.gamemods.Party;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -57,7 +57,7 @@ public class Texts {
                 "when a clue was requested you need to enter a symbol for each digits  of your adversary guess separated by the space.\n" +
                 "\"+\" if the corresponding number in your secret line is bigger\n" +
                 "\"-\" if he is lower\n" +
-                "\"=\" if he is equal");
+                "\"=\" if he is equal\n");
     }
 
     public static void launchPhrase() {

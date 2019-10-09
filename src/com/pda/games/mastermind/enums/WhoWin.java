@@ -1,4 +1,4 @@
-package com.pda.games.MasterMind.Enums;
+package com.pda.games.mastermind.enums;
 
 public enum WhoWin {
     PLAYER_ONE_WIN,

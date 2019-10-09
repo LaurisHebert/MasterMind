@@ -1,4 +1,4 @@
-package com.pda.games.MasterMind.Entry;
+package com.pda.games.mastermind.entry;
 
 import java.util.Scanner;
 
@@ -7,7 +7,8 @@ public class Sc {
 
     private static final Scanner sc = new Scanner(System.in);
 
-    private Sc() {}
+    private Sc() {
+    }
 
     public static String nextLine() {
         return sc.nextLine();

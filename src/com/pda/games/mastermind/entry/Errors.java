@@ -1,4 +1,4 @@
-package com.pda.games.MasterMind.Entry;
+package com.pda.games.mastermind.entry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

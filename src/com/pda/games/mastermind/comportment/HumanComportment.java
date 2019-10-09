@@ -1,10 +1,10 @@
-package com.pda.games.MasterMind.Comportment;
+package com.pda.games.mastermind.comportment;
 
-import com.pda.games.MasterMind.Entry.Errors;
-import com.pda.games.MasterMind.Entry.Sc;
-import com.pda.games.MasterMind.Entry.Texts;
-import com.pda.games.MasterMind.Model.MasterMind;
-import com.pda.games.MasterMind.Model.Player;
+import com.pda.games.mastermind.entry.Errors;
+import com.pda.games.mastermind.entry.Sc;
+import com.pda.games.mastermind.entry.Texts;
+import com.pda.games.mastermind.model.MasterMind;
+import com.pda.games.mastermind.model.Player;
 
 public class HumanComportment extends Player {
 
@@ -16,6 +16,10 @@ public class HumanComportment extends Player {
         return Sc.nextLine();
     }
 
+    /**
+     * used for ask at the human player to create an array with selected length and range of digits in configuration file
+     * @return an array
+     */
     private int[] readArrayInt() {
         int[] lineOfDigits = new int[MasterMind.sizeOfLineToFind];
         boolean error;

@@ -1,9 +1,9 @@
-package com.pda.games.MasterMind.GameMods;
+package com.pda.games.mastermind.gamemods;
 
-import com.pda.games.MasterMind.Entry.Texts;
-import com.pda.games.MasterMind.Enums.WhoWin;
-import com.pda.games.MasterMind.Model.MasterMind;
-import com.pda.games.MasterMind.Model.Player;
+import com.pda.games.mastermind.entry.Texts;
+import com.pda.games.mastermind.enums.WhoWin;
+import com.pda.games.mastermind.model.MasterMind;
+import com.pda.games.mastermind.model.Player;
 
 public class Party extends MasterMind {
 
@@ -15,7 +15,7 @@ public class Party extends MasterMind {
     @Override
     public void initialization() {
         playerTwo.lineToFind();
-        if (MasterMind.admin){
+        if (MasterMind.devMod) {
             Texts.printArray(playerTwo.getLineToFind());
         }
     }
@@ -40,7 +40,7 @@ public class Party extends MasterMind {
         correspondence(playerTwo.getLineToFind(), playerOne.getGuess());
     }
 
-    public WhoWin whoWin() {
+    public WhoWin winner() {
         if (isCorresponding()) {
             return WhoWin.PLAYER_ONE_WIN;
         }

@@ -1,4 +1,4 @@
-package com.pda.games.MasterMind.Model;
+package com.pda.games.mastermind.model;
 
 public abstract class Player {
 
@@ -14,8 +14,6 @@ public abstract class Player {
     public String getPlayerName() {
         return playerName;
     }
-
-    public abstract void lineToFind();
 
     public int[] getLineToFind() {
         return lineToFind;
@@ -33,8 +31,16 @@ public abstract class Player {
         return guess;
     }
 
-    public abstract void guess();
+    /**
+     * used to initialize "lineToFind"
+     */
+    public abstract void lineToFind();
 
+    /**
+     * used to initialize "guess"
+     */
+    public abstract void guess();
+    
     public abstract String[] clue(int[] lineToFind, int[] guess);
 
     public abstract boolean notVerifyClue(int[] lineToFind, int[] guess, String[] clue);

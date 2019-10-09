@@ -1,8 +1,8 @@
-package com.pda.games.MasterMind.GameMods;
+package com.pda.games.mastermind.gamemods;
 
-import com.pda.games.MasterMind.Enums.WhoWin;
-import com.pda.games.MasterMind.Model.MasterMind;
-import com.pda.games.MasterMind.Model.Player;
+import com.pda.games.mastermind.enums.WhoWin;
+import com.pda.games.mastermind.model.MasterMind;
+import com.pda.games.mastermind.model.Player;
 
 public class Duel extends MasterMind {
 
@@ -14,7 +14,6 @@ public class Duel extends MasterMind {
         this.gameOne = new Party(playerOne, playerTwo);
         this.gameTwo = new Party(playerTwo, playerOne);
     }
-
 
     @Override
     public void initialization() {
@@ -34,7 +33,7 @@ public class Duel extends MasterMind {
     }
 
     @Override
-    public WhoWin whoWin() {
+    public WhoWin winner() {
         if (gameOne.isCorresponding() && gameTwo.isCorresponding()) {
             return WhoWin.EX_AEQUO_WIN;
         } else if (!canPlay() && (!gameOne.isCorresponding() && !gameTwo.isCorresponding())) {

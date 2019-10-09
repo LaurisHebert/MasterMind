@@ -1,16 +1,16 @@
 package com.pda.games;
 
-import com.pda.games.MasterMind.Comportment.BotComportment;
-import com.pda.games.MasterMind.Comportment.HumanComportment;
-import com.pda.games.MasterMind.Entry.Errors;
-import com.pda.games.MasterMind.Entry.Sc;
-import com.pda.games.MasterMind.Entry.Texts;
-import com.pda.games.MasterMind.Enums.GameMod;
-import com.pda.games.MasterMind.Enums.WhoWin;
-import com.pda.games.MasterMind.GameMods.Duel;
-import com.pda.games.MasterMind.GameMods.Party;
-import com.pda.games.MasterMind.Model.MasterMind;
-import com.pda.games.MasterMind.Model.Player;
+import com.pda.games.mastermind.comportment.BotComportment;
+import com.pda.games.mastermind.comportment.HumanComportment;
+import com.pda.games.mastermind.entry.Errors;
+import com.pda.games.mastermind.entry.Sc;
+import com.pda.games.mastermind.entry.Texts;
+import com.pda.games.mastermind.enums.GameMod;
+import com.pda.games.mastermind.enums.WhoWin;
+import com.pda.games.mastermind.gamemods.Duel;
+import com.pda.games.mastermind.gamemods.Party;
+import com.pda.games.mastermind.model.MasterMind;
+import com.pda.games.mastermind.model.Player;
 
 public class Main {
 
@@ -23,13 +23,17 @@ public class Main {
     public static void main(String[] args) {
         Texts.gameIntroduce();
         Texts.rules(MasterMind.sizeOfLineToFind);
-        numberOfHuman();
+        if (MasterMind.devMod) {
+            numberOfHuman();
+        } else {
+            numberOfHuman = 1;
+        }
         playerNames();
         initialisation();
     }
 
     /**
-     * Used for know how many human we have
+     * Used in dev mod for testing program
      */
     private static void numberOfHuman() {
         Texts.askingHowManyPlayer();
@@ -173,7 +177,7 @@ public class Main {
             Texts.actualRound(game.getRoundCount());
             game.round();
         } while (game.canPlay());
-        switch (game.whoWin()) {
+        switch (game.winner()) {
             case PLAYER_ONE_WIN:
                 Texts.win(game.getPlayerOneName());
                 break;
@@ -189,19 +193,19 @@ public class Main {
         }
         switch (gameMod) {
             case CHALLENGER:
-                if (game.whoWin() == WhoWin.PLAYER_TWO_WIN)
+                if (game.winner() == WhoWin.PLAYER_TWO_WIN)
                     Texts.lineToFind(playerTwoName, playerTwo.getLineToFind());
                 break;
             case DEFENDER:
-                if (game.whoWin() == WhoWin.PLAYER_TWO_WIN)
+                if (game.winner() == WhoWin.PLAYER_TWO_WIN)
                     Texts.lineToFind(playerOneName, playerOne.getLineToFind());
                 break;
             case DUEL:
-                if (game.whoWin() == WhoWin.PLAYER_ONE_WIN)
+                if (game.winner() == WhoWin.PLAYER_ONE_WIN)
                     Texts.lineToFind(playerOneName, playerOne.getLineToFind());
-                if (game.whoWin() == WhoWin.PLAYER_TWO_WIN)
+                if (game.winner() == WhoWin.PLAYER_TWO_WIN)
                     Texts.lineToFind(playerTwoName, playerTwo.getLineToFind());
-                if (game.whoWin() == WhoWin.EX_AEQUO_LOSE)
+                if (game.winner() == WhoWin.EX_AEQUO_LOSE)
                     Texts.lineToFind(playerOneName, playerOne.getLineToFind(), playerTwoName, playerTwo.getLineToFind());
                 break;
         }
