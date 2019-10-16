@@ -26,18 +26,18 @@ public class Main {
         Texts.gameIntroduce();
         Texts.rules(config.getSizeOfLineToFind());
         if (config.isDevMod()) {
-            numberOfHuman();
+            initialisationNumberOfHumans();
         } else {
             numberOfHuman = 1;
         }
-        playerNames();
-        initialisation();
+        initialisationThePlayersNames();
+        gameInitialisation();
     }
 
     /**
      * Used in dev mod for testing program
      */
-    private static void numberOfHuman() {
+    private static void initialisationNumberOfHumans() {
         Texts.askingHowManyPlayer();
         boolean firstLoop = true;
         do {
@@ -52,7 +52,7 @@ public class Main {
     /**
      * Used for named the players with corresponding entry
      */
-    private static void playerNames() {
+    private static void initialisationThePlayersNames() {
         switch (numberOfHuman) {
             case 0:
                 Texts.pseudoEntry(1);
@@ -78,17 +78,17 @@ public class Main {
     /**
      * Initialise the game
      */
-    private static void initialisation() {
-        GameMod gameMode = choosingMod();
-        MasterMind game = selectGameMod(gameMode);
-        executeGame(game, gameMode);
+    private static void gameInitialisation() {
+        GameMod gameMode = selectMod();
+        MasterMind game = createGame(gameMode);
+        runGame(game, gameMode);
         boolean loop = true;
         while (loop) {
             Boolean again = tryAgain();
             if (again == null) {
-                initialisation();
+                gameInitialisation();
             } else if (again) {
-                executeGame(selectGameMod(gameMode), gameMode);
+                runGame(createGame(gameMode), gameMode);
                 loop = true;
             } else {
                 Texts.end();
@@ -100,7 +100,7 @@ public class Main {
     /**
      * @return the selected game mod
      */
-    private static GameMod choosingMod() {
+    private static GameMod selectMod() {
         Texts.explainGameMod();
         boolean error;
         int entry;
@@ -130,7 +130,7 @@ public class Main {
      * @param gameMod the selected game mod
      * @return the object used to generate the game
      */
-    private static MasterMind selectGameMod(GameMod gameMod) {
+    private static MasterMind createGame(GameMod gameMod) {
         selectPlayerComportment();
         switch (gameMod) {
             case CHALLENGER:
@@ -172,14 +172,14 @@ public class Main {
      *
      * @param game used to know which game to launch
      */
-    private static void executeGame(MasterMind game, GameMod gameMod) {
+    private static void runGame(MasterMind game, GameMod gameMod) {
         game.initialization();
         Texts.launchPhrase();
         do {
             Texts.actualRound(game.getRoundCount(), config.getMaximumOfRounds());
             game.round();
         } while (game.canPlay());
-        switch (game.winner()) {
+        switch (game.defineWinner()) {
             case PLAYER_ONE_WIN:
                 Texts.win(game.getPlayerOneName());
                 break;
@@ -195,19 +195,19 @@ public class Main {
         }
         switch (gameMod) {
             case CHALLENGER:
-                if (game.winner() == WhoWin.PLAYER_TWO_WIN)
+                if (game.defineWinner() == WhoWin.PLAYER_TWO_WIN)
                     Texts.lineToFind(playerTwoName, playerTwo.getLineToFind());
                 break;
             case DEFENDER:
-                if (game.winner() == WhoWin.PLAYER_TWO_WIN)
+                if (game.defineWinner() == WhoWin.PLAYER_TWO_WIN)
                     Texts.lineToFind(playerOneName, playerOne.getLineToFind());
                 break;
             case DUEL:
-                if (game.winner() == WhoWin.PLAYER_ONE_WIN)
+                if (game.defineWinner() == WhoWin.PLAYER_ONE_WIN)
                     Texts.lineToFind(playerOneName, playerOne.getLineToFind());
-                if (game.winner() == WhoWin.PLAYER_TWO_WIN)
+                if (game.defineWinner() == WhoWin.PLAYER_TWO_WIN)
                     Texts.lineToFind(playerTwoName, playerTwo.getLineToFind());
-                if (game.winner() == WhoWin.EX_AEQUO_LOSE)
+                if (game.defineWinner() == WhoWin.EX_AEQUO_LOSE)
                     Texts.lineToFind(playerOneName, playerOne.getLineToFind(), playerTwoName, playerTwo.getLineToFind());
                 break;
         }

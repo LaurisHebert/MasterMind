@@ -34,7 +34,7 @@ public class Duel extends MasterMind {
     }
 
     @Override
-    public WhoWin winner() {
+    public WhoWin defineWinner() {
         if (gameOne.isCorresponding() && gameTwo.isCorresponding()) {
             return WhoWin.EX_AEQUO_WIN;
         } else if (!canPlay() && (!gameOne.isCorresponding() && !gameTwo.isCorresponding())) {

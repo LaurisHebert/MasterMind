@@ -38,13 +38,13 @@ public abstract class MasterMind {
 
     public abstract void round();
 
-    public abstract WhoWin winner();
+    public abstract WhoWin defineWinner();
 
     public boolean canPlay() {
         return !corresponding && roundCount <= config.getMaximumOfRounds();
     }
 
-    protected void correspondence(int[] lineToFind, int[] guess) {
+    protected void checkingCorrespondenceGuessAndLineToFind(int[] lineToFind, int[] guess) {
         if (canPlay()) {
             corresponding = Arrays.equals(lineToFind, guess);
             roundCount++;

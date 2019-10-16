@@ -26,7 +26,7 @@ public class BotPlayer extends Player {
         if (id < 0)
             id = id * -1;
         id = id % 10000;
-        Texts.bot(id);
+        Texts.botName(id);
         return "Bot" + id;
     }
 

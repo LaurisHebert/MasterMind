@@ -38,10 +38,10 @@ public class Party extends MasterMind {
             firstTime = false;
         } while (playerOne.notVerifyClue(playerTwo.getLineToFind(), playerOne.getGuess(), playerOne.getAdversaryClue()));
         Texts.printArray(playerOne.getAdversaryClue());
-        correspondence(playerTwo.getLineToFind(), playerOne.getGuess());
+        checkingCorrespondenceGuessAndLineToFind(playerTwo.getLineToFind(), playerOne.getGuess());
     }
 
-    public WhoWin winner() {
+    public WhoWin defineWinner() {
         if (isCorresponding()) {
             return WhoWin.PLAYER_ONE_WIN;
         }

@@ -33,7 +33,7 @@ public class Texts {
         }
     }
 
-    public static void bot(int i) {
+    public static void botName(int i) {
         logger.trace("Bot" + i);
     }
 
