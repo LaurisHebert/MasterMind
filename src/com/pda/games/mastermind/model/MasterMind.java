@@ -1,6 +1,6 @@
 package com.pda.games.mastermind.model;
 
-import com.pda.games.mastermind.enums.WhoWin;
+import com.pda.games.mastermind.enums.Winner;
 
 import java.util.Arrays;
 
@@ -38,7 +38,7 @@ public abstract class MasterMind {
 
     public abstract void round();
 
-    public abstract WhoWin defineWinner();
+    public abstract Winner defineWinner();
 
     public boolean canPlay() {
         return !corresponding && roundCount <= config.getMaximumOfRounds();

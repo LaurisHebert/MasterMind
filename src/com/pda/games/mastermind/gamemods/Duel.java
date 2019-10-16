@@ -1,6 +1,6 @@
 package com.pda.games.mastermind.gamemods;
 
-import com.pda.games.mastermind.enums.WhoWin;
+import com.pda.games.mastermind.enums.Winner;
 import com.pda.games.mastermind.model.MasterMind;
 import com.pda.games.mastermind.model.MasterMindConfig;
 import com.pda.games.mastermind.model.Player;
@@ -34,16 +34,16 @@ public class Duel extends MasterMind {
     }
 
     @Override
-    public WhoWin defineWinner() {
+    public Winner defineWinner() {
         if (gameOne.isCorresponding() && gameTwo.isCorresponding()) {
-            return WhoWin.EX_AEQUO_WIN;
+            return Winner.EX_AEQUO_WIN;
         } else if (!canPlay() && (!gameOne.isCorresponding() && !gameTwo.isCorresponding())) {
-            return WhoWin.EX_AEQUO_LOSE;
+            return Winner.EX_AEQUO_LOSE;
         } else if (gameOne.isCorresponding() && !gameTwo.isCorresponding()) {
-            return WhoWin.PLAYER_ONE_WIN;
+            return Winner.PLAYER_ONE_WIN;
         } else if (!gameOne.isCorresponding() && gameTwo.isCorresponding()) {
-            return WhoWin.PLAYER_TWO_WIN;
-        } else return WhoWin.GAME_IN_PROGRESS;
+            return Winner.PLAYER_TWO_WIN;
+        } else return Winner.GAME_IN_PROGRESS;
     }
 
     @Override

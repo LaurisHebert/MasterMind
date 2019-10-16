@@ -1,7 +1,7 @@
 package com.pda.games.mastermind.comportment;
 
 import com.pda.games.mastermind.entry.Errors;
-import com.pda.games.mastermind.entry.Sc;
+import com.pda.games.mastermind.entry.Input;
 import com.pda.games.mastermind.entry.Texts;
 import com.pda.games.mastermind.model.MasterMindConfig;
 import com.pda.games.mastermind.model.Player;
@@ -13,7 +13,7 @@ public class HumanPlayer extends Player {
     }
 
     public static String playerName() {
-        return Sc.nextLine();
+        return Input.nextLine();
     }
 
     /**
@@ -27,7 +27,7 @@ public class HumanPlayer extends Player {
         do {
             error = false;
             try {
-                String humanEntry = Sc.nextLine();
+                String humanEntry = Input.nextLine();
                 String[] arrayEntry = humanEntry.split(" ");
                 if (arrayEntry.length != config.getSizeOfLineToFind()) {
                     Errors.notEnough(config.getSizeOfLineToFind());
@@ -70,7 +70,7 @@ public class HumanPlayer extends Player {
         do {
             error = false;
             try {
-                String humanEntry = Sc.nextLine();
+                String humanEntry = Input.nextLine();
                 String[] arrayEntry = humanEntry.split(" ");
                 if (arrayEntry.length != config.getSizeOfLineToFind()) {
                     Errors.notEnough(config.getSizeOfLineToFind());

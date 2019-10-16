@@ -4,12 +4,26 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Properties;
 
+/**
+ * read values in "resources/config.properties"
+ */
 public class MasterMindConfig {
     private final int sizeOfLineToFind;
     private final int maximumValue;
     private final int minimalValue;
     private final int maximumOfRounds;
     private final boolean devMod;
+    private final String playerOneName;
+    private final String playerTwoName;
+
+
+    public String getPlayerOneName() {
+        return playerOneName;
+    }
+
+    public String getPlayerTwoName() {
+        return playerTwoName;
+    }
 
     public MasterMindConfig() {
         Properties properties = new Properties();
@@ -23,6 +37,8 @@ public class MasterMindConfig {
         minimalValue = Integer.parseInt(properties.getProperty("minimalValue"));
         maximumOfRounds = Integer.parseInt(properties.getProperty("maximumOfRounds"));
         devMod = properties.containsKey("devMod") && Boolean.parseBoolean(properties.getProperty("devMod"));
+        playerOneName = properties.getProperty("playerOneName");
+        playerTwoName = properties.getProperty("playerTwoName");
     }
 
     public int getSizeOfLineToFind() {

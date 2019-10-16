@@ -1,7 +1,7 @@
 package com.pda.games.mastermind.gamemods;
 
 import com.pda.games.mastermind.entry.Texts;
-import com.pda.games.mastermind.enums.WhoWin;
+import com.pda.games.mastermind.enums.Winner;
 import com.pda.games.mastermind.model.MasterMind;
 import com.pda.games.mastermind.model.MasterMindConfig;
 import com.pda.games.mastermind.model.Player;
@@ -41,14 +41,14 @@ public class Party extends MasterMind {
         checkingCorrespondenceGuessAndLineToFind(playerTwo.getLineToFind(), playerOne.getGuess());
     }
 
-    public WhoWin defineWinner() {
+    public Winner defineWinner() {
         if (isCorresponding()) {
-            return WhoWin.PLAYER_ONE_WIN;
+            return Winner.PLAYER_ONE_WIN;
         }
         if (!isCorresponding() && !canPlay()) {
-            return WhoWin.PLAYER_TWO_WIN;
+            return Winner.PLAYER_TWO_WIN;
         } else {
-            return WhoWin.GAME_IN_PROGRESS;
+            return Winner.GAME_IN_PROGRESS;
         }
     }
 }

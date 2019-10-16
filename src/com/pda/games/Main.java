@@ -1,12 +1,12 @@
 package com.pda.games;
 
-import com.pda.games.mastermind.comportment.BotPlayer;
 import com.pda.games.mastermind.comportment.HumanPlayer;
+import com.pda.games.mastermind.comportment.bot.BotPlayer;
 import com.pda.games.mastermind.entry.Errors;
-import com.pda.games.mastermind.entry.Sc;
+import com.pda.games.mastermind.entry.Input;
 import com.pda.games.mastermind.entry.Texts;
 import com.pda.games.mastermind.enums.GameMod;
-import com.pda.games.mastermind.enums.WhoWin;
+import com.pda.games.mastermind.enums.Winner;
 import com.pda.games.mastermind.gamemods.Duel;
 import com.pda.games.mastermind.gamemods.Party;
 import com.pda.games.mastermind.model.MasterMind;
@@ -26,25 +26,25 @@ public class Main {
         Texts.gameIntroduce();
         Texts.rules(config.getSizeOfLineToFind());
         if (config.isDevMod()) {
-            initialisationNumberOfHumans();
+            initNumberOfHumans();
         } else {
             numberOfHuman = 1;
         }
-        initialisationThePlayersNames();
-        gameInitialisation();
+        initThePlayersNames();
+        gameInit();
     }
 
     /**
-     * Used in dev mod for testing program
+     * Used in dev mod for testing program with 2 bots or 2 humans
      */
-    private static void initialisationNumberOfHumans() {
+    private static void initNumberOfHumans() {
         Texts.askingHowManyPlayer();
         boolean firstLoop = true;
         do {
             if (!firstLoop) {
                 Errors.onlyBetween(0, 2);
             }
-            numberOfHuman = Sc.nextPositiveInt();
+            numberOfHuman = Input.nextPositiveInt();
             firstLoop = false;
         } while (numberOfHuman < 0 || numberOfHuman > 2);
     }
@@ -52,25 +52,35 @@ public class Main {
     /**
      * Used for named the players with corresponding entry
      */
-    private static void initialisationThePlayersNames() {
+    private static void initThePlayersNames() {
         switch (numberOfHuman) {
             case 0:
-                Texts.pseudoEntry(1);
-                playerOneName = BotPlayer.playerName();
-                Texts.pseudoEntry(2);
-                playerTwoName = BotPlayer.playerName();
-                break;
-            case 1:
-                Texts.pseudoEntry(1);
-                playerOneName = HumanPlayer.playerName();
-                Texts.pseudoEntry(2);
-                playerTwoName = BotPlayer.playerName();
-                break;
-            case 2:
                 Texts.pseudoEntry(1);
                 playerOneName = HumanPlayer.playerName();
                 Texts.pseudoEntry(2);
                 playerTwoName = HumanPlayer.playerName();
+                break;
+            case 1:
+                if (config.getPlayerOneName() != null) {
+                    playerOneName = config.getPlayerOneName();
+                } else {
+                    Texts.pseudoEntry(1);
+                    playerOneName = HumanPlayer.playerName();
+
+                }
+                if (config.getPlayerTwoName() != null) {
+                    playerTwoName = config.getPlayerTwoName();
+                } else {
+                    Texts.pseudoEntry(2);
+                    playerTwoName = BotPlayer.playerName();
+                }
+                break;
+            case 2:
+
+                Texts.pseudoEntry(1);
+                playerOneName = BotPlayer.playerName();
+                Texts.pseudoEntry(2);
+                playerTwoName = BotPlayer.playerName();
                 break;
         }
     }
@@ -78,7 +88,7 @@ public class Main {
     /**
      * Initialise the game
      */
-    private static void gameInitialisation() {
+    private static void gameInit() {
         GameMod gameMode = selectMod();
         MasterMind game = createGame(gameMode);
         runGame(game, gameMode);
@@ -86,7 +96,7 @@ public class Main {
         while (loop) {
             Boolean again = tryAgain();
             if (again == null) {
-                gameInitialisation();
+                gameInit();
             } else if (again) {
                 runGame(createGame(gameMode), gameMode);
                 loop = true;
@@ -106,7 +116,7 @@ public class Main {
         int entry;
         do {
             error = false;
-            entry = Sc.nextPositiveInt();
+            entry = Input.nextPositiveInt();
             if (entry < 1 || entry > 3) {
                 error = true;
                 Errors.onlyBetween(1, 3);
@@ -131,7 +141,7 @@ public class Main {
      * @return the object used to generate the game
      */
     private static MasterMind createGame(GameMod gameMod) {
-        selectPlayerComportment();
+        initPlayerComportment();
         switch (gameMod) {
             case CHALLENGER:
                 return new Party(playerOne, playerTwo, config);
@@ -147,7 +157,7 @@ public class Main {
     /**
      * Used for know if the player is human or IA
      */
-    private static void selectPlayerComportment() {
+    private static void initPlayerComportment() {
         switch (numberOfHuman) {
             case 0:
                 playerOne = new BotPlayer(config, playerOneName);
@@ -195,28 +205,35 @@ public class Main {
         }
         switch (gameMod) {
             case CHALLENGER:
-                if (game.defineWinner() == WhoWin.PLAYER_TWO_WIN)
+                if (game.defineWinner() == Winner.PLAYER_TWO_WIN)
                     Texts.lineToFind(playerTwoName, playerTwo.getLineToFind());
                 break;
             case DEFENDER:
-                if (game.defineWinner() == WhoWin.PLAYER_TWO_WIN)
+                if (game.defineWinner() == Winner.PLAYER_TWO_WIN)
                     Texts.lineToFind(playerOneName, playerOne.getLineToFind());
                 break;
             case DUEL:
-                if (game.defineWinner() == WhoWin.PLAYER_ONE_WIN)
+                if (game.defineWinner() == Winner.PLAYER_ONE_WIN)
                     Texts.lineToFind(playerOneName, playerOne.getLineToFind());
-                if (game.defineWinner() == WhoWin.PLAYER_TWO_WIN)
+                if (game.defineWinner() == Winner.PLAYER_TWO_WIN)
                     Texts.lineToFind(playerTwoName, playerTwo.getLineToFind());
-                if (game.defineWinner() == WhoWin.EX_AEQUO_LOSE)
+                if (game.defineWinner() == Winner.EX_AEQUO_LOSE)
                     Texts.lineToFind(playerOneName, playerOne.getLineToFind(), playerTwoName, playerTwo.getLineToFind());
                 break;
         }
     }
 
+    /**
+     * Ask at the user if s/he want try again
+     *
+     * @return : true if s/he want try again the game
+     * null if s/he want try an other game mod
+     * false if s/he want quite
+     */
     private static Boolean tryAgain() {
         Texts.tryAgainMenu();
         while (true) {
-            String tryAgain = Sc.nextLine();
+            String tryAgain = Input.nextLine();
             switch (tryAgain.toLowerCase()) {
                 case "r":
                     return true;

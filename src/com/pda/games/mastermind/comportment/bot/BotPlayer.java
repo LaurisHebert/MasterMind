@@ -1,4 +1,4 @@
-package com.pda.games.mastermind.comportment;
+package com.pda.games.mastermind.comportment.bot;
 
 import com.pda.games.mastermind.entry.Texts;
 import com.pda.games.mastermind.model.MasterMindConfig;

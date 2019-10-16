@@ -18,7 +18,7 @@ public class Texts {
     }
 
     public static void askingHowManyPlayer() {
-        logger.trace("\nHow many player human we have ?");
+        logger.trace("\nHow many player bot we have ?");
 
     }
 
