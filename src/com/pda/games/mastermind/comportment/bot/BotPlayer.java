@@ -1,8 +1,8 @@
 package com.pda.games.mastermind.comportment.bot;
 
+import com.pda.games.mastermind.comportment.Player;
 import com.pda.games.mastermind.entry.Texts;
 import com.pda.games.mastermind.model.MasterMindConfig;
-import com.pda.games.mastermind.model.Player;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -16,18 +16,6 @@ public class BotPlayer extends Player {
         super(texts, config, playerName);
     }
 
-    /**
-     * used for create bot name
-     *
-     * @return the bot name
-     */
-    public static String playerName() {
-        int id = new Random().nextInt();
-        if (id < 0)
-            id = id * -1;
-        id = id % 10000;
-        return "Bot" + id;
-    }
 
     /**
      * used for initialize lowestRange

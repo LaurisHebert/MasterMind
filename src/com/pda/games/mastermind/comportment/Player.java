@@ -1,6 +1,7 @@
-package com.pda.games.mastermind.model;
+package com.pda.games.mastermind.comportment;
 
 import com.pda.games.mastermind.entry.Texts;
+import com.pda.games.mastermind.model.MasterMindConfig;
 
 public abstract class Player {
 

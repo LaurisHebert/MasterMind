@@ -4,16 +4,11 @@ import com.pda.games.mastermind.entry.Errors;
 import com.pda.games.mastermind.entry.Inputs;
 import com.pda.games.mastermind.entry.Texts;
 import com.pda.games.mastermind.model.MasterMindConfig;
-import com.pda.games.mastermind.model.Player;
 
 public class HumanPlayer extends Player {
 
     public HumanPlayer(Texts texts, MasterMindConfig config, String playerName) {
         super(texts, config, playerName);
-    }
-
-    public static String playerName() {
-        return Inputs.nextLine();
     }
 
     /**

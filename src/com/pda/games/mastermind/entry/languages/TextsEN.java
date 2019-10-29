@@ -45,7 +45,7 @@ public class TextsEN implements Texts {
     public void rules(int size) {
         logger.trace("Rules :\n" +
                 "-------\n" +
-                "When secret digits are requested you need to enter " + size + " digits separated by the space" +
+                "When secret digits are requested you need to enter " + size + " digits separated by the space\n" +
                 "When a guess was requested you need to enter " + size + " digits separated by the space for trying to find the secret digits.\n" +
                 "when a clue was requested you need to enter a symbol for each digits  of your adversary guess separated by the space.\n" +
                 "\"+\" if the corresponding number in your secret line is bigger\n" +
@@ -57,6 +57,11 @@ public class TextsEN implements Texts {
     public void launchPhrase() {
         logger.trace("\nSecret numbers are initialized\n" +
                 "\nLet's the game begin !\n");
+    }
+
+    @Override
+    public Logger getLogger() {
+        return logger;
     }
 
     @Override

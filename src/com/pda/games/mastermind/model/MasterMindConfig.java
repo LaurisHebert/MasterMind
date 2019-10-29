@@ -36,10 +36,14 @@ public class MasterMindConfig {
         antiCheat = properties.containsKey("antiCheat") && Boolean.parseBoolean(properties.getProperty("antiCheat"));
         if (properties.containsKey("botDifficulties")) {
             String numberOfBot = properties.getProperty("botDifficulties");
-            String[] botsDifficulties = numberOfBot.split(",");
-            botDifficulties = new int[botsDifficulties.length];
-            for (int i = 0; i < botsDifficulties.length; i++) {
-                botDifficulties[i] = Integer.parseInt(botsDifficulties[i]);
+            if (numberOfBot.isEmpty()) {
+                botDifficulties = new int[]{};
+            } else {
+                String[] botsDifficulties = numberOfBot.split(",");
+                botDifficulties = new int[botsDifficulties.length];
+                for (int i = 0; i < botsDifficulties.length; i++) {
+                    botDifficulties[i] = Integer.parseInt(botsDifficulties[i]);
+                }
             }
         } else {
             botDifficulties = new int[]{1};

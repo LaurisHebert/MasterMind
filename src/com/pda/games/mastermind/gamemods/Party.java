@@ -1,10 +1,10 @@
 package com.pda.games.mastermind.gamemods;
 
+import com.pda.games.mastermind.comportment.Player;
 import com.pda.games.mastermind.entry.Texts;
 import com.pda.games.mastermind.enums.WhoWin;
 import com.pda.games.mastermind.model.MasterMind;
 import com.pda.games.mastermind.model.MasterMindConfig;
-import com.pda.games.mastermind.model.Player;
 
 public class Party extends MasterMind {
 

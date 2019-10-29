@@ -1,5 +1,6 @@
 package com.pda.games.mastermind.model;
 
+import com.pda.games.mastermind.comportment.Player;
 import com.pda.games.mastermind.entry.Texts;
 import com.pda.games.mastermind.enums.WhoWin;
 

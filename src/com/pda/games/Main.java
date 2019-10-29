@@ -1,21 +1,23 @@
 package com.pda.games;
 
 import com.pda.games.mastermind.comportment.HumanPlayer;
+import com.pda.games.mastermind.comportment.Player;
 import com.pda.games.mastermind.comportment.bot.BotPlayer;
 import com.pda.games.mastermind.comportment.bot.HardBotPlayer;
 import com.pda.games.mastermind.comportment.bot.MediumBotPlayer;
 import com.pda.games.mastermind.entry.Errors;
 import com.pda.games.mastermind.entry.Inputs;
+import com.pda.games.mastermind.entry.Texts;
 import com.pda.games.mastermind.entry.languages.TextsEN;
 import com.pda.games.mastermind.entry.languages.TextsFR;
-import com.pda.games.mastermind.entry.Texts;
 import com.pda.games.mastermind.enums.GameMod;
 import com.pda.games.mastermind.enums.WhoWin;
 import com.pda.games.mastermind.gamemods.Duel;
 import com.pda.games.mastermind.gamemods.Party;
 import com.pda.games.mastermind.model.MasterMind;
 import com.pda.games.mastermind.model.MasterMindConfig;
-import com.pda.games.mastermind.model.Player;
+
+import java.util.Random;
 
 public class Main {
 
@@ -33,6 +35,23 @@ public class Main {
         gameInit();
     }
 
+    private static String humanPlayerName() {
+        return Inputs.nextLine();
+    }
+
+    /**
+     * used for create bot name
+     *
+     * @return the bot name
+     */
+    public static String botPlayerName() {
+        int id = new Random().nextInt();
+        if (id < 0)
+            id = id * -1;
+        id = id % 10000;
+        return "Bot" + id;
+    }
+
     private static Texts buildTexts() {
         if (config.getLanguage().equals("FR")) {
             return new TextsFR();
@@ -48,30 +67,32 @@ public class Main {
         switch (config.getNumberOfBot()) {
             case 0:
                 texts.pseudoEntry(1);
-                playerOneName = HumanPlayer.playerName();
+                playerOneName = humanPlayerName();
                 texts.pseudoEntry(2);
-                playerTwoName = HumanPlayer.playerName();
+                playerTwoName = humanPlayerName();
                 break;
             case 1:
                 if (config.getPlayerOneName() != null) {
                     playerOneName = config.getPlayerOneName();
                 } else {
                     texts.pseudoEntry(1);
-                    playerOneName = HumanPlayer.playerName();
-
+                    playerOneName = humanPlayerName();
                 }
                 if (config.getPlayerTwoName() != null) {
                     playerTwoName = config.getPlayerTwoName();
                 } else {
                     texts.pseudoEntry(2);
-                    playerTwoName = BotPlayer.playerName();
+                    playerTwoName = botPlayerName();
+                    texts.botName(playerTwoName);
                 }
                 break;
             case 2:
                 texts.pseudoEntry(1);
-                playerOneName = BotPlayer.playerName();
+                playerOneName = botPlayerName();
+                texts.botName(playerOneName);
                 texts.pseudoEntry(2);
-                playerTwoName = BotPlayer.playerName();
+                playerTwoName = botPlayerName();
+                texts.botName(playerTwoName);
                 break;
         }
     }
@@ -83,17 +104,15 @@ public class Main {
         GameMod gameMode = selectMod();
         MasterMind game = createGame(gameMode);
         runGame(game, gameMode);
-        boolean loop = true;
-        while (loop) {
+        while (true) {
             Boolean again = tryAgain();
             if (again == null) {
                 gameInit();
             } else if (again) {
                 runGame(createGame(gameMode), gameMode);
-                loop = true;
             } else {
                 texts.end();
-                loop = false;
+                System.exit(0);
             }
         }
     }
@@ -171,12 +190,12 @@ public class Main {
 
     private static BotPlayer buildBot(int i, String playerName) {
         switch (i) {
-            case 0:
-                return new BotPlayer(texts, config, playerName);
+            case 1:
+                return new MediumBotPlayer(texts, config, playerName);
             case 2:
                 return new HardBotPlayer(texts, config, playerName);
             default:
-                return new MediumBotPlayer(texts, config, playerName);
+                return new BotPlayer(texts, config, playerName);
         }
     }
 

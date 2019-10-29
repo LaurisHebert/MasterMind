@@ -1,11 +1,14 @@
 package com.pda.games.mastermind.entry;
 
 
+import org.apache.logging.log4j.Logger;
+
 public interface Texts {
 
     void gameIntroduce();
 
     void pseudoEntry(int i);
+
 
     void explainGameMod();
 
@@ -14,6 +17,12 @@ public interface Texts {
     void rules(int size);
 
     void launchPhrase();
+
+    Logger getLogger();
+
+    default void botName(String playerName) {
+        getLogger().trace(playerName);
+    }
 
     void actualRound(int roundCount, int maxRounds);
 

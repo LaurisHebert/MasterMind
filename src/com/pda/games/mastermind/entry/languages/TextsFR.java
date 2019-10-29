@@ -19,10 +19,10 @@ public class TextsFR implements Texts {
     public void pseudoEntry(int i) {
         switch (i) {
             case 1:
-                logger.trace("Joueur un entrez vôtre pseudonyme :");
+                logger.trace("Joueur un entrez votre pseudonyme :");
                 break;
             case 2:
-                logger.trace("\nJoueur deux entrez vôtre pseudonyme :");
+                logger.trace("\nJoueur deux entrez votre pseudonyme :");
                 break;
         }
     }
@@ -30,7 +30,7 @@ public class TextsFR implements Texts {
 
     @Override
     public void explainGameMod() {
-        logger.trace("\nSelectionnez vôtre mod:" +
+        logger.trace("\nSelectionnez votre mod:" +
                 "\n1-Challenger ( le joueur un essaye de deviner la combinaison du joueur deux ) " +
                 "\n2-Defender ( le joueur deux essaye de deviner la combinaison du joueur un )" +
                 "\n3-Duel ( les deux joueurs essayent de chercher la combinaison de leur adverssaire )");
@@ -39,7 +39,7 @@ public class TextsFR implements Texts {
 
     @Override
     public void initializationMessage(String playerName) {
-        logger.trace("\nInitialisation dela combinaison de " + playerName + ":");
+        logger.trace("\nInitialisation de la combinaison de " + playerName + ":");
     }
 
 
@@ -48,9 +48,9 @@ public class TextsFR implements Texts {
         logger.trace("Règles :\n" +
                 "-------\n" +
                 "quand une combinaison est demandé, vous devez entrer " + size + " chiffres, séparer par un espace." +
-                "quand un \"guess\" est demandé, vous devenez entrer  " + size + " chiffres, séparer par un espace, pour essayer de trouver la combinaison de vôtre adverssaire.\n" +
+                "quand un \"proposition\" est demandé, vous devenez entrer  " + size + " chiffres, séparer par un espace, pour essayer de trouver la combinaison de votre adverssaire.\n" +
                 "quand un indice vous est demandé, vous devez entrer un symbole pour chaques chiffres de l'adverssaire, séparer par un esapce\n" +
-                "\"+\" si le chiffre de vôtre combinaison est plus grand que celui donné par l'adverssaire.\n" +
+                "\"+\" si le chiffre de votre combinaison est plus grand que celui donné par l'adverssaire.\n" +
                 "\"-\" si il est plus bas\n" +
                 "\"=\" si il est égale.\n");
     }
@@ -62,6 +62,10 @@ public class TextsFR implements Texts {
                 "\nQue le jeu commence !\n");
     }
 
+    @Override
+    public Logger getLogger() {
+        return logger;
+    }
 
     @Override
     public void actualRound(int roundCount, int maxRounds) {
@@ -72,7 +76,7 @@ public class TextsFR implements Texts {
 
     @Override
     public void memo(int[] guess, String[] clue) {
-        logger.trace("precedent guess : " + Arrays.toString(guess) +
+        logger.trace("precedente proposition : " + Arrays.toString(guess) +
                 "\nindice précedent : " + Arrays.toString(clue));
     }
 
@@ -85,7 +89,7 @@ public class TextsFR implements Texts {
 
     @Override
     public void askGuess(String playerName) {
-        logger.trace(playerName + " guess :");
+        logger.trace(playerName + " proposition :");
     }
 
 
@@ -140,12 +144,12 @@ public class TextsFR implements Texts {
 
     @Override
     public void win(String playerName) {
-        logger.trace(playerName + " à gagné !");
+        logger.trace(playerName + " a gagné !");
     }
 
 
     @Override
     public void Equally(String winOrLose) {
-        logger.trace("tous le monde à " + winOrLose + " !");
+        logger.trace("tous le monde a " + winOrLose + " !");
     }
 }
