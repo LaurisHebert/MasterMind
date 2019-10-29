@@ -45,6 +45,7 @@ public class Errors {
     public static void error() {
         logger.error("we encountered an error please retry");
     }
+
     public static void wrongCharacter() {
         logger.error("you have to enter digits");
     }

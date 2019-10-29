@@ -1,10 +1,14 @@
-package com.pda.games.mastermind.entry.Languages;
+package com.pda.games.mastermind.entry.languages;
 
 import com.pda.games.mastermind.entry.Texts;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 
-public class TextsFR extends Texts {
+public class TextsFR implements Texts {
+
+    private static final Logger logger = LogManager.getLogger();
 
     public void gameIntroduce() {
         logger.trace("Bienvenu dans MasterMind !" +
@@ -21,12 +25,6 @@ public class TextsFR extends Texts {
                 logger.trace("\nJoueur deux entrez vôtre pseudonyme :");
                 break;
         }
-    }
-
-
-    @Override
-    public void botName(int i) {
-
     }
 
 

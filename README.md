@@ -13,17 +13,17 @@ https://openclassrooms.com/fr/projects/140/assignment
 ##Démarrage 
 - Configuer le jeu à partir du fichier resources/config.properties
  
-  - "sizeOfLineToFin" definie le nombre de chiffres que contiendras le mastermind
+  - "sizeOfLineToFin" définie le nombre de chiffres que contiendras le mastermind
  
   - "maximumValue" définie le nombre maximum
   
-  - "minimalValue" définie le nombre mininum
+  - "minimalValue" définie le nombre minimum
   
   - "maximumOfRounds" définie le nombre de round maximum
   
   - "devMod" permet d'activer ou non le mode Dev
   
-- Executer la methode Main
+- Executer la méthode Main
 
 
 

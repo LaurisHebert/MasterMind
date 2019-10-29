@@ -1,16 +1,22 @@
-package com.pda.games.mastermind.entry.Languages;
+package com.pda.games.mastermind.entry.languages;
 
 import com.pda.games.mastermind.entry.Texts;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 
-public class TextsEN extends Texts {
+public class TextsEN implements Texts {
 
+    private static final Logger logger = LogManager.getLogger();
+
+    @Override
     public void gameIntroduce() {
         logger.trace("Welcome in mastermind !" +
                 "\n-----------------------");
     }
 
+    @Override
     public void pseudoEntry(int i) {
         switch (i) {
             case 1:
@@ -22,10 +28,7 @@ public class TextsEN extends Texts {
         }
     }
 
-    public void botName(int i) {
-        logger.trace("Bot" + i);
-    }
-
+    @Override
     public void explainGameMod() {
         logger.trace("\nPlease select your game mod:" +
                 "\n1-Challenger ( player one try to guess the player two hidden number ) " +
@@ -33,10 +36,12 @@ public class TextsEN extends Texts {
                 "\n3-Duel ( both players try to find the opponent's hidden number )");
     }
 
+    @Override
     public void initializationMessage(String playerName) {
         logger.trace("\nInitialization of secret digits of " + playerName + ":");
     }
 
+    @Override
     public void rules(int size) {
         logger.trace("Rules :\n" +
                 "-------\n" +
@@ -48,46 +53,56 @@ public class TextsEN extends Texts {
                 "\"=\" if he is equal\n");
     }
 
+    @Override
     public void launchPhrase() {
         logger.trace("\nSecret numbers are initialized\n" +
                 "\nLet's the game begin !\n");
     }
 
+    @Override
     public void actualRound(int roundCount, int maxRounds) {
         logger.trace("Round " + roundCount + "/" + maxRounds +
                 "\n---------");
     }
 
+    @Override
     public void memo(int[] guess, String[] clue) {
         logger.trace("Precedent guess : " + Arrays.toString(guess) +
                 "\nPrecedent clue : " + Arrays.toString(clue));
     }
 
+    @Override
     public void memo(int[] thing) {
         logger.trace("Memo: " + Arrays.toString(thing));
     }
 
+    @Override
     public void askGuess(String playerName) {
         logger.trace(playerName + " guess :");
     }
 
+    @Override
     public void askClue(String playerName) {
         logger.trace(playerName + " clue :");
     }
 
+    @Override
     public void printArray(String[] thing) {
         logger.trace(Arrays.toString(thing) + "\n");
     }
 
+    @Override
     public void printArray(int[] thing) {
         logger.trace(Arrays.toString(thing) + "\n");
     }
 
+    @Override
     public void lineToFind(String playerName, int[] lineToFind) {
         logger.trace("The number was : \n" +
                 "-" + playerName + ": " + Arrays.toString(lineToFind));
     }
 
+    @Override
     public void lineToFind(String firstPlayer, int[] firstLineToFind, String secondPlayer, int[] secondLineToFind) {
         logger.trace("The number was : \n" +
                 "-" + firstPlayer + ": " + Arrays.toString(firstLineToFind) +
@@ -95,6 +110,7 @@ public class TextsEN extends Texts {
 
     }
 
+    @Override
     public void tryAgainMenu() {
         logger.trace("---------------------------" +
                 "\nIf you want retry \"R\"" +
@@ -102,14 +118,17 @@ public class TextsEN extends Texts {
                 "\nIf you want quite \"Q\"");
     }
 
+    @Override
     public void end() {
         logger.trace("Cya");
     }
 
+    @Override
     public void win(String playerName) {
         logger.trace(playerName + " win !");
     }
 
+    @Override
     public void Equally(String winOrLose) {
         logger.trace("EveryOne " + winOrLose + " !");
     }

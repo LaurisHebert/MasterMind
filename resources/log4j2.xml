@@ -9,8 +9,11 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="com.pda.games.mastermind.entry.TextsErrors" level="TRACE" additivity="false">
+        <Logger name="com.pda.games.mastermind.entry.languages" level="TRACE" additivity="false">
             <AppenderRef ref="text"/>
+        </Logger>
+        <Logger name="com.pda.games.mastermind.entry" level="ERROR" additivity="false">
+            <AppenderRef ref="Console"/>
         </Logger>
         <Root level="error">
             <AppenderRef ref="Console"/>
