@@ -1,13 +1,14 @@
-package com.pda.games.mastermind.comportment;
+package com.pda.games.mastermind.comportment.bot;
 
+import com.pda.games.mastermind.entry.Texts;
 import com.pda.games.mastermind.model.MasterMindConfig;
 
 import java.util.Arrays;
 
-public class MediumBotPlayer extends BotPlayer {
+public class HardBotPlayer extends BotPlayer {
 
-    public MediumBotPlayer(MasterMindConfig config, String playerName) {
-        super(config, playerName);
+    public HardBotPlayer(Texts texts, MasterMindConfig config, String playerName) {
+        super(texts, config, playerName);
     }
 
     @Override

@@ -9,35 +9,35 @@ import com.pda.games.mastermind.model.Player;
 public class Party extends MasterMind {
 
 
-    public Party(Player playerOne, Player playerTwo, MasterMindConfig config) {
-        super(playerOne, playerTwo, config);
+    public Party(Texts texts, Player playerOne, Player playerTwo, MasterMindConfig config) {
+        super(texts, playerOne, playerTwo, config);
     }
 
     @Override
-    public void initialization() {
+    public void init() {
         playerTwo.lineToFind();
         if (config.isDevMod()) {
-            Texts.printArray(playerTwo.getLineToFind());
+            texts.printArray(playerTwo.getLineToFind());
         }
     }
 
     @Override
     public void round() {
         if (getRoundCount() > 1) {
-            Texts.memo(playerOne.getGuess(), playerOne.getAdversaryClue());
+            texts.memo(playerOne.getGuess(), playerOne.getAdversaryClue());
         }
-        Texts.askGuess(playerOne.getPlayerName());
+        texts.askGuess(playerOne.getPlayerName());
         playerOne.guess();
-        Texts.printArray(playerOne.getGuess());
-        Texts.askClue(playerTwo.getPlayerName());
+        texts.printArray(playerOne.getGuess());
+        texts.askClue(playerTwo.getPlayerName());
         boolean firstTime = true;
         do {
             if (!firstTime)
-                Texts.memo(playerTwo.getLineToFind());
+                texts.memo(playerTwo.getLineToFind());
             playerOne.setAdversaryClue(playerTwo.clue(playerTwo.getLineToFind(), playerOne.getGuess()));
             firstTime = false;
-        } while (playerOne.notVerifyClue(playerTwo.getLineToFind(), playerOne.getGuess(), playerOne.getAdversaryClue()));
-        Texts.printArray(playerOne.getAdversaryClue());
+        } while (config.isAntiCheat() && playerOne.notVerifyClue(playerTwo.getLineToFind(), playerOne.getGuess(), playerOne.getAdversaryClue()));
+        texts.printArray(playerOne.getAdversaryClue());
         checkingCorrespondenceGuessAndLineToFind(playerTwo.getLineToFind(), playerOne.getGuess());
     }
 

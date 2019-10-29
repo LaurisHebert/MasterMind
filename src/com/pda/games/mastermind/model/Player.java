@@ -1,14 +1,18 @@
 package com.pda.games.mastermind.model;
 
+import com.pda.games.mastermind.entry.Texts;
+
 public abstract class Player {
 
     protected final MasterMindConfig config;
     private final String playerName;
+    protected Texts texts;
     protected int[] guess; // line to guess the other player "lineToFind"
     protected int[] lineToFind; // line that the other player has to find
     protected String[] adversaryClue; //
 
-    protected Player(MasterMindConfig config, String playerName) {
+    protected Player(Texts texts, MasterMindConfig config, String playerName) {
+        this.texts = texts;
         this.config = config;
         this.playerName = playerName;
         this.guess = new int[config.getSizeOfLineToFind()];
@@ -46,7 +50,6 @@ public abstract class Player {
     public abstract void guess();
 
     /**
-     *
      * @param lineToFind used only bye the bot
      * @param guess
      * @return

@@ -7,7 +7,7 @@ public class Errors {
     protected static final Logger logger = LogManager.getLogger();
 
     public static void wrongEntry(int i) {
-        logger.error("Your " + (i + 1) + getNumberSuffix(i + 1) + "entry was wrong");
+        logger.error("Your " + (i + 1) + getNumberSuffix(i + 1) + " entry was wrong");
     }
 
     private static String getNumberSuffix(int i) {
@@ -45,6 +45,10 @@ public class Errors {
     public static void error() {
         logger.error("we encountered an error please retry");
     }
+    public static void wrongCharacter() {
+        logger.error("you have to enter digits");
+    }
+
 
     public static void playerMax() {
         logger.error("Mastermind can only be played by two players, so the answer can only be between zero and two");

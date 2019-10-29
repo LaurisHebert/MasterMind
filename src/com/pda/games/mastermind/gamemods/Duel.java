@@ -1,5 +1,6 @@
 package com.pda.games.mastermind.gamemods;
 
+import com.pda.games.mastermind.entry.Texts;
 import com.pda.games.mastermind.enums.WhoWin;
 import com.pda.games.mastermind.model.MasterMind;
 import com.pda.games.mastermind.model.MasterMindConfig;
@@ -10,16 +11,16 @@ public class Duel extends MasterMind {
     private final Party gameOne;
     private final Party gameTwo;
 
-    public Duel(Player playerOne, Player playerTwo, MasterMindConfig config) {
-        super(playerOne, playerTwo, config);
-        this.gameOne = new Party(playerOne, playerTwo, config);
-        this.gameTwo = new Party(playerTwo, playerOne, config);
+    public Duel(Texts texts, Player playerOne, Player playerTwo, MasterMindConfig config) {
+        super(texts, playerOne, playerTwo, config);
+        this.gameOne = new Party(texts, playerOne, playerTwo, config);
+        this.gameTwo = new Party(texts, playerTwo, playerOne, config);
     }
 
     @Override
-    public void initialization() {
-        gameTwo.initialization();
-        gameOne.initialization();
+    public void init() {
+        gameTwo.init();
+        gameOne.init();
     }
 
     @Override

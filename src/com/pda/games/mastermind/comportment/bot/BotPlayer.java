@@ -1,4 +1,4 @@
-package com.pda.games.mastermind.comportment;
+package com.pda.games.mastermind.comportment.bot;
 
 import com.pda.games.mastermind.entry.Texts;
 import com.pda.games.mastermind.model.MasterMindConfig;
@@ -12,8 +12,8 @@ public class BotPlayer extends Player {
     protected int[] lowestRange = buildLowestRange();
     protected int[] highestRange = buildHighestRange();
 
-    public BotPlayer(MasterMindConfig config, String playerName) {
-        super(config, playerName);
+    public BotPlayer(Texts texts, MasterMindConfig config, String playerName) {
+        super(texts, config, playerName);
     }
 
     /**
@@ -26,7 +26,6 @@ public class BotPlayer extends Player {
         if (id < 0)
             id = id * -1;
         id = id % 10000;
-        Texts.botName(id);
         return "Bot" + id;
     }
 
@@ -57,7 +56,7 @@ public class BotPlayer extends Player {
      *
      * @return an array with length and randoms digits between two value selected in configuration file
      */
-    private int[] buildArrayInt() {
+    protected int[] buildArrayInt() {
         int[] lineOfDigits = new int[config.getSizeOfLineToFind()];
         for (int i = 0; i < lineOfDigits.length; i++) {
             lineOfDigits[i] = config.getMinimalValue() + new Random().nextInt(config.getMaximumValue() + 1 - config.getMinimalValue());
@@ -67,7 +66,7 @@ public class BotPlayer extends Player {
 
     @Override
     public void lineToFind() {
-        Texts.initializationMessage(getPlayerName());
+        texts.initializationMessage(getPlayerName());
         lineToFind = buildArrayInt();
     }
 

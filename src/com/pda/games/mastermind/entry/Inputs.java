@@ -3,11 +3,11 @@ package com.pda.games.mastermind.entry;
 import java.util.Scanner;
 
 
-public class Sc {
+public class Inputs {
 
     private static final Scanner sc = new Scanner(System.in);
 
-    private Sc() {
+    private Inputs() {
     }
 
     public static String nextLine() {
@@ -26,8 +26,9 @@ public class Sc {
                     error = true;
                 }
             } catch (Exception e) {
-                Errors.error();
+                Errors.wrongCharacter();
                 error = true;
+                sc.nextLine();
             }
         } while (error);
         sc.nextLine(); // use to clean scanner and read the nex line

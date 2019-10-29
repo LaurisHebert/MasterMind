@@ -1,19 +1,19 @@
 package com.pda.games.mastermind.comportment;
 
 import com.pda.games.mastermind.entry.Errors;
-import com.pda.games.mastermind.entry.Sc;
+import com.pda.games.mastermind.entry.Inputs;
 import com.pda.games.mastermind.entry.Texts;
 import com.pda.games.mastermind.model.MasterMindConfig;
 import com.pda.games.mastermind.model.Player;
 
 public class HumanPlayer extends Player {
 
-    public HumanPlayer(MasterMindConfig config, String playerName) {
-        super(config, playerName);
+    public HumanPlayer(Texts texts, MasterMindConfig config, String playerName) {
+        super(texts, config, playerName);
     }
 
     public static String playerName() {
-        return Sc.nextLine();
+        return Inputs.nextLine();
     }
 
     /**
@@ -27,7 +27,7 @@ public class HumanPlayer extends Player {
         do {
             error = false;
             try {
-                String humanEntry = Sc.nextLine();
+                String humanEntry = Inputs.nextLine();
                 String[] arrayEntry = humanEntry.split(" ");
                 if (arrayEntry.length != config.getSizeOfLineToFind()) {
                     Errors.notEnough(config.getSizeOfLineToFind());
@@ -54,7 +54,7 @@ public class HumanPlayer extends Player {
 
     @Override
     public void lineToFind() {
-        Texts.initializationMessage(getPlayerName());
+        texts.initializationMessage(getPlayerName());
         lineToFind = readArrayInt();
     }
 
@@ -70,7 +70,7 @@ public class HumanPlayer extends Player {
         do {
             error = false;
             try {
-                String humanEntry = Sc.nextLine();
+                String humanEntry = Inputs.nextLine();
                 String[] arrayEntry = humanEntry.split(" ");
                 if (arrayEntry.length != config.getSizeOfLineToFind()) {
                     Errors.notEnough(config.getSizeOfLineToFind());
