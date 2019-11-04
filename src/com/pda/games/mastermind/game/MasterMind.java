@@ -1,8 +1,9 @@
-package com.pda.games.mastermind.model;
+package com.pda.games.mastermind.game;
 
 import com.pda.games.mastermind.comportment.Player;
 import com.pda.games.mastermind.entry.Texts;
-import com.pda.games.mastermind.enums.WhoWin;
+import com.pda.games.mastermind.game.enums.WhoWin;
+import com.pda.games.mastermind.game.config.MasterMindConfig;
 
 import java.util.Arrays;
 

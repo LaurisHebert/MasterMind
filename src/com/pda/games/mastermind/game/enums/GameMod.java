@@ -1,4 +1,4 @@
-package com.pda.games.mastermind.enums;
+package com.pda.games.mastermind.game.enums;
 
 public enum GameMod {
     CHALLENGER,

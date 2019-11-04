@@ -1,4 +1,6 @@
-package com.pda.games.mastermind.model;
+package com.pda.games.mastermind.game.config;
+
+import com.pda.games.mastermind.game.MasterMind;
 
 import java.io.IOException;
 import java.util.Objects;

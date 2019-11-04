@@ -30,7 +30,7 @@ public class TextsFR implements Texts {
 
     @Override
     public void explainGameMod() {
-        logger.trace("\nSelectionnez votre mod:" +
+        logger.trace("\nSélectionnez votre mod:" +
                 "\n1-Challenger ( le joueur un essaye de deviner la combinaison du joueur deux ) " +
                 "\n2-Defender ( le joueur deux essaye de deviner la combinaison du joueur un )" +
                 "\n3-Duel ( les deux joueurs essayent de chercher la combinaison de leur adverssaire )");
@@ -47,10 +47,10 @@ public class TextsFR implements Texts {
     public void rules(int size) {
         logger.trace("Règles :\n" +
                 "-------\n" +
-                "quand une combinaison est demandée, vous devez entrer " + size + " chiffres, séparés par un espace." +
-                "quand une \"proposition\" est demandée, vous devenez entrer  " + size + " chiffres, séparés par un espace, pour essayer de trouver la combinaison de votre adverssaire.\n" +
-                "quand un indice vous est demandé, vous devez entrer un symbole pour chaques chiffres de l'adverssaire, séparer par un esapce\n" +
-                "\"+\" si le chiffre de votre combinaison est plus grand que celui donné par l'adverssaire.\n" +
+                "Quand une combinaison est demandée, vous devez entrer " + size + " chiffres, séparés par un espace.\n" +
+                "Quand une \"proposition\" est demandée, vous devez entrer  " + size + " chiffres, séparés par un espace, pour essayer de trouver la combinaison de votre adversaire.\n" +
+                "Quand un indice vous est demandé, vous devez entrer un symbole pour chaques chiffres de l'adversaire, séparés par un espace\n" +
+                "\"+\" si le chiffre de votre combinaison est plus grand que celui donné par l'adversaire.\n" +
                 "\"-\" si il est plus petit\n" +
                 "\"=\" si il est égal.\n");
     }

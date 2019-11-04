@@ -2,7 +2,7 @@ package com.pda.games.mastermind.comportment.bot;
 
 import com.pda.games.mastermind.comportment.Player;
 import com.pda.games.mastermind.entry.Texts;
-import com.pda.games.mastermind.model.MasterMindConfig;
+import com.pda.games.mastermind.game.config.MasterMindConfig;
 
 import java.util.Arrays;
 import java.util.Random;
