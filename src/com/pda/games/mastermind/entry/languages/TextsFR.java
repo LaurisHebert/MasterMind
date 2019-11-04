@@ -11,7 +11,7 @@ public class TextsFR implements Texts {
     private static final Logger logger = LogManager.getLogger();
 
     public void gameIntroduce() {
-        logger.trace("Bienvenu dans MasterMind !" +
+        logger.trace("Bienvenue dans MasterMind !" +
                 "\n-----------------------");
     }
 
@@ -47,18 +47,18 @@ public class TextsFR implements Texts {
     public void rules(int size) {
         logger.trace("Règles :\n" +
                 "-------\n" +
-                "quand une combinaison est demandé, vous devez entrer " + size + " chiffres, séparer par un espace." +
-                "quand un \"proposition\" est demandé, vous devenez entrer  " + size + " chiffres, séparer par un espace, pour essayer de trouver la combinaison de votre adverssaire.\n" +
+                "quand une combinaison est demandée, vous devez entrer " + size + " chiffres, séparés par un espace." +
+                "quand une \"proposition\" est demandée, vous devenez entrer  " + size + " chiffres, séparés par un espace, pour essayer de trouver la combinaison de votre adverssaire.\n" +
                 "quand un indice vous est demandé, vous devez entrer un symbole pour chaques chiffres de l'adverssaire, séparer par un esapce\n" +
                 "\"+\" si le chiffre de votre combinaison est plus grand que celui donné par l'adverssaire.\n" +
-                "\"-\" si il est plus bas\n" +
-                "\"=\" si il est égale.\n");
+                "\"-\" si il est plus petit\n" +
+                "\"=\" si il est égal.\n");
     }
 
 
     @Override
     public void launchPhrase() {
-        logger.trace("\nCombinaison initialiser\n" +
+        logger.trace("\nCombinaison initialisée\n" +
                 "\nQue le jeu commence !\n");
     }
 
@@ -77,7 +77,7 @@ public class TextsFR implements Texts {
     @Override
     public void memo(int[] guess, String[] clue) {
         logger.trace("precedente proposition : " + Arrays.toString(guess) +
-                "\nindice précedent : " + Arrays.toString(clue));
+                "\nindice précédent : " + Arrays.toString(clue));
     }
 
 
@@ -138,7 +138,7 @@ public class TextsFR implements Texts {
 
     @Override
     public void end() {
-        logger.trace("Aurevoir !");
+        logger.trace("Au revoir !");
     }
 
 
@@ -150,6 +150,6 @@ public class TextsFR implements Texts {
 
     @Override
     public void Equally(String winOrLose) {
-        logger.trace("tous le monde a " + winOrLose + " !");
+        logger.trace("tout le monde a " + winOrLose + " !");
     }
 }
