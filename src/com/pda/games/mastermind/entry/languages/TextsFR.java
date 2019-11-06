@@ -33,7 +33,7 @@ public class TextsFR implements Texts {
         logger.trace("\nSélectionnez votre mod:" +
                 "\n1-Challenger ( le joueur un essaye de deviner la combinaison du joueur deux ) " +
                 "\n2-Defender ( le joueur deux essaye de deviner la combinaison du joueur un )" +
-                "\n3-Duel ( les deux joueurs essayent de chercher la combinaison de leur adverssaire )");
+                "\n3-Duel ( les deux joueurs essayent de chercher la combinaison de leur adversaire )");
     }
 
 
@@ -132,7 +132,7 @@ public class TextsFR implements Texts {
         logger.trace("---------------------------" +
                 "\nSi vous voulez recommencer appuyer sur \"R\"" +
                 "\nSi vous voulez retourner au menu appuyer sur \"H\"" +
-                "\nIf si vous voulez quitter \"Q\"");
+                "\nSi vous voulez quitter \"Q\"");
     }
 
 

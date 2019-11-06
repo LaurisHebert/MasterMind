@@ -9,7 +9,6 @@ public interface Texts {
 
     void pseudoEntry(int i);
 
-
     void explainGameMod();
 
     void initializationMessage(String playerName);

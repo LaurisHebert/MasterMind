@@ -166,6 +166,52 @@ public class Main {
     }
 
     /**
+     * execute the course of the game
+     *
+     * @param game used to know which game to launch
+     */
+    private static void runGame(MasterMind game, GameMod gameMod) {
+        game.init();
+        texts.launchPhrase();
+        do {
+            texts.actualRound(game.getRoundCount(), config.getMaximumOfRounds());
+            game.round();
+        } while (game.canPlay());
+        switch (game.defineWinner()) {
+            case PLAYER_ONE_WIN:
+                texts.win(game.getPlayerOneName());
+                break;
+            case PLAYER_TWO_WIN:
+                texts.win(game.getPlayerTwoName());
+                break;
+            case EX_AEQUO_WIN:
+                texts.Equally("win");
+                break;
+            case EX_AEQUO_LOSE:
+                texts.Equally("lose");
+                break;
+        }
+        switch (gameMod) {
+            case CHALLENGER:
+                if (game.defineWinner() == WhoWin.PLAYER_TWO_WIN)
+                    texts.lineToFind(playerTwoName, playerTwo.getLineToFind());
+                break;
+            case DEFENDER:
+                if (game.defineWinner() == WhoWin.PLAYER_TWO_WIN)
+                    texts.lineToFind(playerOneName, playerOne.getLineToFind());
+                break;
+            case DUEL:
+                if (game.defineWinner() == WhoWin.PLAYER_ONE_WIN)
+                    texts.lineToFind(playerOneName, playerOne.getLineToFind());
+                if (game.defineWinner() == WhoWin.PLAYER_TWO_WIN)
+                    texts.lineToFind(playerTwoName, playerTwo.getLineToFind());
+                if (game.defineWinner() == WhoWin.EX_AEQUO_LOSE)
+                    texts.lineToFind(playerOneName, playerOne.getLineToFind(), playerTwoName, playerTwo.getLineToFind());
+                break;
+        }
+    }
+
+    /**
      * Used for know if the player is human or IA
      */
     private static void selectPlayerComportment() {
@@ -199,52 +245,6 @@ public class Main {
         }
     }
 
-    /**
-     * execute the course of the game
-     *
-     * @param game used to know which game to launch
-     */
-    private static void runGame(MasterMind game, GameMod gameMod) {
-        game.init();
-        texts.launchPhrase();
-        do {
-            texts.actualRound(game.getRoundCount(), config.getMaximumOfRounds());
-            game.round();
-        } while (game.canPlay());
-        switch (game.defineWinner()) {
-            case PLAYER_ONE_WIN:
-                texts.win(game.getPlayerOneName());
-                break;
-            case PLAYER_TWO_WIN:
-                texts.win(game.getPlayerTwoName());
-                break;
-            case EX_AEQUO_WIN:
-
-                texts.Equally("win");
-                break;
-            case EX_AEQUO_LOSE:
-                texts.Equally("lose");
-                break;
-        }
-        switch (gameMod) {
-            case CHALLENGER:
-                if (game.defineWinner() == WhoWin.PLAYER_TWO_WIN)
-                    texts.lineToFind(playerTwoName, playerTwo.getLineToFind());
-                break;
-            case DEFENDER:
-                if (game.defineWinner() == WhoWin.PLAYER_TWO_WIN)
-                    texts.lineToFind(playerOneName, playerOne.getLineToFind());
-                break;
-            case DUEL:
-                if (game.defineWinner() == WhoWin.PLAYER_ONE_WIN)
-                    texts.lineToFind(playerOneName, playerOne.getLineToFind());
-                if (game.defineWinner() == WhoWin.PLAYER_TWO_WIN)
-                    texts.lineToFind(playerTwoName, playerTwo.getLineToFind());
-                if (game.defineWinner() == WhoWin.EX_AEQUO_LOSE)
-                    texts.lineToFind(playerOneName, playerOne.getLineToFind(), playerTwoName, playerTwo.getLineToFind());
-                break;
-        }
-    }
 
     private static Boolean tryAgain() {
         texts.tryAgainMenu();
